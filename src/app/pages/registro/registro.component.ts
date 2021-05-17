@@ -5,6 +5,8 @@ import { Especialista } from '../../clases/especialista';
 import { Paciente } from './../../clases/paciente';
 
 import { UsuarioService } from './../../servicios/usuario.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import * as firebase from 'firebase';
 
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -23,15 +25,19 @@ export class RegistroComponent implements OnInit {
   public unPaciente: Paciente;
   public unEspecialista: Especialista;
   public tipo: string;
+  public pathFoto: any;
 
   private isEmail =/\S+@\S+\.\S+/;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private usuarioSrv: UsuarioService
+    private usuarioSrv: UsuarioService,
+    private storage:AngularFireStorage
   ) {
     this.unPaciente = new Paciente();
+
+    this.unEspecialista = new Especialista();
 
     this.tipo = 'paciente'
   }
@@ -40,6 +46,24 @@ export class RegistroComponent implements OnInit {
     this.initForm();
   }
 
+  guardarReferencia(pReferencia: string) {
+    let storages = firebase.default.storage();
+    let storageRef = storages.ref();
+    let spaceRef = storageRef.child(pReferencia);
+    spaceRef.getDownloadURL().then(url => {
+      this.pathFoto = url
+    });
+  }
+
+  onUpload($event) {
+    console.log($event)
+    const file = $event.target.files[0];
+    const filePath = 'upload/' + (this.unEspecialista.dni).toString();
+    const ref = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath,file);
+    this.guardarReferencia(filePath);
+    
+  }
 
   onRegisterPaciente() {
     if (this.pacienteRegForm.valid) {
@@ -47,20 +71,22 @@ export class RegistroComponent implements OnInit {
 
       this.unPaciente.nombre = this.pacienteRegForm.value.nombre;
       this.unPaciente.apellido = this.pacienteRegForm.value.apellido;
-      this.unPaciente.correo = this.pacienteRegForm.value.email;
+      this.unPaciente.correo = this.pacienteRegForm.value.correo;
       this.unPaciente.clave = this.pacienteRegForm.value.clave;
+    
   
 
-      this.usuarioSrv.Crear(this.unPaciente);
+
+      this.usuarioSrv.CrearPaciente(this.unPaciente);
       this.usuarioSrv
-        .BuscarUsuario(this.unPaciente)
+        .BuscarUsuarioPac(this.unPaciente)
         .valueChanges()
         .subscribe((result) => {
           if (result.length == 1) {
             console.log('ERROR usuario ya registrado');
           } else {
             localStorage.setItem('token', this.unPaciente.correo);
-            this.usuarioSrv.Crear(this.unPaciente);
+            this.usuarioSrv.CrearPaciente(this.unPaciente);
             this.router.navigateByUrl('home');
             console.log('Usuario registrado!');
           }
@@ -77,26 +103,17 @@ export class RegistroComponent implements OnInit {
 
       this.unEspecialista.nombre = this.especialistaRegForm.value.nombre;
       this.unEspecialista.apellido = this.especialistaRegForm.value.apellido;
-      this.unEspecialista.correo = this.especialistaRegForm.value.email;
+      this.unEspecialista.correo = this.especialistaRegForm.value.correo;
       this.unEspecialista.clave = this.especialistaRegForm.value.clave;
       this.unEspecialista.edad = this.especialistaRegForm.value.edad;
       this.unEspecialista.dni = this.especialistaRegForm.value.dni;
+      this.unEspecialista.foto1 = `${this.pathFoto}`;
+
+      console.log(this.pathFoto)
 
 
-      this.usuarioSrv.Crear(this.unPaciente);
-      this.usuarioSrv
-        .BuscarUsuario(this.unPaciente)
-        .valueChanges()
-        .subscribe((result) => {
-          if (result.length == 1) {
-            console.log('ERROR usuario ya registrado');
-          } else {
-            localStorage.setItem('token', this.unPaciente.correo);
-            this.usuarioSrv.Crear(this.unPaciente);
-            this.router.navigateByUrl('home');
-            console.log('Usuario registrado!');
-          }
-        });
+      this.usuarioSrv.CrearEspecialista(this.unEspecialista);
+      
       
     }
   }
