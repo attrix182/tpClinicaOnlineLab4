@@ -1,0 +1,60 @@
+.container {
+    max-width: 100%;
+  
+  }
+  
+  .cont{
+    
+    background-image: url("../../../assets/fondo2.jpg");
+    background-size: 1500px;
+    height: 90.7vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    position: relative;
+  
+  }
+  
+  #drop1{
+    border-radius: 20px;
+  }
+
+  .stick{
+    position: sticky;
+    top:80px;
+  
+    display:inline-block;
+
+    height: 320px;
+    width: 395px;
+  }
+  
+  .blanco{
+  
+    color: white;
+  }
+  
+  
+  .botonesLanding{
+  
+    margin: 10px;
+  }
+  
+  
+  
+  
+  
+  .flex-equal > * {
+    -ms-flex: 1;
+    flex: 1;
+  }
+  @media (min-width: 768px) {
+    .flex-md-equal > * {
+      -ms-flex: 1;
+      flex: 1;
+    }
+  }
+  
+  .overflow-hidden { overflow: hidden; }
+  
+  

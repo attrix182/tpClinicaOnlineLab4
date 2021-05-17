@@ -13,12 +13,19 @@
     <div class="container bg-dark animate__animated animate__bounceInLeft stick">
 
       <h1 class="display-4 font-weight-normal blanco">Clinica Online</h1>
-      <p class="display-6 font-weight-normal blanco">Bienvenido, para realizar cualquier tramite debe realizar alguna de las siguientes acciones.</p>
+
+      <div class="spinner-border text-info" role="status" *ngIf="!carga">
+        <span class="sr-only">Loading...</span>
+      </div>
+<div *ngIf="carga">
+<img src="../../../assets/faviconHospi.png" alt="" height="200px">
+</div> 
+<p class="display-6 font-weight-normal blanco">Bienvenido, para realizar cualquier tramite debe realizar alguna de las siguientes acciones.</p>
 
       <div class="row justify-content-center">
 
         <div class="col-8">
-          <a class="btn btn-outline-success botonesLanding" routerLink="../login" href="#">Iniciar Sesion</a>
+          <a class="btn btn-outline-success botonesLanding" routerLink="../login" href="#">Iniciar sesión</a>
 
           <a class="btn btn-outline-primary botonesLanding" routerLink="../registro" href="#">Registrarse</a>
         </div>
@@ -26,28 +33,27 @@
     </div>
 
   </div>
-
-  
-
 </body>
 
 <footer class="container bg-dark">
   <div class="row">
     <div class="col-12 col-md">
-
-      <small class="d-block mb-3 text-muted">&copy; 2017-2021</small>
+      <small class="d-block mb-3 text-muted">&copy; UTN 2021 - Sinisterra Luciano</small>
     </div>
 
   </div>
 </footer>
 
-
-
+<div id="scripts">
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
   integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
 </script>
 <script>
   window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')
 
+
+
+
 </script>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

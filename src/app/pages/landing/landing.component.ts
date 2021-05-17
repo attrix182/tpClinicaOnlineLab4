@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  carga:boolean;
+
+  constructor() { this.carga = false}
 
   ngOnInit(): void {
+
+    setTimeout(() => {
+      this.carga = true;
+    }, 1200);
+
   }
 
 }
