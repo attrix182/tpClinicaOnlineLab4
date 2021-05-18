@@ -4,8 +4,10 @@ export class Paciente {
     apellido: string;
     correo: string;
     clave: string;
+    edad:number;
+    dni:number;
+    obraSocial:string;
     foto1: any;
     foto2: any;
-
 
 }

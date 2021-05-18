@@ -58,7 +58,7 @@ export class RegistroComponent implements OnInit {
   onUpload($event) {
     console.log($event)
     const file = $event.target.files[0];
-    const filePath = 'upload/' + (this.unEspecialista.dni).toString();
+    const filePath = 'upload/imagen.png';
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath,file);
     this.guardarReferencia(filePath);
@@ -73,9 +73,9 @@ export class RegistroComponent implements OnInit {
       this.unPaciente.apellido = this.pacienteRegForm.value.apellido;
       this.unPaciente.correo = this.pacienteRegForm.value.correo;
       this.unPaciente.clave = this.pacienteRegForm.value.clave;
-    
-  
-
+      this.unPaciente.dni = this.pacienteRegForm.value.dni;
+      this.unPaciente.edad = this.pacienteRegForm.value.edad;
+      this.unPaciente.obraSocial = this.pacienteRegForm.value.obraSocial;
 
       this.usuarioSrv.CrearPaciente(this.unPaciente);
       this.usuarioSrv
@@ -146,6 +146,9 @@ export class RegistroComponent implements OnInit {
       clave: ['', [Validators.required, Validators.minLength(8)]],
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
+      obraSocial: ['', [Validators.required]],
+      edad: ['', [Validators.required]],
+      dni: ['', [Validators.required]],
       foto1: ['', [Validators.required]],
       foto2: ['', [Validators.required]]
     });

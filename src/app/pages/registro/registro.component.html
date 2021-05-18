@@ -30,7 +30,7 @@
         <fieldset>
 
           <div class="form-row form-group">
-            
+
             <div class="col">
               <input type="text" class="form-control" id="nombre" placeholder="Nombre" formControlName="nombre"
                 [class]="isValidPaciente('nombre')" />
@@ -56,6 +56,41 @@
           </div>
 
 
+          <div class="form-row form-group">
+            <div class="col">
+              <input type="number" class="form-control" id="edad" placeholder="Edad" formControlName="edad"
+                [class]="isValidPaciente('edad')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span *ngIf="pacienteRegForm.get('edad').errors?.required">
+                  Porfavor ingrese su edad
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col">
+              <input type="number" class="form-control" id="dni" placeholder="DNI" formControlName="dni"
+                [class]="isValidPaciente('dni')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span *ngIf="pacienteRegForm.get('dni').errors?.required">
+                  Porfavor ingrese su documento
+                </span>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="obraSocial" placeholder="Obra Social" formControlName="obraSocial"
+              [class]="isValidPaciente('obraSocial')" />
+            <div class="invalid-feedback" style="font-family: sans-serif;">
+              <span *ngIf="pacienteRegForm.get('obraSocial').errors?.required">
+                Porfavor ingrese su Obra Social
+              </span>
+            </div>
+          </div>
+
           <div class="form-group">
             <input type="correo" class="form-control" id="correo" placeholder="Correo" formControlName="correo"
               [class]="isValidPaciente('correo')" />
@@ -76,9 +111,11 @@
               <span *ngIf="pacienteRegForm.get('clave').errors?.required">
                 Porfavor ingrese su clave
               </span>
-
             </div>
           </div>
+
+
+
 
           <div class="form-row form-group">
             <div class="col">
@@ -124,7 +161,8 @@
 
 
 
-      <form novalidate (ngSubmit)="onRegisterEspecialista()" [formGroup]="especialistaRegForm" *ngIf="this.tipo == 'especialista'">
+      <form novalidate (ngSubmit)="onRegisterEspecialista()" [formGroup]="especialistaRegForm"
+        *ngIf="this.tipo == 'especialista'">
         <fieldset>
 
           <div class="form-row form-group">
@@ -182,7 +220,7 @@
               [class]="isValidEspecialista('correo')" />
             <div class="invalid-feedback" style="font-family: sans-serif;">
               <span *ngIf="especialistaRegForm.get('correo').errors?.required">
-                Porfavor ingrese su correo
+                Por favor ingrese su correo
               </span>
               <span *ngIf="especialistaRegForm.get('correo').errors?.pattern">
                 Debe ser una direccion valida
@@ -195,20 +233,18 @@
               [class]="isValidEspecialista('clave')" />
             <div class="invalid-feedback" style="font-family: sans-serif;">
               <span *ngIf="especialistaRegForm.get('clave').errors?.required">
-                Porfavor ingrese su clave
+                Por favor ingrese su clave
               </span>
-
             </div>
           </div>
 
           <div class="form-group">
-
             <div class="input-group mb-3">
               <div class="input-group-prepend">
               </div>
               <div class="custom-file">
-                <input type="file" accept=".png, .jpg" (change)="onUpload($event)" class="custom-file-input" id="inputGroupFile01"
-                  aria-describedby="inputGroupFileAddon01">
+                <input type="file" accept=".png, .jpg" (change)="onUpload($event)" class="custom-file-input"
+                  id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                 <label class="custom-file-label" for="inputGroupFile01">Foto</label>
               </div>
             </div>
