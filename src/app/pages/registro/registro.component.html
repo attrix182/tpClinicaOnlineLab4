@@ -13,7 +13,7 @@
 
     <legend class="tituloLogin blanco">Registro de {{tipo}}</legend>
 
-    <div class="container bg-dark animate__animated animate__backInLeft stick" >
+    <div class="container bg-dark animate__animated animate__backInLeft stick">
       <br>
       <div class="form-group text-left">
         <label class="blanco">Seleccione tipo de registro:</label>
@@ -26,7 +26,8 @@
 
 
 
-      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterPaciente()" [formGroup]="pacienteRegForm" *ngIf="this.tipo == 'paciente'">
+      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterPaciente()"
+        [formGroup]="pacienteRegForm" *ngIf="this.tipo == 'paciente'">
         <fieldset>
 
           <div class="form-row form-group">
@@ -82,8 +83,8 @@
 
 
           <div class="form-group">
-            <input type="text" class="form-control" id="obraSocial" placeholder="Obra Social" formControlName="obraSocial"
-              [class]="isValidPaciente('obraSocial')" />
+            <input type="text" class="form-control" id="obraSocial" placeholder="Obra Social"
+              formControlName="obraSocial" [class]="isValidPaciente('obraSocial')" />
             <div class="invalid-feedback" style="font-family: sans-serif;">
               <span *ngIf="pacienteRegForm.get('obraSocial').errors?.required">
                 Por favor ingrese su Obra Social
@@ -123,7 +124,7 @@
                 <div class="input-group-prepend">
                 </div>
                 <div class="custom-file">
-                  <input type="file" (change)="CambioFotosPaciente($event,1)" id="foto1" >
+                  <input type="file" (change)="CambioFotosPaciente($event,1)" id="foto1">
 
                 </div>
               </div>
@@ -134,7 +135,7 @@
                 <div class="input-group-prepend">
                 </div>
                 <div class="custom-file">
-                  <input type="file" (change)="CambioFotosPaciente($event,2)" id="foto2" >
+                  <input type="file" (change)="CambioFotosPaciente($event,2)" id="foto2">
 
                 </div>
               </div>
@@ -142,10 +143,12 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft " [disabled]="pacienteRegForm.invalid">
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
+            [disabled]="pacienteRegForm.invalid">
             Registrarse
           </button>
-          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight" routerLink="../login">
+          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight"
+            routerLink="../login">
             Inicio de sesion
           </button>
           <br>
@@ -156,8 +159,8 @@
 
 
 
-      <form  class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterEspecialista()" [formGroup]="especialistaRegForm"
-        *ngIf="this.tipo == 'especialista'">
+      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterEspecialista()"
+        [formGroup]="especialistaRegForm" *ngIf="this.tipo == 'especialista'">
         <fieldset>
 
           <div class="form-row form-group">
@@ -223,35 +226,8 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <input placeholder="Especialidad" formControlName="especialidad" 
-            type="text" class="form-control" id="especialidades" placeholder="especialidades" 
-              [class]="isValidEspecialista('especialidades')" />
-            <div class="invalid-feedback" style="font-family: sans-serif;">
-              <span *ngIf="especialistaRegForm.get('especialidades').errors?.required">
-                Por favor ingrese su Obra Social
-              </span>
-            </div>
-          </div>
 
-          <div class="especialidad" >
-            <button (click)="AgregarEspecialidades()">ADD</button>
-            <div class="datosProfesional">
-
-            </div>
-  
-          </div>
-
-          <div class="listadoEsp" >
-            <p class="titEsp">Especialidades</p>
-            <div class="espItem" *ngFor="let item of especialidades">
-              <span class="nombreEsp blanco">{{item}}</span>
-              <div class="iconoQuitar">
-              
-              </div>
-            </div>
-          </div>
-
+          
           <div class="form-group">
             <input type="password" class="form-control" id="clave" placeholder="Clave" formControlName="clave"
               [class]="isValidEspecialista('clave')" />
@@ -262,23 +238,57 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-row form-group">
+
+            <div class="col">
+              <input placeholder="Especialidad"  formControlName="especialidad" id="esp"
+              type="text" class="form-control" id="especialidades" placeholder="Especialidad" 
+                [class]="isValidEspecialista('especialidades')"  (keyup.enter)="AgregarEspecialidades()" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span *ngIf="especialistaRegForm.get('especialidades').errors?.required">
+                  Por favor ingrese su Obra Social
+                </span>
+              </div>
+            </div>
+        
+
+          <div class="col">
+            <div class="especialidad">
+              <button class="btn btn-primary btn-block" (click)="AgregarEspecialidades()">+</button>
+              <div class="datosProfesional">
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="listadoEsp">
+            <p class="titEsp blanco">Especialidades: </p>
+            <div class="espItem" *ngFor="let item of especialidades">
+              <span class="nombreEsp blanco" (click)="BorrarEspecialidades(item)">{{item}}     <img  src="../../../assets/x.png" height="16px" ></span>
+    
+            </div>
+          </div>
+
+          <div class="form-group mt-2">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
               </div>
-              <div >
+              <div>
                 <input type="file" (change)="CambioFotoEspecialista($event, 1)" id="foto1">
-         
+
               </div>
             </div>
 
           </div>
 
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft" [disabled]="especialistaRegForm.invalid">
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
+            [disabled]="this.especialistaRegForm.invalid">
             Registrarse
           </button>
-          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight " routerLink="../login">
+
+          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight "
+            routerLink="../login">
             Inicio de sesion
           </button>
           <br>

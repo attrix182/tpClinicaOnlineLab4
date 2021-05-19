@@ -10,10 +10,6 @@ import { Location } from '@angular/common';
 import { UsuarioService } from './../../servicios/usuario.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 
-
-
-import * as firebase from 'firebase';
-
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 
@@ -48,9 +44,6 @@ export class RegistroComponent implements OnInit {
   edad: number;
   obraSocial: string;
 
-  date : Date;
-
-
   especialidades = [];
   especialidad: string;
 
@@ -68,9 +61,7 @@ export class RegistroComponent implements OnInit {
     private authSVC: AuthService
   ) {
 
-    this.tipo = 'paciente'
-    this.date = new Date();
-
+    this.tipo = 'especialista'
 
   }
 
@@ -107,7 +98,7 @@ export class RegistroComponent implements OnInit {
       this.clave = this.especialistaRegForm.value.clave;
       this.edad = this.especialistaRegForm.value.edad;
       this.dni = this.especialistaRegForm.value.dni;
-      this.especialidades = this.especialistaRegForm.value.especialidades;
+      this.especialidades;
       this.foto1 = this.fotoCargada1;
 
       this.registrarEspecialista();
@@ -128,7 +119,7 @@ export class RegistroComponent implements OnInit {
 
       let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
       this.usuarioSrv.RegistrarPaciente(paciente);
-
+      console.log(response);
     }).catch(error => { console.log(error); });
 
 
@@ -142,22 +133,16 @@ export class RegistroComponent implements OnInit {
 
       this.SubirFotoEspecialista(response.user.uid);
 
-    this.asignarID(response.user.uid)
-
-
       this.id = response.user.uid;
       let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
       this.usuarioSrv.RegistrarEspecialista(especialista);
 
-
+      console.log(response);
     }).catch(error => { console.log(error); });
 
   }
 
-  asignarID(uid)
-  {
-    this.id = uid;
-  }
+
 
   CambioFotosPaciente(e, numero) {
     if (numero == 1) {
@@ -165,7 +150,7 @@ export class RegistroComponent implements OnInit {
 
       console.log(this.foto1);
 
-    } else if(numero == 2){
+    } else if (numero == 2) {
 
       this.foto2 = e.target.files[0];
       console.log(this.foto2);
@@ -205,18 +190,25 @@ export class RegistroComponent implements OnInit {
     } else {
       this.fotoCargada1 = `/usuarios/default.png`;
     }
-   
+
   }
 
   AgregarEspecialidades() {
 
-    
+
     let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
     console.log(this.especialistaRegForm.value.especialidad)
     auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
-    this.especialidad = null;
+
+
+   
+
+    console.log(this.especialidades)
+    
 
   }
+
+
 
 
   isValidPaciente(field: string): string {
@@ -238,6 +230,11 @@ export class RegistroComponent implements OnInit {
         : '';
   }
 
+  BorrarEspecialidades(especialidad: string) {
+    let index = this.especialidades.indexOf(especialidad)
+    this.especialidades.splice(index, 1)
+  }
+
   private initForm(): void {
     this.pacienteRegForm = this.fb.group({
       correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
@@ -257,10 +254,11 @@ export class RegistroComponent implements OnInit {
       apellido: ['', [Validators.required]],
       edad: ['', [Validators.required]],
       dni: ['', [Validators.required]],
-      especialidades: ['', [Validators.required]],
-      especialidad: ['', [Validators.required]]
+      especialidades: ['', [Validators.minLength(0)]],
+      especialidad: ['', [Validators.minLength(0)]]
     });
   }
+
 
 
 
@@ -270,7 +268,7 @@ export class RegistroComponent implements OnInit {
       toast: true,
       position: 'top',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 1500,
       timerProgressBar: true,
 
       didOpen: (toast) => {

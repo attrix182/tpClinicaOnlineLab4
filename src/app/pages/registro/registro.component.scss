@@ -37,6 +37,49 @@
     margin: 10px;
   }
   
+  .listadoEsp {
+    margin-top: -2%;
+    overflow: auto;
+    width: 100%;
+    font-size: 2vh;
+    height: 13vh;
+    border: solid 1px #0069D7;
+
+    text-align: center;
+  
+    .icono{
+      width: 90%;
+     margin: auto;
+    }
+  
+  }
+
+
+  div.espItem{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  div.espItem:hover {
+    background: #5c7dd8;
+  }
+  
+  p.titEsp {
+    border-bottom: solid 1px #007AFC;
+    background-color: #007AFC;
+    font-size: 1.1em;
+    color: ghostwhite;
+  }
+  
+  #espUno:hover,:focus,:active{
+  transform: scale(1);
+  }
+  
+  span.nombreEsp {
+    margin-left: 10px;
+  }
+  
 
   
   
@@ -55,3 +98,7 @@
   .overflow-hidden { overflow: hidden; }
   
   
+  .iconoQuitar{
+    display: flex;
+    height: 3px;
+  }
