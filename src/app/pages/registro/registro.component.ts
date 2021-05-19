@@ -2,11 +2,16 @@ import { Especialista } from './../../clases/especialista';
 import { AuthService } from './../../servicios/auth.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Paciente } from './../../clases/paciente';
+
+import { Location } from '@angular/common';
 
 import { UsuarioService } from './../../servicios/usuario.service';
 import { AngularFireStorage } from '@angular/fire/storage';
+
+
+
 import * as firebase from 'firebase';
 
 import Swal, { SweetAlertIcon } from 'sweetalert2';
@@ -26,11 +31,8 @@ export class RegistroComponent implements OnInit {
   public unPaciente: Paciente;
   public unEspecialista: Especialista;
   public tipo: string;
-  public pathFoto: any;
-  public pathFoto2: any;
 
   public id: any;
-  public foto: any;
   public foto1: any;
   public foto2: any;
   public fotoCargada1: any;
@@ -46,8 +48,11 @@ export class RegistroComponent implements OnInit {
   edad: number;
   obraSocial: string;
 
-  especialidades: any;
+  date : Date;
 
+
+  especialidades = [];
+  especialidad: string;
 
   private isEmail = /\S+@\S+\.\S+/;
 
@@ -64,41 +69,14 @@ export class RegistroComponent implements OnInit {
   ) {
 
     this.tipo = 'paciente'
+    this.date = new Date();
+
+
   }
 
   ngOnInit(): void {
     this.initForm();
   }
-
-  CambioFotos(e, numero) {
-    if (numero == 1) {
-      this.foto1 = e.target.files[0];
-      console.log(this.foto1);
-    } else {
-      this.foto2 = e.target.files[0];
-      console.log(this.foto2);
-    }
-  }
-
-  SubirFotos(id: string) {
-    if (this.foto1) {
-      this.fotoCargada1 = `/usuarios/${id}/${1}`;
-      this.storage.upload(this.fotoCargada1, this.foto1);
-    } else {
-      this.fotoCargada1 = `/usuarios/default.png`;
-    }
-
-    if (this.foto2) {
-      this.fotoCargada2 = `/usuarios/${id}/${2}`;
-      this.storage.upload(this.fotoCargada2, this.foto2);
-    } else {
-      this.fotoCargada2 = `/usuarios/default.png`;
-    }
-  }
-
-
-
-
 
   onRegisterPaciente() {
     if (this.pacienteRegForm.valid) {
@@ -132,7 +110,6 @@ export class RegistroComponent implements OnInit {
       this.especialidades = this.especialistaRegForm.value.especialidades;
       this.foto1 = this.fotoCargada1;
 
-
       this.registrarEspecialista();
     }
   }
@@ -145,7 +122,7 @@ export class RegistroComponent implements OnInit {
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-      this.SubirFotos(response.user.uid);
+      this.SubirFotosPaciente(response.user.uid);
 
       this.id = response.user.uid;
 
@@ -163,7 +140,10 @@ export class RegistroComponent implements OnInit {
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-      this.SubirFotos(response.user.uid);
+      this.SubirFotoEspecialista(response.user.uid);
+
+    this.asignarID(response.user.uid)
+
 
       this.id = response.user.uid;
       let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
@@ -171,6 +151,70 @@ export class RegistroComponent implements OnInit {
 
 
     }).catch(error => { console.log(error); });
+
+  }
+
+  asignarID(uid)
+  {
+    this.id = uid;
+  }
+
+  CambioFotosPaciente(e, numero) {
+    if (numero == 1) {
+      this.foto1 = e.target.files[0];
+
+      console.log(this.foto1);
+
+    } else if(numero == 2){
+
+      this.foto2 = e.target.files[0];
+      console.log(this.foto2);
+    }
+  }
+
+
+  SubirFotosPaciente(id: string) {
+    if (this.foto1) {
+      this.fotoCargada1 = `/usuarios/${id}/${1}`;
+      this.storage.upload(this.fotoCargada1, this.foto1);
+    } else {
+      this.fotoCargada1 = `/usuarios/default.png`;
+    }
+
+    if (this.foto2) {
+      this.fotoCargada2 = `/usuarios/${id}/${2}`;
+      this.storage.upload(this.fotoCargada2, this.foto2);
+    } else {
+      this.fotoCargada2 = `/usuarios/default.png`;
+    }
+  }
+
+
+
+  CambioFotoEspecialista(e, numero) {
+    if (numero == 1) {
+      this.foto1 = e.target.files[0];
+      console.log(this.foto1);
+    }
+  }
+
+  SubirFotoEspecialista(id: string) {
+    if (this.foto1) {
+      this.fotoCargada1 = `/usuarios/${id}/${1}`;
+      this.storage.upload(this.fotoCargada1, this.foto1);
+    } else {
+      this.fotoCargada1 = `/usuarios/default.png`;
+    }
+   
+  }
+
+  AgregarEspecialidades() {
+
+    
+    let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
+    console.log(this.especialistaRegForm.value.especialidad)
+    auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
+    this.especialidad = null;
 
   }
 
@@ -213,7 +257,8 @@ export class RegistroComponent implements OnInit {
       apellido: ['', [Validators.required]],
       edad: ['', [Validators.required]],
       dni: ['', [Validators.required]],
-      especialidades: ['', [Validators.required]]
+      especialidades: ['', [Validators.required]],
+      especialidad: ['', [Validators.required]]
     });
   }
 
