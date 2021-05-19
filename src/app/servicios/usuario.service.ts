@@ -39,13 +39,14 @@ export class UsuarioService {
 
       this.context.list('usuarios').set(response.uid,
         {
+          id: response.uid,
+          
           correo: especialista.correo,
           nombre: especialista.nombre,
           apellido: especialista.apellido,
           especialidades: especialista.especialidades,
           edad:especialista.edad,
           dni:especialista.dni,
-          id: response.uid,
           foto: especialista.foto,
           perfil: "especialista"
         });
