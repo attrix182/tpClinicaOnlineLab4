@@ -29,12 +29,12 @@ export class RegistroComponent implements OnInit {
   public pathFoto: any;
   public pathFoto2: any;
 
-  id: any;
-  foto: any;
-  foto1: any;
-  foto2: any;
-  fotoCargada1: any;
-  fotoCargada2: any;
+  public id: any;
+  public foto: any;
+  public foto1: any;
+  public foto2: any;
+  public fotoCargada1: any;
+  public fotoCargada2: any;
 
   correo: string;
   clave: string;
@@ -70,19 +70,6 @@ export class RegistroComponent implements OnInit {
     this.initForm();
   }
 
-
-  Limpiar() {
-    this.pacienteRegForm.value.nombre = null;
-    this.pacienteRegForm.value.correo = null;
-    this.pacienteRegForm.value.apellido = null;
-    this.pacienteRegForm.value.clave = null;
-    (<HTMLInputElement>document.getElementById("foto1")).value = "";
-    (<HTMLInputElement>document.getElementById("foto2")).value = "";
-
-    this.especialidades = null;
-  }
-
-
   CambioFotos(e, numero) {
     if (numero == 1) {
       this.foto1 = e.target.files[0];
@@ -97,38 +84,19 @@ export class RegistroComponent implements OnInit {
     if (this.foto1) {
       this.fotoCargada1 = `/usuarios/${id}/${1}`;
       this.storage.upload(this.fotoCargada1, this.foto1);
-      this.guardarReferenciaUno(this.fotoCargada1);
     } else {
-      this.fotoCargada1 = `/usuarios/foto1.png`;
+      this.fotoCargada1 = `/usuarios/default.png`;
     }
 
     if (this.foto2) {
       this.fotoCargada2 = `/usuarios/${id}/${2}`;
       this.storage.upload(this.fotoCargada2, this.foto2);
-      this.guardarReferenciaDos(this.fotoCargada2);
     } else {
-      this.fotoCargada2 = `/usuarios/foto2.png`;
+      this.fotoCargada2 = `/usuarios/default.png`;
     }
   }
 
-  guardarReferenciaUno(pReferencia: string) {
-    let storages = firebase.default.storage();
-    let storageRef = storages.ref();
-    let spaceRef = storageRef.child(pReferencia);
-    spaceRef.getDownloadURL().then(url => {
-      this.pathFoto = url
-    });
-  }
 
-
-  guardarReferenciaDos(pReferencia: string) {
-    let storages = firebase.default.storage();
-    let storageRef = storages.ref();
-    let spaceRef = storageRef.child(pReferencia);
-    spaceRef.getDownloadURL().then(url => {
-      this.pathFoto2 = url
-    });
-  }
 
 
 
@@ -162,9 +130,9 @@ export class RegistroComponent implements OnInit {
       this.edad = this.especialistaRegForm.value.edad;
       this.dni = this.especialistaRegForm.value.dni;
       this.especialidades = this.especialistaRegForm.value.especialidades;
-      this.foto = this.fotoCargada1;
+      this.foto1 = this.fotoCargada1;
 
-      console.log(this.pathFoto)
+
       this.registrarEspecialista();
     }
   }
@@ -181,7 +149,7 @@ export class RegistroComponent implements OnInit {
 
       this.id = response.user.uid;
 
-      let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.pathFoto, this.pathFoto2, 'paciente');
+      let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
       this.usuarioSrv.RegistrarPaciente(paciente);
 
     }).catch(error => { console.log(error); });
@@ -198,7 +166,7 @@ export class RegistroComponent implements OnInit {
       this.SubirFotos(response.user.uid);
 
       this.id = response.user.uid;
-      let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.pathFoto, this.especialidades, 'especialista');
+      let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
       this.usuarioSrv.RegistrarEspecialista(especialista);
 
 
