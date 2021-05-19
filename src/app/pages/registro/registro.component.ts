@@ -7,11 +7,14 @@ import { Paciente } from './../../clases/paciente';
 
 import { Location } from '@angular/common';
 
+
+
 import { UsuarioService } from './../../servicios/usuario.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-registro',
@@ -80,8 +83,8 @@ export class RegistroComponent implements OnInit {
       this.dni = this.pacienteRegForm.value.dni;
       this.edad = this.pacienteRegForm.value.edad;
       this.obraSocial = this.pacienteRegForm.value.obraSocial;
-      this.foto1 = this.fotoCargada1;
-      this.foto2 = this.fotoCargada2;
+      // this.foto1 = this.fotoCargada1;
+      //  this.foto2 = this.fotoCargada2;
       this.registrarPaciente();
     }
   }
@@ -99,7 +102,7 @@ export class RegistroComponent implements OnInit {
       this.edad = this.especialistaRegForm.value.edad;
       this.dni = this.especialistaRegForm.value.dni;
       this.especialidades;
-      this.foto1 = this.fotoCargada1;
+      //  this.foto1 = this.fotoCargada1;
 
       this.registrarEspecialista();
     }
@@ -113,7 +116,7 @@ export class RegistroComponent implements OnInit {
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-      this.SubirFotosPaciente(response.user.uid);
+      //  this.SubirFotosPaciente(response.user.uid);
 
       this.id = response.user.uid;
 
@@ -131,67 +134,45 @@ export class RegistroComponent implements OnInit {
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-      this.SubirFotoEspecialista(response.user.uid);
+      //  this.SubirFotoEspecialista(response.user.uid); 
 
       this.id = response.user.uid;
+
+      const filePath = `/usuarios/${this.id}/1.png`;
+      const ref = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.foto1);
+      
+      this.fotoCargada1 = filePath;
+      //this.guardarReferenciaEspecialista(filePath);
+
+
       let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
       this.usuarioSrv.RegistrarEspecialista(especialista);
 
-      console.log(response);
     }).catch(error => { console.log(error); });
 
   }
 
 
+  onUploadEspecialista($event) {
+    console.log($event)
+    this.foto1 = $event.target.files[0];
 
-  CambioFotosPaciente(e, numero) {
-    if (numero == 1) {
-      this.foto1 = e.target.files[0];
 
-      console.log(this.foto1);
+  }
 
-    } else if (numero == 2) {
+  guardarReferenciaEspecialista(pReferencia: string) {
+    let storages = firebase.default.storage();
+    let storageRef = storages.ref();
+    let spaceRef = storageRef.child(pReferencia);
+    spaceRef.getDownloadURL().then(url => {
 
-      this.foto2 = e.target.files[0];
-      console.log(this.foto2);
-    }
+      this.fotoCargada1 = url
+      console.log(url)
+    });
   }
 
 
-  SubirFotosPaciente(id: string) {
-    if (this.foto1) {
-      this.fotoCargada1 = `/usuarios/${id}/${1}`;
-      this.storage.upload(this.fotoCargada1, this.foto1);
-    } else {
-      this.fotoCargada1 = `/usuarios/default.png`;
-    }
-
-    if (this.foto2) {
-      this.fotoCargada2 = `/usuarios/${id}/${2}`;
-      this.storage.upload(this.fotoCargada2, this.foto2);
-    } else {
-      this.fotoCargada2 = `/usuarios/default.png`;
-    }
-  }
-
-
-
-  CambioFotoEspecialista(e, numero) {
-    if (numero == 1) {
-      this.foto1 = e.target.files[0];
-      console.log(this.foto1);
-    }
-  }
-
-  SubirFotoEspecialista(id: string) {
-    if (this.foto1) {
-      this.fotoCargada1 = `/usuarios/${id}/${1}`;
-      this.storage.upload(this.fotoCargada1, this.foto1);
-    } else {
-      this.fotoCargada1 = `/usuarios/default.png`;
-    }
-
-  }
 
   AgregarEspecialidades() {
 
@@ -201,9 +182,9 @@ export class RegistroComponent implements OnInit {
 
     auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
 
-    
+
     console.log(this.especialidades)
-    
+
 
   }
 
