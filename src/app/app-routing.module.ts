@@ -16,6 +16,10 @@ const routes: Routes = [
   
   { path: 'registro', loadChildren: () => import('./pages/registro/registro.module').then(m => m.RegistroModule) },
   
+  { path: 'especialista', loadChildren: () => import('./pages/especialista/especialista.module').then(m => m.EspecialistaModule) },
+  
+  { path: 'paciente', loadChildren: () => import('./pages/paciente/paciente.module').then(m => m.PacienteModule) },
+  
   { path: '**', loadChildren: () => import('./pages/error/error.module').then(m => m.ErrorModule) }];
   
   

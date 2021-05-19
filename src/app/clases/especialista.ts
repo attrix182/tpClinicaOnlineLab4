@@ -6,13 +6,25 @@ export class Especialista {
     apellido: string;
     correo: string;
     clave: string;
-    especialidad: string;
     edad:number;
     dni:number;
-    foto1: any;
-    especialidades: string[];
+    foto: any;
+    especialidades: string;
+    perfil:string;
 
    
+    constructor(nombre, apellido, correo, clave, edad, dni, foto, especialidades, perfil) {
 
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.clave = clave;
+        this.edad = edad;
+        this.dni =dni;
+        this.foto = foto;
+        this.especialidades = especialidades;
+        this.perfil = perfil;
+
+    }
 
 }

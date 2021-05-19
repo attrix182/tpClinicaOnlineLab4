@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Especialista } from './../../clases/especialista';
+import { AuthService } from './../../servicios/auth.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Especialista } from '../../clases/especialista';
 import { Paciente } from './../../clases/paciente';
 
 import { UsuarioService } from './../../servicios/usuario.service';
@@ -26,18 +27,41 @@ export class RegistroComponent implements OnInit {
   public unEspecialista: Especialista;
   public tipo: string;
   public pathFoto: any;
+  public pathFoto2: any;
 
-  private isEmail =/\S+@\S+\.\S+/;
+  id: any;
+  foto: any;
+  foto1: any;
+  foto2: any;
+  fotoCargada1: any;
+  fotoCargada2: any;
+
+  correo: string;
+  clave: string;
+
+  nombre: string;
+  apellido: string;
+
+  dni: number;
+  edad: number;
+  obraSocial: string;
+
+  especialidades: any;
+
+
+  private isEmail = /\S+@\S+\.\S+/;
+
+
+
+  @Output() emitRegister: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private usuarioSrv: UsuarioService,
-    private storage:AngularFireStorage
+    private storage: AngularFireStorage,
+    private authSVC: AuthService
   ) {
-    this.unPaciente = new Paciente();
-
-    this.unEspecialista = new Especialista();
 
     this.tipo = 'paciente'
   }
@@ -46,7 +70,48 @@ export class RegistroComponent implements OnInit {
     this.initForm();
   }
 
-  guardarReferencia(pReferencia: string) {
+
+  Limpiar() {
+    this.pacienteRegForm.value.nombre = null;
+    this.pacienteRegForm.value.correo = null;
+    this.pacienteRegForm.value.apellido = null;
+    this.pacienteRegForm.value.clave = null;
+    (<HTMLInputElement>document.getElementById("foto1")).value = "";
+    (<HTMLInputElement>document.getElementById("foto2")).value = "";
+
+    this.especialidades = null;
+  }
+
+
+  CambioFotos(e, numero) {
+    if (numero == 1) {
+      this.foto1 = e.target.files[0];
+      console.log(this.foto1);
+    } else {
+      this.foto2 = e.target.files[0];
+      console.log(this.foto2);
+    }
+  }
+
+  SubirFotos(id: string) {
+    if (this.foto1) {
+      this.fotoCargada1 = `/usuarios/${id}/${1}`;
+      this.storage.upload(this.fotoCargada1, this.foto1);
+      this.guardarReferenciaUno(this.fotoCargada1);
+    } else {
+      this.fotoCargada1 = `/usuarios/foto1.png`;
+    }
+
+    if (this.foto2) {
+      this.fotoCargada2 = `/usuarios/${id}/${2}`;
+      this.storage.upload(this.fotoCargada2, this.foto2);
+      this.guardarReferenciaDos(this.fotoCargada2);
+    } else {
+      this.fotoCargada2 = `/usuarios/foto2.png`;
+    }
+  }
+
+  guardarReferenciaUno(pReferencia: string) {
     let storages = firebase.default.storage();
     let storageRef = storages.ref();
     let spaceRef = storageRef.child(pReferencia);
@@ -55,70 +120,91 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  onUpload($event) {
-    console.log($event)
-    const file = $event.target.files[0];
-    const filePath = 'upload/imagen.png';
-    const ref = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath,file);
-    this.guardarReferencia(filePath);
-    
+
+  guardarReferenciaDos(pReferencia: string) {
+    let storages = firebase.default.storage();
+    let storageRef = storages.ref();
+    let spaceRef = storageRef.child(pReferencia);
+    spaceRef.getDownloadURL().then(url => {
+      this.pathFoto2 = url
+    });
   }
+
+
 
   onRegisterPaciente() {
     if (this.pacienteRegForm.valid) {
 
 
-      this.unPaciente.nombre = this.pacienteRegForm.value.nombre;
-      this.unPaciente.apellido = this.pacienteRegForm.value.apellido;
-      this.unPaciente.correo = this.pacienteRegForm.value.correo;
-      this.unPaciente.clave = this.pacienteRegForm.value.clave;
-      this.unPaciente.dni = this.pacienteRegForm.value.dni;
-      this.unPaciente.edad = this.pacienteRegForm.value.edad;
-      this.unPaciente.obraSocial = this.pacienteRegForm.value.obraSocial;
-
-      this.usuarioSrv.CrearPaciente(this.unPaciente);
-      this.usuarioSrv
-        .BuscarUsuarioPac(this.unPaciente)
-        .valueChanges()
-        .subscribe((result) => {
-          if (result.length == 1) {
-            console.log('ERROR usuario ya registrado');
-          } else {
-            localStorage.setItem('token', this.unPaciente.correo);
-            this.usuarioSrv.CrearPaciente(this.unPaciente);
-            this.router.navigateByUrl('home');
-            console.log('Usuario registrado!');
-          }
-        });
-      
+      this.nombre = this.pacienteRegForm.value.nombre;
+      this.apellido = this.pacienteRegForm.value.apellido;
+      this.correo = this.pacienteRegForm.value.correo;
+      this.clave = this.pacienteRegForm.value.clave;
+      this.dni = this.pacienteRegForm.value.dni;
+      this.edad = this.pacienteRegForm.value.edad;
+      this.obraSocial = this.pacienteRegForm.value.obraSocial;
+      this.foto1 = this.fotoCargada1;
+      this.foto2 = this.fotoCargada2;
+      this.registrarPaciente();
     }
   }
 
 
-  
+
   onRegisterEspecialista() {
     if (this.especialistaRegForm.valid) {
 
 
-      this.unEspecialista.nombre = this.especialistaRegForm.value.nombre;
-      this.unEspecialista.apellido = this.especialistaRegForm.value.apellido;
-      this.unEspecialista.correo = this.especialistaRegForm.value.correo;
-      this.unEspecialista.clave = this.especialistaRegForm.value.clave;
-      this.unEspecialista.edad = this.especialistaRegForm.value.edad;
-      this.unEspecialista.dni = this.especialistaRegForm.value.dni;
-      this.unEspecialista.foto1 = `${this.pathFoto}`;
+      this.nombre = this.especialistaRegForm.value.nombre;
+      this.apellido = this.especialistaRegForm.value.apellido;
+      this.correo = this.especialistaRegForm.value.correo;
+      this.clave = this.especialistaRegForm.value.clave;
+      this.edad = this.especialistaRegForm.value.edad;
+      this.dni = this.especialistaRegForm.value.dni;
+      this.especialidades = this.especialistaRegForm.value.especialidades;
+      this.foto = this.fotoCargada1;
 
       console.log(this.pathFoto)
-
-
-      this.usuarioSrv.CrearEspecialista(this.unEspecialista);
-      
-      
+      this.registrarEspecialista();
     }
   }
 
 
+
+
+  registrarPaciente() {
+
+
+    this.authSVC.Register(this.correo, this.clave).then(response => {
+
+      this.SubirFotos(response.user.uid);
+
+      this.id = response.user.uid;
+
+      let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.pathFoto, this.pathFoto2, 'paciente');
+      this.usuarioSrv.RegistrarPaciente(paciente);
+
+    }).catch(error => { console.log(error); });
+
+
+  }
+
+
+  registrarEspecialista() {
+
+
+    this.authSVC.Register(this.correo, this.clave).then(response => {
+
+      this.SubirFotos(response.user.uid);
+
+      this.id = response.user.uid;
+      let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.pathFoto, this.especialidades, 'especialista');
+      this.usuarioSrv.RegistrarEspecialista(especialista);
+
+
+    }).catch(error => { console.log(error); });
+
+  }
 
 
   isValidPaciente(field: string): string {
@@ -126,8 +212,8 @@ export class RegistroComponent implements OnInit {
     return !validateField.valid && validateField.touched
       ? 'is-invalid'
       : validateField.touched
-      ? 'is-valid'
-      : '';
+        ? 'is-valid'
+        : '';
   }
 
 
@@ -136,8 +222,8 @@ export class RegistroComponent implements OnInit {
     return !validateField.valid && validateField.touched
       ? 'is-invalid'
       : validateField.touched
-      ? 'is-valid'
-      : '';
+        ? 'is-valid'
+        : '';
   }
 
   private initForm(): void {
@@ -148,9 +234,7 @@ export class RegistroComponent implements OnInit {
       apellido: ['', [Validators.required]],
       obraSocial: ['', [Validators.required]],
       edad: ['', [Validators.required]],
-      dni: ['', [Validators.required]],
-      foto1: ['', [Validators.required]],
-      foto2: ['', [Validators.required]]
+      dni: ['', [Validators.required]]
     });
 
 
@@ -161,8 +245,10 @@ export class RegistroComponent implements OnInit {
       apellido: ['', [Validators.required]],
       edad: ['', [Validators.required]],
       dni: ['', [Validators.required]],
+      especialidades: ['', [Validators.required]]
     });
   }
+
 
 
 
@@ -173,13 +259,13 @@ export class RegistroComponent implements OnInit {
       showConfirmButton: false,
       timer: 2000,
       timerProgressBar: true,
-      
+
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
       }
     })
-    
+
     Toast.fire({
       icon: icon,
       title: text
