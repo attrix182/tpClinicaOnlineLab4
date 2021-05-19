@@ -159,7 +159,7 @@
 
 
 
-      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterEspecialista()"
+      <form class="animate__animated animate__backInDown" novalidate 
         [formGroup]="especialistaRegForm" *ngIf="this.tipo == 'especialista'">
         <fieldset>
 
@@ -282,8 +282,8 @@
           </div>
 
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
-            [disabled]="this.especialistaRegForm.invalid">
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft" (click)="onRegisterEspecialista()"
+            [disabled]="especialistaRegForm.invalid">
             Registrarse
           </button>
 

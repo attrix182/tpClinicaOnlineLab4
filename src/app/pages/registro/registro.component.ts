@@ -197,12 +197,11 @@ export class RegistroComponent implements OnInit {
 
 
     let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
-    console.log(this.especialistaRegForm.value.especialidad)
+
+
     auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
 
-
-   
-
+    
     console.log(this.especialidades)
     
 
