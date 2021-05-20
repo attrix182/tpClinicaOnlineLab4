@@ -116,6 +116,24 @@ export class RegistroComponent implements OnInit {
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
+
+
+      this.id = response.user.uid;
+
+   
+      const filePath = `/usuarios/${this.id}/1.png`;
+      const ref = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.foto1);
+
+      this.fotoCargada1 = filePath;
+
+
+      const filePath2 = `/usuarios/${this.id}/2.png`;
+      const ref2 = this.storage.ref(filePath2);
+      const task2 = this.storage.upload(filePath2, this.foto2);
+
+      this.fotoCargada2 = filePath2;
+
       //  this.SubirFotosPaciente(response.user.uid);
 
       this.id = response.user.uid;
@@ -138,13 +156,17 @@ export class RegistroComponent implements OnInit {
 
       this.id = response.user.uid;
 
+      if(this.foto1){
       const filePath = `/usuarios/${this.id}/1.png`;
       const ref = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, this.foto1);
-      
-      this.fotoCargada1 = filePath;
-      //this.guardarReferenciaEspecialista(filePath);
 
+      this.fotoCargada1 = filePath;
+      }
+      else{
+        this.fotoCargada1 = `/usuarios/default.png`;
+      }
+      //this.guardarReferenciaEspecialista(filePath);
 
       let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
       this.usuarioSrv.RegistrarEspecialista(especialista);
@@ -161,16 +183,25 @@ export class RegistroComponent implements OnInit {
 
   }
 
-  guardarReferenciaEspecialista(pReferencia: string) {
-    let storages = firebase.default.storage();
-    let storageRef = storages.ref();
-    let spaceRef = storageRef.child(pReferencia);
-    spaceRef.getDownloadURL().then(url => {
 
-      this.fotoCargada1 = url
-      console.log(url)
-    });
+
+
+  onUploadPaciente($event, num: number) {
+
+    if (num == 1) {
+      console.log($event)
+      this.foto1 = $event.target.files[0];
+    }
+
+    else if (num == 2) {
+      console.log($event)
+      this.foto2 = $event.target.files[0];
+    }
   }
+
+
+
+
 
 
 
@@ -178,11 +209,7 @@ export class RegistroComponent implements OnInit {
 
 
     let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
-
-
     auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
-
-
     console.log(this.especialidades)
 
 

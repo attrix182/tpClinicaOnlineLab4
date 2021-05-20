@@ -116,15 +116,13 @@
           </div>
 
 
-
-
           <div class="form-row form-group">
             <div class="col">
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                 </div>
                 <div class="custom-file">
-                  <input type="file"  id="foto1">
+                  <input type="file" (change)="onUploadPaciente($event, 1)" id="foto1">
 
                 </div>
               </div>
@@ -135,8 +133,7 @@
                 <div class="input-group-prepend">
                 </div>
                 <div class="custom-file">
-                  <input type="file" id="foto2">
-
+                  <input type="file" (change)="onUploadPaciente($event, 2)"  id="foto2">
                 </div>
               </div>
 
@@ -159,8 +156,8 @@
 
 
 
-      <form class="animate__animated animate__backInDown" novalidate 
-        [formGroup]="especialistaRegForm" *ngIf="this.tipo == 'especialista'">
+      <form class="animate__animated animate__backInDown" novalidate [formGroup]="especialistaRegForm"
+        *ngIf="this.tipo == 'especialista'">
         <fieldset>
 
           <div class="form-row form-group">
@@ -227,7 +224,7 @@
           </div>
 
 
-          
+
           <div class="form-group">
             <input type="password" class="form-control" id="clave" placeholder="Clave" formControlName="clave"
               [class]="isValidEspecialista('clave')" />
@@ -241,31 +238,32 @@
           <div class="form-row form-group">
 
             <div class="col">
-              <input placeholder="Especialidad"  formControlName="especialidad" id="esp"
-              type="text" class="form-control" id="especialidades" placeholder="Especialidad" 
-                [class]="isValidEspecialista('especialidades')"  (keyup.enter)="AgregarEspecialidades()" />
+              <input placeholder="Especialidad" formControlName="especialidad" id="esp" type="text" class="form-control"
+                id="especialidades" placeholder="Especialidad" [class]="isValidEspecialista('especialidades')"
+                (keyup.enter)="AgregarEspecialidades()" />
               <div class="invalid-feedback" style="font-family: sans-serif;">
                 <span *ngIf="especialistaRegForm.get('especialidades').errors?.required">
                   Por favor ingrese su Obra Social
                 </span>
               </div>
             </div>
-        
 
-          <div class="col">
-            <div class="especialidad">
-              <button class="btn btn-primary btn-block" (click)="AgregarEspecialidades()">+</button>
-              <div class="datosProfesional">
+
+            <div class="col">
+              <div class="especialidad">
+                <button class="btn btn-primary btn-block" (click)="AgregarEspecialidades()">+</button>
+                <div class="datosProfesional">
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
           <div class="listadoEsp">
             <p class="titEsp blanco">Especialidades: </p>
             <div class="espItem" *ngFor="let item of especialidades">
-              <span class="nombreEsp blanco" (click)="BorrarEspecialidades(item)">{{item}}     <img  src="../../../assets/x.png" height="16px" ></span>
-    
+              <span class="nombreEsp blanco" (click)="BorrarEspecialidades(item)">{{item}} <img
+                  src="../../../assets/x.png" height="16px"></span>
+
             </div>
           </div>
 
@@ -282,8 +280,8 @@
           </div>
 
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft" (click)="onRegisterEspecialista()"
-            [disabled]="especialistaRegForm.invalid">
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
+            (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
             Registrarse
           </button>
 
