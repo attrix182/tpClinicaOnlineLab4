@@ -26,6 +26,8 @@ export class LoginComponent implements OnInit {
 
   userForm: FormGroup;
 
+  inicioRapido : boolean
+
   private isEmail = /\S+@\S+\.\S+/;
 
   constructor(private fb: FormBuilder, private router: Router, private userSrv: UsuarioService,
@@ -33,6 +35,8 @@ export class LoginComponent implements OnInit {
 
     this.unUsuario = new Usuario();
     this.authService.LogOutCurrentUser();
+
+    this.inicioRapido = false;
 
   }
 
@@ -47,35 +51,72 @@ export class LoginComponent implements OnInit {
 
   }
 
+
+  botonesIncio()
+  {
+    if(this.inicioRapido)
+    {
+      this.inicioRapido = false;
+    }
+
+    else{
+      this.inicioRapido = true;
+    }
+
+    console.log(this.inicioRapido)
+
+  }
+
+
+  admin()
+  {
+
+    this.userForm.controls['email'].setValue("administrador@yopmail.com");
+    this.userForm.controls['clave'].setValue("12345678");
+  }
+
+  paciente()
+  {
+
+    
+  }
+
+  especialista()
+  {
+
+    
+  }
+
+
   onLogin() {
 
     this.authSVC.Login(this.userForm.value.email, this.userForm.value.clave).then((response: any) => {
+
       this.ValidarAdmin(response.user);
+
+      
       if (response.user.emailVerified) {
         this.ValidarUser(response);
       }
       else {
         this.alert('warning', 'No ha validado su cuenta, revise su correo')
       }
+
     }).catch(error => { this.alert('error', error) });
   }
 
 
   ValidarAdmin(usuario) {
     let userAdmin = this.listadoUsuarios.filter(u => u.id == usuario.uid);
-    if (userAdmin[0].perfil == "admin") {
-      this.router.navigate(["/admin"]);
-      this.flag = false;
-    }
-    else if (usuario.email == "profesional@profesional.com") {
+    console.log(userAdmin[0].perfil)
 
-      this.router.navigate(["/especialista"]);
-      this.flag = false;
+    if (userAdmin[0].perfil == "admin") {
+
+      this.router.navigate(["/seccionUsuarios"]);
+
+
     }
-    else if (usuario.email == "paciente@paciente.com") {
-      this.router.navigate(["/paciente"]);
-      this.flag = false;
-    }
+ 
 
   }
 
@@ -94,7 +135,7 @@ export class LoginComponent implements OnInit {
         console.log('habilitado')
         this.router.navigate(["/especialista"]);
       }
-    } else {
+    } else if(user[0].perfil == "paciente") {
       this.router.navigate(["/paciente"]);
     }
 

@@ -120,20 +120,30 @@ export class RegistroComponent implements OnInit {
 
       this.id = response.user.uid;
 
+      if(this.foto1){
    
       const filePath = `/usuarios/${this.id}/1.png`;
       const ref = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, this.foto1);
 
       this.fotoCargada1 = filePath;
+      }
+      else{
+        this.fotoCargada1 = `/usuarios/default.png`;
+      }
 
+       if(this.foto2){
 
       const filePath2 = `/usuarios/${this.id}/2.png`;
       const ref2 = this.storage.ref(filePath2);
       const task2 = this.storage.upload(filePath2, this.foto2);
 
       this.fotoCargada2 = filePath2;
+      }
 
+      else{
+        this.fotoCargada2 = `/usuarios/default.png`;
+      }
       //  this.SubirFotosPaciente(response.user.uid);
 
       this.id = response.user.uid;
@@ -211,7 +221,7 @@ export class RegistroComponent implements OnInit {
     let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
     auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
     console.log(this.especialidades)
-
+    this.especialistaRegForm.controls['especialidad'].setValue("");
 
   }
 
