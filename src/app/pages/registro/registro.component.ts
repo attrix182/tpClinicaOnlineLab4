@@ -64,7 +64,7 @@ export class RegistroComponent implements OnInit {
     private authSVC: AuthService
   ) {
 
-    this.tipo = 'paciente'
+    this.tipo = 'especialista'
 
   }
 
@@ -116,7 +116,7 @@ export class RegistroComponent implements OnInit {
       setTimeout(() => {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
       }, 800);
-   
+
     }
   }
 
@@ -184,21 +184,46 @@ export class RegistroComponent implements OnInit {
         const ref = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.foto1);
 
-        this.fotoCargada1 = filePath;
+
+        setTimeout(() => {
+
+          let storages = firebase.default.storage();
+          let storageRef = storages.ref();
+          let spaceRef = storageRef.child(filePath);
+          spaceRef.getDownloadURL().then(url => {
+
+            console.log(url)
+            this.fotoCargada1 = url
+            this.fotoCargada1 = `${this.fotoCargada1}`
+
+            console.log(this.fotoCargada1)
+            console.log(this.especialidades)
+
+            let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista', false);
+            this.usuarioSrv.RegistrarEspecialista(especialista);
+
+          });
+
+        }, 2000);
+
+
       }
       else {
-        this.fotoCargada1 = `/usuarios/default.png`;
+        console.log('no hay foto')
+             console.log(this.especialidades)
+        this.fotoCargada1 = "https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8";
+        let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista', false);
+        this.usuarioSrv.RegistrarEspecialista(especialista);
       }
-      //this.guardarReferenciaEspecialista(filePath);
 
-      let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
-      this.usuarioSrv.RegistrarEspecialista(especialista);
+
 
 
 
     }).catch(error => { console.log(error); });
 
   }
+
 
 
   onUploadEspecialista($event) {
@@ -240,7 +265,9 @@ export class RegistroComponent implements OnInit {
       let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
       auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
       console.log(this.especialidades)
+
       this.especialistaRegForm.controls['especialidad'].setValue("");
+
     }
   }
 

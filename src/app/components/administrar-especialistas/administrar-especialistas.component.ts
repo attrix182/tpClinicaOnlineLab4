@@ -1,3 +1,4 @@
+import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -16,7 +17,7 @@ export class AdministrarEspecialistasComponent implements OnInit {
   listadoUsuarios = [];
   foto: any;
 
-  constructor(private context: AngularFireDatabase, private storage: AngularFireStorage) { }
+  constructor(private context: AngularFireDatabase, private storage: AngularFireStorage, userSrv:UsuarioService) { }
 
 
   ngOnInit(): void {
@@ -37,9 +38,12 @@ export class AdministrarEspecialistasComponent implements OnInit {
 
     return spaceRef.getDownloadURL();
 
+  }
+
+  cambiarEstado()
+  {
     
 
-    
   }
 
 

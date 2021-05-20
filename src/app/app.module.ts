@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { AdministrarEspecialistasComponent } from './components/administrar-especialistas/administrar-especialistas.component';
+import { AgregarAdminsComponent } from './components/agregar-admins/agregar-admins.component';
+import { RegistrosAdminComponent } from './components/registros-admin/registros-admin.component';
 
 
 @NgModule({

@@ -32,14 +32,15 @@ export class ListadoUsuariosComponent implements OnInit {
     let storageRef = storages.ref();
     let spaceRef = storageRef.child(path);
 
-    console.log(path);
 
-    return spaceRef.getDownloadURL();
+    spaceRef.getDownloadURL().then(url => {
+      console.log(url)
+      this.foto = url
+      return url;
 
-    
-
-    
+    });
   }
+
 
 
 

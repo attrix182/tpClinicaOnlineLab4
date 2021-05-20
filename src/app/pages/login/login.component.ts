@@ -127,9 +127,9 @@ export class LoginComponent implements OnInit {
     console.log(user)
 
     if (user[0].perfil == "especialista") {
-      if (user[0].habilitado == false) {
+      if (user[0].estado == false) {
         console.log('no habilitado')
-        this.router.navigate(["/noHabilitado"]);
+        this.alert('error', 'Aun no ha sido hablitado')
       }
       else {
         console.log('habilitado')

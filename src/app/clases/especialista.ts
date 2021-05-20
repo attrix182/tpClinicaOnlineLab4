@@ -11,9 +11,10 @@ export class Especialista {
     foto: any;
     especialidades: string;
     perfil:string;
+    estado:boolean;
 
    
-    constructor(nombre, apellido, correo, clave, edad, dni, foto, especialidades, perfil) {
+    constructor(nombre, apellido, correo, clave, edad, dni, foto, especialidades, perfil, estado) {
 
         this.nombre = nombre;
         this.apellido = apellido;
@@ -24,6 +25,7 @@ export class Especialista {
         this.foto = foto;
         this.especialidades = especialidades;
         this.perfil = perfil;
+        this.estado = estado;
 
     }
 

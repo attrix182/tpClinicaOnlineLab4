@@ -48,7 +48,8 @@ export class UsuarioService {
           edad:especialista.edad,
           dni:especialista.dni,
           foto: especialista.foto,
-          perfil: "especialista"
+          perfil: "especialista",
+          estado : especialista.estado
         });
 
 
@@ -83,6 +84,16 @@ export class UsuarioService {
 
     this.authSvc.LogOutCurrentUser();
   }
+
+
+  
+activarEspecialista(especialista: Especialista){
+
+  var idEsp = especialista.id.toString();
+
+  //return this.referenciaAlaColeccionEspecialista.doc(idEsp).update(especialista.estado) 
+
+}
 
 
 
