@@ -35,6 +35,8 @@ export class UsuarioService {
   
   RegistrarEspecialista(especialista) {
 
+    console.log("en el srvce: ",especialista.especialidades)
+
     this.authSvc.GetCurrentUser().then((response: any) => {
 
       this.context.list('usuarios').set(response.uid,
@@ -50,9 +52,11 @@ export class UsuarioService {
           foto: especialista.foto,
           perfil: "especialista",
           estado : especialista.estado
+
+    
         });
 
-
+      
     });
 
     this.authSvc.LogOutCurrentUser();

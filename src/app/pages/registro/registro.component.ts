@@ -50,6 +50,10 @@ export class RegistroComponent implements OnInit {
   especialidades = [];
   especialidad: string;
 
+  estado: boolean;
+
+  auxEsp = [];
+
   private isEmail = /\S+@\S+\.\S+/;
 
 
@@ -65,7 +69,7 @@ export class RegistroComponent implements OnInit {
   ) {
 
     this.tipo = 'especialista'
-
+    this.estado = false;
   }
 
   ngOnInit(): void {
@@ -138,10 +142,28 @@ export class RegistroComponent implements OnInit {
         const ref = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.foto1);
 
-        this.fotoCargada1 = filePath;
+        setTimeout(() => {
+
+          let storages = firebase.default.storage();
+          let storageRef = storages.ref();
+          let spaceRef = storageRef.child(filePath);
+
+          spaceRef.getDownloadURL().then(url => {
+
+            this.fotoCargada1 = url
+            this.fotoCargada1 = `${this.fotoCargada1}`
+
+            console.log(this.fotoCargada1)
+
+        
+          });
+
+        }, 2000);
+
       }
       else {
-        this.fotoCargada1 = `/usuarios/default.png`;
+        this.fotoCargada1 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
+
       }
 
       if (this.foto2) {
@@ -150,19 +172,34 @@ export class RegistroComponent implements OnInit {
         const ref2 = this.storage.ref(filePath2);
         const task2 = this.storage.upload(filePath2, this.foto2);
 
-        this.fotoCargada2 = filePath2;
+        setTimeout(() => {
+
+          let storages = firebase.default.storage();
+          let storageRef = storages.ref();
+          let spaceRef = storageRef.child(filePath2);
+
+          spaceRef.getDownloadURL().then(url => {
+
+            this.fotoCargada2 = url
+            this.fotoCargada2 = `${this.fotoCargada2}`
+
+            console.log(this.fotoCargada2)
+
+            let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+            this.usuarioSrv.RegistrarPaciente(paciente);
+
+          });
+
+        }, 2000);
       }
 
       else {
-        this.fotoCargada2 = `/usuarios/default.png`;
+        this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
+        let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+        this.usuarioSrv.RegistrarPaciente(paciente);
       }
       //  this.SubirFotosPaciente(response.user.uid);
 
-      this.id = response.user.uid;
-
-      let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-      this.usuarioSrv.RegistrarPaciente(paciente);
-      console.log(response);
 
     }).catch(error => { console.log(error); });
 
@@ -170,11 +207,35 @@ export class RegistroComponent implements OnInit {
   }
 
 
+  AgregarEspecialidades() {
+
+ 
+     if (this.especialistaRegForm.value.especialidad == "") {
+      this.alert('error', 'No eligio ninguna especialidad')
+    }
+    else {
+
+      let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
+      auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
+      //console.log(this.especialidades)
+
+      this.auxEsp = this.especialidades; 
+      this.especialistaRegForm.controls['especialidad'].setValue("");
+    } 
+  }
+
+
+
+
+
   registrarEspecialista() {
 
+    
+  console.log("antes de registrar " + this.auxEsp)
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
+      
       //  this.SubirFotoEspecialista(response.user.uid); 
 
       this.id = response.user.uid;
@@ -190,16 +251,18 @@ export class RegistroComponent implements OnInit {
           let storages = firebase.default.storage();
           let storageRef = storages.ref();
           let spaceRef = storageRef.child(filePath);
+
           spaceRef.getDownloadURL().then(url => {
 
-            console.log(url)
+
             this.fotoCargada1 = url
             this.fotoCargada1 = `${this.fotoCargada1}`
 
             console.log(this.fotoCargada1)
             console.log(this.especialidades)
 
-            let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista', false);
+            let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.auxEsp, 'especialista', this.estado);
+
             this.usuarioSrv.RegistrarEspecialista(especialista);
 
           });
@@ -210,9 +273,10 @@ export class RegistroComponent implements OnInit {
       }
       else {
         console.log('no hay foto')
-             console.log(this.especialidades)
+        console.log(this.especialidades)
         this.fotoCargada1 = "https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8";
-        let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista', false);
+        let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.auxEsp, 'especialista', this.estado);
+
         this.usuarioSrv.RegistrarEspecialista(especialista);
       }
 
@@ -255,21 +319,6 @@ export class RegistroComponent implements OnInit {
 
 
 
-  AgregarEspecialidades() {
-
-    if (this.especialistaRegForm.value.especialidad == "") {
-      this.alert('error', 'No eligio ninguna especialidad')
-    }
-    else {
-
-      let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
-      auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
-      console.log(this.especialidades)
-
-      this.especialistaRegForm.controls['especialidad'].setValue("");
-
-    }
-  }
 
 
 
