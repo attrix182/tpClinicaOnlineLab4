@@ -116,29 +116,31 @@
           </div>
 
 
-          <div class="form-row form-group">
-            <div class="col">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                </div>
-                <div class="custom-file">
-                  <input type="file" (change)="onUploadPaciente($event, 1)" id="foto1">
-
-                </div>
-              </div>
-
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupFileAddon01">Foto</span>
             </div>
-            <div class="col">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                </div>
-                <div class="custom-file">
-                  <input type="file" (change)="onUploadPaciente($event, 2)"  id="foto2">
-                </div>
-              </div>
-
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" (change)="onUploadPaciente($event, 1)" id="inputGroupFile01"
+                aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Sube foto uno</label>
             </div>
           </div>
+
+
+     
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Foto</span>
+              </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" (change)="onUploadPaciente($event, 2)"
+                  id="inputGroupFile02" aria-describedby="inputGroupFileAddon02">
+                <label class="custom-file-label" for="inputGroupFile02">Sube foto dos</label>
+              </div>
+            </div>
+        
+
 
           <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
             [disabled]="pacienteRegForm.invalid">
@@ -146,7 +148,7 @@
           </button>
           <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight"
             routerLink="../login">
-            Inicio de sesion
+            Iniciar sesion
           </button>
           <br>
         </fieldset>
@@ -270,13 +272,14 @@
           <div class="form-group mt-2">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Foto</span>
               </div>
-              <div>
-                <input type="file" (change)="onUploadEspecialista($event)" id="foto1">
-
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" (change)="onUploadEspecialista($event)"
+                  id="inputGroupFile03" aria-describedby="inputGroupFileAddon03">
+                <label class="custom-file-label" for="inputGroupFile03">Sube una foto</label>
               </div>
             </div>
-
           </div>
 
 
@@ -287,7 +290,7 @@
 
           <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight "
             routerLink="../login">
-            Inicio de sesion
+            Iniciar sesion
           </button>
           <br>
         </fieldset>

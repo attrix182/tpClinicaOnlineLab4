@@ -70,20 +70,20 @@ export class LoginComponent implements OnInit {
 
   admin()
   {
-
     this.userForm.controls['email'].setValue("administrador@yopmail.com");
     this.userForm.controls['clave'].setValue("12345678");
   }
 
   paciente()
   {
-
-    
+    this.userForm.controls['email'].setValue("paciente@yopmail.com");
+    this.userForm.controls['clave'].setValue("12345678");
   }
 
   especialista()
   {
-
+    this.userForm.controls['email'].setValue("especialista@yopmail.com");
+    this.userForm.controls['clave'].setValue("12345678");
     
   }
 

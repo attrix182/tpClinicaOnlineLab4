@@ -44,15 +44,15 @@
         <button type="submit" class="btn btn-success botonesLanding" [disabled]="userForm.invalid">
           Ingresar
         </button>
-        <button type="button" class="btn btn-primary botonesLanding" routerLink="../registro">
+        <button type="button" class="btn btn-primary botonesLanding " routerLink="../registro">
           Registrarse
         </button>
         <br>
-        <button type="button" class="btn btn-success botonesLanding" (click)="botonesIncio()">
+        <button type="button" class="btn btn-success botonesLanding " (click)="botonesIncio()">
           Inicio Rapido
         </button>
 
-        <div *ngIf="inicioRapido">
+        <div *ngIf="inicioRapido" class="animate__animated animate__backInLeft">
           <button type="button" (click)="admin()" class="btn btn-warning botonesLanding">
             Admin
           </button>

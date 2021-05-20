@@ -64,7 +64,7 @@ export class RegistroComponent implements OnInit {
     private authSVC: AuthService
   ) {
 
-    this.tipo = 'especialista'
+    this.tipo = 'paciente'
 
   }
 
@@ -86,6 +86,11 @@ export class RegistroComponent implements OnInit {
       // this.foto1 = this.fotoCargada1;
       //  this.foto2 = this.fotoCargada2;
       this.registrarPaciente();
+      this.pacienteRegForm.reset();
+
+      setTimeout(() => {
+        this.alert('success', 'Registro exitoso, recuerde validar su correo');
+      }, 800);
     }
   }
 
@@ -105,6 +110,13 @@ export class RegistroComponent implements OnInit {
       //  this.foto1 = this.fotoCargada1;
 
       this.registrarEspecialista();
+      this.especialistaRegForm.reset();
+      this.especialidades = []
+
+      setTimeout(() => {
+        this.alert('success', 'Registro exitoso, recuerde validar su correo');
+      }, 800);
+   
     }
   }
 
@@ -120,28 +132,28 @@ export class RegistroComponent implements OnInit {
 
       this.id = response.user.uid;
 
-      if(this.foto1){
-   
-      const filePath = `/usuarios/${this.id}/1.png`;
-      const ref = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.foto1);
+      if (this.foto1) {
 
-      this.fotoCargada1 = filePath;
+        const filePath = `/usuarios/${this.id}/1.png`;
+        const ref = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, this.foto1);
+
+        this.fotoCargada1 = filePath;
       }
-      else{
+      else {
         this.fotoCargada1 = `/usuarios/default.png`;
       }
 
-       if(this.foto2){
+      if (this.foto2) {
 
-      const filePath2 = `/usuarios/${this.id}/2.png`;
-      const ref2 = this.storage.ref(filePath2);
-      const task2 = this.storage.upload(filePath2, this.foto2);
+        const filePath2 = `/usuarios/${this.id}/2.png`;
+        const ref2 = this.storage.ref(filePath2);
+        const task2 = this.storage.upload(filePath2, this.foto2);
 
-      this.fotoCargada2 = filePath2;
+        this.fotoCargada2 = filePath2;
       }
 
-      else{
+      else {
         this.fotoCargada2 = `/usuarios/default.png`;
       }
       //  this.SubirFotosPaciente(response.user.uid);
@@ -151,6 +163,7 @@ export class RegistroComponent implements OnInit {
       let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
       this.usuarioSrv.RegistrarPaciente(paciente);
       console.log(response);
+
     }).catch(error => { console.log(error); });
 
 
@@ -166,20 +179,22 @@ export class RegistroComponent implements OnInit {
 
       this.id = response.user.uid;
 
-      if(this.foto1){
-      const filePath = `/usuarios/${this.id}/1.png`;
-      const ref = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.foto1);
+      if (this.foto1) {
+        const filePath = `/usuarios/${this.id}/1.png`;
+        const ref = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, this.foto1);
 
-      this.fotoCargada1 = filePath;
+        this.fotoCargada1 = filePath;
       }
-      else{
+      else {
         this.fotoCargada1 = `/usuarios/default.png`;
       }
       //this.guardarReferenciaEspecialista(filePath);
 
       let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.especialidades, 'especialista');
       this.usuarioSrv.RegistrarEspecialista(especialista);
+
+
 
     }).catch(error => { console.log(error); });
 
@@ -217,12 +232,16 @@ export class RegistroComponent implements OnInit {
 
   AgregarEspecialidades() {
 
+    if (this.especialistaRegForm.value.especialidad == "") {
+      this.alert('error', 'No eligio ninguna especialidad')
+    }
+    else {
 
-    let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
-    auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
-    console.log(this.especialidades)
-    this.especialistaRegForm.controls['especialidad'].setValue("");
-
+      let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
+      auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
+      console.log(this.especialidades)
+      this.especialistaRegForm.controls['especialidad'].setValue("");
+    }
   }
 
 

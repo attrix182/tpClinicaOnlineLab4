@@ -1,1 +1,69 @@
-<p>seccion-usuarios works!</p>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Clinica Online</title>
+
+</head>
+
+<body class="cont">
+
+  <div class="position-relative overflow-hidden  p-md-05 m-md-05 text-center bg-dark stick">
+
+    <div class="container bg-dark animate__animated animate__bounceInLeft ">
+
+      <h3 class="display- font-weight-normal blanco  animate__animated animate__backInDown mt-3">Administracion</h3>
+
+    </div>
+
+    <div class="col justify-content-center mt-5">
+      <div class=col>
+
+        <a class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5" (click)="listarUsuariosBtn()">Listado
+          usuarios</a>
+
+        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5" (click)="administrarEspecialistas()">Administrar
+          especialistas</a>
+
+        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">Registar
+          usuarios</a>
+
+        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">Agregar
+          administrador</a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="listarUsuarios" align=center>
+    <br><br><br><br>
+    <app-listado-usuarios></app-listado-usuarios>
+  </div>
+
+  
+  <div *ngIf="especialistas" align=center>
+    <br><br><br><br>
+  <app-administrar-especialistas></app-administrar-especialistas>
+  </div>
+
+
+
+</body>
+
+<footer class="container bg-dark">
+  <div class="row">
+    <div class="col-12 col-md">
+      <small class="d-block mb-3 text-muted">&copy; UTN 2021 - Sinisterra Luciano</small>
+    </div>
+
+  </div>
+</footer>
+
+<div id="scripts">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <script>
+    window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')
+
+  </script>
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+</div>

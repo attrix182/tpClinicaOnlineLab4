@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AdministrarEspecialistasComponent } from './components/administrar-especialistas/administrar-especialistas.component';
 
 
 @NgModule({

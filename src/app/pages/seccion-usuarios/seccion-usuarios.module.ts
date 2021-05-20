@@ -1,3 +1,5 @@
+import { AdministrarEspecialistasComponent } from './../../components/administrar-especialistas/administrar-especialistas.component';
+import { ListadoUsuariosComponent } from './../../components/listado-usuarios/listado-usuarios.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -7,7 +9,9 @@ import { SeccionUsuariosComponent } from './seccion-usuarios.component';
 
 @NgModule({
   declarations: [
-    SeccionUsuariosComponent
+    SeccionUsuariosComponent,
+    ListadoUsuariosComponent,
+    AdministrarEspecialistasComponent
   ],
   imports: [
     CommonModule,

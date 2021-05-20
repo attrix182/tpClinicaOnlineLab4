@@ -1,0 +1,22 @@
+<table class="table table-bordered table-hover table-dark tablaUsers">
+    <thead>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Dni</th>
+      <th>Edad</th>
+      <th>Perfil</th>
+      <th>Foto</th>
+  
+
+    </thead>
+    <tbody >
+      <tr *ngFor="let unUser of usuarios | async">
+        <td>{{unUser.nombre}}</td>
+        <td>{{unUser.apellido}}</td>
+        <td>{{unUser.dni}}</td>
+        <td>{{unUser.edad}}</td>
+        <td>{{unUser.perfil}}</td>
+        <td   (click)="mostrarFoto(unUser.foto)" > </td> 
+      </tr>
+    </tbody>
+  </table>

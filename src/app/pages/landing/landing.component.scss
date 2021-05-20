@@ -3,8 +3,8 @@
 
 }
 
-.cont{
-  
+.cont {
+
   background-image: url("../../../assets/fondo2.jpg");
   background-size: 1500px;
   height: 90.7vh;
@@ -15,20 +15,20 @@
 
 }
 
-.stick{
+.stick {
   position: sticky;
-  top:80px;
+  top: 80px;
 
-  display:inline-block;
+  display: inline-block;
 }
 
-.blanco{
+.blanco {
 
   color: white;
 }
 
 
-.botonesLanding{
+.botonesLanding {
 
   margin: 10px;
 }
@@ -37,17 +37,18 @@
 
 
 
-.flex-equal > * {
+.flex-equal>* {
   -ms-flex: 1;
   flex: 1;
 }
+
 @media (min-width: 768px) {
-  .flex-md-equal > * {
+  .flex-md-equal>* {
     -ms-flex: 1;
     flex: 1;
   }
 }
 
-.overflow-hidden { overflow: hidden; }
-
-
+.overflow-hidden {
+  overflow: hidden;
+}
