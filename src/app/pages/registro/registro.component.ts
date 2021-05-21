@@ -142,18 +142,44 @@ export class RegistroComponent implements OnInit {
         const ref = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.foto1);
 
+
+
+        ///prueba
+
+        const filePath2 = `/usuarios/${this.id}/2.png`;
+        const ref2 = this.storage.ref(filePath2);
+        const task2 = this.storage.upload(filePath2, this.foto2);
+
         setTimeout(() => {
 
           let storages = firebase.default.storage();
           let storageRef = storages.ref();
           let spaceRef = storageRef.child(filePath);
 
+
+          //preuba
+
+          let storages2 = firebase.default.storage();
+          let storageRef2 = storages.ref();
+          let spaceRef2 = storageRef.child(filePath2);
+
           spaceRef.getDownloadURL().then(url => {
+
+            
+       
+
+            this.fotoCargada2 = url
+            this.fotoCargada2 = `${this.fotoCargada2}`
+
+            console.log(this.fotoCargada2)
 
             this.fotoCargada1 = url
             this.fotoCargada1 = `${this.fotoCargada1}`
 
             console.log(this.fotoCargada1)
+
+            let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+            this.usuarioSrv.RegistrarPaciente(paciente);
 
         
           });
@@ -166,39 +192,6 @@ export class RegistroComponent implements OnInit {
 
       }
 
-      if (this.foto2) {
-
-        const filePath2 = `/usuarios/${this.id}/2.png`;
-        const ref2 = this.storage.ref(filePath2);
-        const task2 = this.storage.upload(filePath2, this.foto2);
-
-        setTimeout(() => {
-
-          let storages = firebase.default.storage();
-          let storageRef = storages.ref();
-          let spaceRef = storageRef.child(filePath2);
-
-          spaceRef.getDownloadURL().then(url => {
-
-            this.fotoCargada2 = url
-            this.fotoCargada2 = `${this.fotoCargada2}`
-
-            console.log(this.fotoCargada2)
-
-            let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-            this.usuarioSrv.RegistrarPaciente(paciente);
-
-          });
-
-        }, 2000);
-      }
-
-      else {
-        this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
-        let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-        this.usuarioSrv.RegistrarPaciente(paciente);
-      }
-      //  this.SubirFotosPaciente(response.user.uid);
 
 
     }).catch(error => { console.log(error); });

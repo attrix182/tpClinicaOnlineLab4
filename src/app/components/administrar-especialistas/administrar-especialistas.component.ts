@@ -17,7 +17,7 @@ export class AdministrarEspecialistasComponent implements OnInit {
   listadoUsuarios = [];
   foto: any;
 
-  constructor(private context: AngularFireDatabase, private storage: AngularFireStorage, userSrv:UsuarioService) { }
+  constructor(private context: AngularFireDatabase, private storage: AngularFireStorage, private userSrv:UsuarioService) { }
 
 
   ngOnInit(): void {
@@ -40,10 +40,10 @@ export class AdministrarEspecialistasComponent implements OnInit {
 
   }
 
-  cambiarEstado()
+  cambiarEstado(esp)
   {
-    
-
+    console.log(esp)
+    this.userSrv.activarEspecialista(esp)
   }
 
 

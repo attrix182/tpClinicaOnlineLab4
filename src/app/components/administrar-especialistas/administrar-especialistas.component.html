@@ -21,7 +21,7 @@
       <div *ngIf="unUser.perfil == 'especialista'">
         <td>{{unUser.estado}}
 
-          <button class="btn btn-warning" (click)="cambiarEstado()">A/D</button>
+          <button class="btn btn-warning" (click)="cambiarEstado(unUser)">A/D</button>
         </td>
   
       </div>
@@ -29,3 +29,4 @@
     </tr>
   </tbody>
 </table>
+

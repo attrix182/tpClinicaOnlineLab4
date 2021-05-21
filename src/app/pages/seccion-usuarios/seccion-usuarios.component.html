@@ -18,10 +18,12 @@
     <div class="col justify-content-center mt-5">
       <div class=col>
 
-        <a class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5" (click)="listarUsuariosBtn()">Listado
+        <a class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5"
+          (click)="listarUsuariosBtn()">Listado
           usuarios</a>
 
-        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5" (click)="administrarEspecialistas()">Administrar
+        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5"
+          (click)="administrarEspecialistas()">Administrar
           especialistas</a>
 
         <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">Registar
@@ -38,10 +40,11 @@
     <app-listado-usuarios></app-listado-usuarios>
   </div>
 
-  
-  <div *ngIf="especialistas" align=center>
+
+  <div align=center>
     <br><br><br><br>
-<app-administrar-especialistas></app-administrar-especialistas>
+    <app-administrar-especialistas> </app-administrar-especialistas>
+
   </div>
 
 
