@@ -1,3 +1,4 @@
+import { AuthService } from './../../servicios/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PacienteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authS: AuthService) { }
 
   ngOnInit(): void {
   }
 
+
+
+  salir()
+  {  
+    this.authS.LogOutCurrentUser()
+    location.assign('/landing')
+  }
 }
+
