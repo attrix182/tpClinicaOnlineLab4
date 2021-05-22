@@ -10,23 +10,22 @@
 
   </thead>
   <tbody>
-    <tr *ngFor="let unUser of usuarios | async " >
+    <tr *ngFor="let unUser of usuarios | async ">
 
-        <td>{{unUser.nombre}}</td>
-        <td>{{unUser.apellido}}</td>
-        <td>{{unUser.dni}}</td>
-        <td>{{unUser.edad}}</td>
-        <td>{{unUser.perfil}}</td>
-        
+      <td>{{unUser.nombre}}</td>
+      <td>{{unUser.apellido}}</td>
+      <td>{{unUser.dni}}</td>
+      <td>{{unUser.edad}}</td>
+      <td>{{unUser.perfil}}</td>
+
       <div *ngIf="unUser.perfil == 'especialista'">
         <td>{{unUser.estado}}
 
           <button class="btn btn-warning" (click)="cambiarEstado(unUser)">A/D</button>
         </td>
-  
+
       </div>
 
     </tr>
   </tbody>
 </table>
-
