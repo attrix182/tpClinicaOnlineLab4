@@ -21,7 +21,7 @@ const routes: Routes = [
   
   { path: 'paciente', loadChildren: () => import('./pages/paciente/paciente.module').then(m => m.PacienteModule), canActivate: [AuthGuard] },
   
-  { path: 'seccionUsuarios', loadChildren: () => import('./pages/seccion-usuarios/seccion-usuarios.module').then(m => m.SeccionUsuariosModule) },
+  { path: 'seccionUsuarios', loadChildren: () => import('./pages/seccion-usuarios/seccion-usuarios.module').then(m => m.SeccionUsuariosModule), canActivate: [AuthGuard]  },
   
   { path: '**', loadChildren: () => import('./pages/error/error.module').then(m => m.ErrorModule) }];
   
