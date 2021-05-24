@@ -12,11 +12,13 @@ export class SeccionUsuariosComponent implements OnInit {
   listarUsuarios:boolean;
   especialistas:boolean;
   listarEspecialistas:boolean
+  registro:boolean
 
   constructor() { 
     this.listarUsuarios = false;
     this.especialistas = false;
     this.listarEspecialistas = false;
+    this.registro = false;
   }
 
 
@@ -29,6 +31,7 @@ export class SeccionUsuariosComponent implements OnInit {
 
     else{
       this.listarEspecialistas = false;
+      this.registro = false;
       this.listarUsuarios = true;
     }
 
@@ -36,12 +39,28 @@ export class SeccionUsuariosComponent implements OnInit {
 
   }
 
+  registroBtn()
+  {
+    if(this.registro)
+    {
+      this.registro = false;
+    }
+
+    else{
+      this.listarEspecialistas = false;
+      this.listarUsuarios = false;
+      this.registro = true;
+    }
+
+    console.log(this.registro)
+
+  }
+
+
 
   
   listarEspecialistasBtn()
   {
-
-
 
     if(this.listarEspecialistas)
     {
@@ -50,7 +69,7 @@ export class SeccionUsuariosComponent implements OnInit {
 
     else{
       this.listarUsuarios =false
-
+      this.registro = false;
       this.listarEspecialistas = true;
     }
 

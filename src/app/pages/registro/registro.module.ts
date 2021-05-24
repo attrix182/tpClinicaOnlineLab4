@@ -1,3 +1,4 @@
+import { RegistroSharedModule } from './../../modules/registro-shared/registro-shared.module';
 import { RegisterComponent } from './../../components/register/register.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,14 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    RegistroComponent,
-    RegisterComponent
+    RegistroComponent
   ],
   imports: [
     CommonModule,
     RegistroRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RegistroSharedModule
   ]
 })
 export class RegistroModule { }

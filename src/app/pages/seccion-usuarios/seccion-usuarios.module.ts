@@ -1,3 +1,5 @@
+import { RegistroSharedModule } from './../../modules/registro-shared/registro-shared.module';
+import { RegisterComponent } from './../../components/register/register.component';
 import { AgregarAdminsComponent } from './../../components/agregar-admins/agregar-admins.component';
 import { AdministrarEspecialistasComponent } from './../../components/administrar-especialistas/administrar-especialistas.component';
 import { ListadoUsuariosComponent } from './../../components/listado-usuarios/listado-usuarios.component';
@@ -14,10 +16,12 @@ import { SeccionUsuariosComponent } from './seccion-usuarios.component';
     ListadoUsuariosComponent,
     AdministrarEspecialistasComponent,
     AgregarAdminsComponent
+
   ],
   imports: [
     CommonModule,
-    SeccionUsuariosRoutingModule
+    SeccionUsuariosRoutingModule,
+    RegistroSharedModule
   ]
 })
 export class SeccionUsuariosModule { }

@@ -1,6 +1,6 @@
 import { Especialista } from './../../clases/especialista';
 import { AuthService } from './../../servicios/auth.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Paciente } from './../../clases/paciente';
@@ -24,6 +24,7 @@ import * as firebase from 'firebase';
 export class RegisterComponent implements OnInit {
 
 
+
   pacienteRegForm: FormGroup;
 
   especialistaRegForm: FormGroup;
@@ -37,8 +38,8 @@ export class RegisterComponent implements OnInit {
   public foto2: any;
   public fotoCargada1: any;
   public fotoCargada2: any;
-  public cargando:boolean;
-  public alertar:boolean;
+  public cargando: boolean;
+  public alertar: boolean;
 
   correo: string;
   clave: string;
@@ -77,23 +78,26 @@ export class RegisterComponent implements OnInit {
     this.alertar = false;
   }
 
+
+
+
   ngOnInit(): void {
     this.initForm();
+
   }
 
 
-  paciente()
-  {
+
+  paciente() {
     this.tipo = 'paciente'
   }
 
 
-  especialista()
-  {
+  especialista() {
     this.tipo = 'especialista'
   }
 
-  ninguno(){
+  ninguno() {
     this.tipo = ''
   }
 
@@ -138,9 +142,9 @@ export class RegisterComponent implements OnInit {
       this.especialistaRegForm.reset();
       this.especialidades = []
 
-  if(this.alertar == true){
+      if (this.alertar == true) {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
-    }
+      }
 
     }
   }
@@ -160,17 +164,17 @@ export class RegisterComponent implements OnInit {
 
         const filePath = `/usuarios/${this.id}/1.png`;
         const ref = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.foto1).then(()=>{
+        const task = this.storage.upload(filePath, this.foto1).then(() => {
 
 
           const filePath2 = `/usuarios/${this.id}/2.png`;
           const ref2 = this.storage.ref(filePath2);
-          const task2 = this.storage.upload(filePath2, this.foto2).then(()=>{
+          const task2 = this.storage.upload(filePath2, this.foto2).then(() => {
 
 
-        let storages = firebase.default.storage();
-        let storageRef = storages.ref();
-        let spaceRef = storageRef.child(filePath);
+            let storages = firebase.default.storage();
+            let storageRef = storages.ref();
+            let spaceRef = storageRef.child(filePath);
 
 
             let storages2 = firebase.default.storage();
@@ -178,29 +182,29 @@ export class RegisterComponent implements OnInit {
             let spaceRef2 = storageRef2.child(filePath2);
 
 
-          spaceRef.getDownloadURL().then(url => {
+            spaceRef.getDownloadURL().then(url => {
 
-            this.fotoCargada1 = url
-            this.fotoCargada1 = `${this.fotoCargada1}`
+              this.fotoCargada1 = url
+              this.fotoCargada1 = `${this.fotoCargada1}`
 
-            console.log(this.fotoCargada1)
+              console.log(this.fotoCargada1)
 
 
-            spaceRef2.getDownloadURL().then((url)=>{
-              this.fotoCargada2 = url;
-              this.fotoCargada2 = `${this.fotoCargada2}`;
+              spaceRef2.getDownloadURL().then((url) => {
+                this.fotoCargada2 = url;
+                this.fotoCargada2 = `${this.fotoCargada2}`;
 
-              console.log(this.fotoCargada2)
+                console.log(this.fotoCargada2)
 
-              let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-              
-              this.usuarioSrv.RegistrarPaciente(paciente);
-              this.cargando = false;
-              this.alertar = true;
+                let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+
+                this.usuarioSrv.RegistrarPaciente(paciente);
+                this.cargando = false;
+                this.alertar = true;
+              });
+
             });
-              
-            });
-        
+
           });
 
         });
@@ -212,9 +216,9 @@ export class RegisterComponent implements OnInit {
         this.fotoCargada1 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
         this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
         let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-              
-              this.usuarioSrv.RegistrarPaciente(paciente);
-              this.alert('info', 'Registro exitoso, pero como iamgenes genericas')
+
+        this.usuarioSrv.RegistrarPaciente(paciente);
+        this.alert('info', 'Registro exitoso, pero como iamgenes genericas')
       }
 
 
@@ -227,8 +231,8 @@ export class RegisterComponent implements OnInit {
 
   AgregarEspecialidades() {
 
- 
-     if (this.especialistaRegForm.value.especialidad == "") {
+
+    if (this.especialistaRegForm.value.especialidad == "") {
       this.alert('error', 'No eligio ninguna especialidad')
     }
     else {
@@ -237,9 +241,9 @@ export class RegisterComponent implements OnInit {
       auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
       //console.log(this.especialidades)
 
-      this.auxEsp = this.especialidades; 
+      this.auxEsp = this.especialidades;
       this.especialistaRegForm.controls['especialidad'].setValue("");
-    } 
+    }
   }
 
 
@@ -248,12 +252,12 @@ export class RegisterComponent implements OnInit {
 
   registrarEspecialista() {
 
-    
-  console.log("antes de registrar " + this.auxEsp)
+
+    console.log("antes de registrar " + this.auxEsp)
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-      
+
       //  this.SubirFotoEspecialista(response.user.uid); 
 
       this.id = response.user.uid;
