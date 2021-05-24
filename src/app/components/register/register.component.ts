@@ -37,6 +37,8 @@ export class RegisterComponent implements OnInit {
   public foto2: any;
   public fotoCargada1: any;
   public fotoCargada2: any;
+  public cargando:boolean;
+  public alertar:boolean;
 
   correo: string;
   clave: string;
@@ -71,6 +73,8 @@ export class RegisterComponent implements OnInit {
 
     this.tipo = ''
     this.estado = false;
+    this.cargando = false;
+    this.alertar = false;
   }
 
   ngOnInit(): void {
@@ -134,9 +138,9 @@ export class RegisterComponent implements OnInit {
       this.especialistaRegForm.reset();
       this.especialidades = []
 
-      setTimeout(() => {
+  if(this.alertar == true){
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
-      }, 800);
+    }
 
     }
   }
@@ -146,67 +150,71 @@ export class RegisterComponent implements OnInit {
 
   registrarPaciente() {
 
+    this.cargando = true;
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
 
-
-
       this.id = response.user.uid;
 
-      if (this.foto1) {
+      if (this.foto1 && this.foto2) {
 
         const filePath = `/usuarios/${this.id}/1.png`;
         const ref = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.foto1);
+        const task = this.storage.upload(filePath, this.foto1).then(()=>{
 
 
-
-        ///prueba
-
-        const filePath2 = `/usuarios/${this.id}/2.png`;
-        const ref2 = this.storage.ref(filePath2);
-        const task2 = this.storage.upload(filePath2, this.foto2);
-
-        setTimeout(() => {
-
-          let storages = firebase.default.storage();
-          let storageRef = storages.ref();
-          let spaceRef = storageRef.child(filePath);
+          const filePath2 = `/usuarios/${this.id}/2.png`;
+          const ref2 = this.storage.ref(filePath2);
+          const task2 = this.storage.upload(filePath2, this.foto2).then(()=>{
 
 
-          //preuba
+        let storages = firebase.default.storage();
+        let storageRef = storages.ref();
+        let spaceRef = storageRef.child(filePath);
 
-          let storages2 = firebase.default.storage();
-          let storageRef2 = storages.ref();
-          let spaceRef2 = storageRef.child(filePath2);
+
+            let storages2 = firebase.default.storage();
+            let storageRef2 = storages2.ref();
+            let spaceRef2 = storageRef2.child(filePath2);
+
 
           spaceRef.getDownloadURL().then(url => {
-
-            
-       
-
-            this.fotoCargada2 = url
-            this.fotoCargada2 = `${this.fotoCargada2}`
-
-            console.log(this.fotoCargada2)
 
             this.fotoCargada1 = url
             this.fotoCargada1 = `${this.fotoCargada1}`
 
             console.log(this.fotoCargada1)
 
-            let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-            this.usuarioSrv.RegistrarPaciente(paciente);
 
+            spaceRef2.getDownloadURL().then((url)=>{
+              this.fotoCargada2 = url;
+              this.fotoCargada2 = `${this.fotoCargada2}`;
+
+              console.log(this.fotoCargada2)
+
+              let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+              
+              this.usuarioSrv.RegistrarPaciente(paciente);
+              this.cargando = false;
+              this.alertar = true;
+            });
+              
+            });
         
           });
 
-        }, 2000);
+        });
+
+
 
       }
       else {
         this.fotoCargada1 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
-
+        this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
+        let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
+              
+              this.usuarioSrv.RegistrarPaciente(paciente);
+              this.alert('info', 'Registro exitoso, pero como iamgenes genericas')
       }
 
 

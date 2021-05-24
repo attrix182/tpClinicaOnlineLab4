@@ -9,11 +9,11 @@
     <div class="form-group text-center" *ngIf="!(this.tipo)">
 
       <div class="row-6">
-        <button class="btn btn-dark"  (click)='paciente()'>  <img src="../../../assets/doctorBtn.jpg" alt="" height="150"></button>
+        <button class="btn btn-dark"  (click)='especialista()'>  <img src="../../../assets/doctorBtn.jpg" alt="" height="150"></button>
       </div>
 
       <div class="row-6 mt-3">
-      <button class="btn btn-dark" (click)="especialista()">  <img src="../../../assets/pacienteBtn.jpg" alt="" height="150" >   </button>
+      <button class="btn btn-dark" (click)="paciente()">  <img src="../../../assets/pacienteBtn.jpg" alt="" height="150" >   </button>
     </div>
 
 
@@ -21,7 +21,11 @@
     </div>
 
 
+    <div class="spinner-border text-info" role="status" *ngIf="cargando">
+  <span class="sr-only"></span>
+</div>
 
+<div  *ngIf="!cargando">
     <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterPaciente()"
       [formGroup]="pacienteRegForm" *ngIf="this.tipo == 'paciente'">
       <fieldset>
@@ -148,7 +152,7 @@
         <br>
       </fieldset>
     </form>
-
+  </div>
 
 
 

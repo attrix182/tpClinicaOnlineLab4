@@ -23,7 +23,7 @@
           usuarios</a>
 
         <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5"
-          (click)="administrarEspecialistas()">Administrar
+          (click)="listarEspecialistasBtn()">Administrar
           especialistas</a>
 
         <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">Registar
@@ -41,10 +41,9 @@
   </div>
 
 
-  <div align=center>
+  <div *ngIf="listarEspecialistas"  align=center>
     <br><br><br><br>
     <app-administrar-especialistas> </app-administrar-especialistas>
-
   </div>
 
 

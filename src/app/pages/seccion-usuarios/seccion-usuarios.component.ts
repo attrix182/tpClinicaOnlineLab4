@@ -11,10 +11,12 @@ export class SeccionUsuariosComponent implements OnInit {
 
   listarUsuarios:boolean;
   especialistas:boolean;
+  listarEspecialistas:boolean
 
   constructor() { 
     this.listarUsuarios = false;
     this.especialistas = false;
+    this.listarEspecialistas = false;
   }
 
 
@@ -26,6 +28,7 @@ export class SeccionUsuariosComponent implements OnInit {
     }
 
     else{
+      this.listarEspecialistas = false;
       this.listarUsuarios = true;
     }
 
@@ -33,20 +36,29 @@ export class SeccionUsuariosComponent implements OnInit {
 
   }
 
-  administrarEspecialistas()
+
+  
+  listarEspecialistasBtn()
   {
-    if(this.especialistas)
+
+
+
+    if(this.listarEspecialistas)
     {
-      this.especialistas = false;
+      this.listarEspecialistas = false;
     }
 
     else{
-      this.especialistas = true;
+      this.listarUsuarios =false
+
+      this.listarEspecialistas = true;
     }
 
-    console.log(this.especialistas)
+    console.log(this.listarEspecialistas)
 
   }
+
+
 
 
 

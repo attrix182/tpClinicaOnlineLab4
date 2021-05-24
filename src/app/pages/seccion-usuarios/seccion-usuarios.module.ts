@@ -1,6 +1,4 @@
 import { AgregarAdminsComponent } from './../../components/agregar-admins/agregar-admins.component';
-import { RegistrosAdminComponent } from './../../components/registros-admin/registros-admin.component';
-import { LoginComponent } from './../login/login.component';
 import { AdministrarEspecialistasComponent } from './../../components/administrar-especialistas/administrar-especialistas.component';
 import { ListadoUsuariosComponent } from './../../components/listado-usuarios/listado-usuarios.component';
 import { NgModule } from '@angular/core';
@@ -15,7 +13,6 @@ import { SeccionUsuariosComponent } from './seccion-usuarios.component';
     SeccionUsuariosComponent,
     ListadoUsuariosComponent,
     AdministrarEspecialistasComponent,
-    RegistrosAdminComponent,
     AgregarAdminsComponent
   ],
   imports: [
