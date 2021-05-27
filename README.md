@@ -10,7 +10,16 @@ En primer lugar te encontraras con la landing page, donde si eres un nuevo usuar
 
 
 
-## Development server
+## Usuarios nuevos (Registro)
 
+Aqui puedes elegir el registro de especialista o paciente, segun corresponda
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/registro.png?raw=true "Title")
+
+
+
+## Paciente (Registro)
+
+Aqui puedes elegir el registro de especialista o paciente, segun corresponda
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/registro.png?raw=true "Title")
 
 
