@@ -43,6 +43,20 @@ export class RegisterComponent implements OnInit {
   public cargando: boolean;
   public alertar: boolean;
 
+  public number1;
+  public number2;
+  public number3;
+
+  public capcha;
+
+  public entrada;
+
+  public display;
+
+  public msj;
+
+  public mensaje;
+
   correo: string;
   clave: string;
 
@@ -82,8 +96,59 @@ export class RegisterComponent implements OnInit {
     this.alertar = false;
 
     this.unaEspecialidad = new Especialidad('', '');
-}
+    this.number1 = Math.floor((Math.random() * 9) + 1);
+    this.number2 = Math.floor((Math.random() * 9) + 1);
+    this.number3 = Math.floor((Math.random() * 9) + 1);
 
+    this.capcha = this.number1.toString() + this.number2.toString() + this.number3.toString();
+
+    this.msj = ""
+
+
+  }
+
+
+  validar() {
+    console.log(this.entrada)
+
+    console.log(this.capcha)
+
+    this.entrada = this.especialistaRegForm.value.capchaInput;
+
+
+
+    if (this.entrada == this.capcha) {
+
+      this.msj = "Capcha CORRECTO ✔️"
+
+    }
+    else {
+      this.msj = "Capcha INCORRECTO ❌"
+      this.especialistaRegForm.controls['capchaInput'].setErrors({ 'incorrect': true });
+    }
+  }
+
+
+
+  validarCapPaciente() {
+    console.log(this.entrada)
+
+    console.log(this.capcha)
+
+    this.entrada = this.pacienteRegForm.value.capchaInput;
+
+
+
+    if (this.entrada == this.capcha) {
+
+      this.msj = "Capcha CORRECTO ✔️"
+
+    }
+    else {
+      this.msj = "Capcha INCORRECTO ❌"
+      this.especialistaRegForm.controls['capchaInput'].setErrors({ 'incorrect': true });
+    }
+  }
 
   public onEnter() {
     let unaEspecialidad: Especialidad = new Especialidad(this.inputEspecialidades, false)
@@ -95,7 +160,6 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-
   }
 
 
@@ -124,14 +188,8 @@ export class RegisterComponent implements OnInit {
       this.dni = this.pacienteRegForm.value.dni;
       this.edad = this.pacienteRegForm.value.edad;
       this.obraSocial = this.pacienteRegForm.value.obraSocial;
-      // this.foto1 = this.fotoCargada1;
-      //  this.foto2 = this.fotoCargada2;
       this.registrarPaciente();
       this.pacienteRegForm.reset();
-
-
-
-
 
       setTimeout(() => {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
@@ -358,8 +416,6 @@ export class RegisterComponent implements OnInit {
   }
 
 
-
-
   onUploadPaciente($event, num: number) {
 
     if (num == 1) {
@@ -372,15 +428,6 @@ export class RegisterComponent implements OnInit {
       this.foto2 = $event.target.files[0];
     }
   }
-
-
-
-
-
-
-
-
-
 
 
   isValidPaciente(field: string): string {
@@ -415,7 +462,8 @@ export class RegisterComponent implements OnInit {
       apellido: ['', [Validators.required]],
       obraSocial: ['', [Validators.required]],
       edad: ['', [Validators.required]],
-      dni: ['', [Validators.required]]
+      dni: ['', [Validators.required]],
+      capchaInput: ['', [Validators.required]],
     });
 
 
@@ -427,7 +475,8 @@ export class RegisterComponent implements OnInit {
       edad: ['', [Validators.required]],
       dni: ['', [Validators.required]],
       especialidades: ['', [Validators.minLength(0)]],
-      especialidad: ['', [Validators.minLength(0)]]
+      especialidad: ['', [Validators.minLength(0)]],
+      capchaInput: ['', [Validators.required]],
     });
   }
 

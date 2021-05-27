@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { Especialista } from './../clases/especialista';
 import { Paciente } from './../clases/paciente';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection, } from '@angular/fire/firestore/';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
@@ -17,15 +16,14 @@ export class UsuarioService {
   rutaDeLaColeccionPaciente = '/pacientes';
   rutaDeLaColeccionEspecialista = '/especialistas';
   rutaDeLaColeccionEspecialidades = '/especialidades';
-  referenciaAlaColeccionPaciente: AngularFirestoreCollection<Paciente>;
-  referenciaAlaColeccionEspecialista: AngularFirestoreCollection<Especialista>;
-  referenciaAlaColeccionEspecialidades: AngularFireList<Especialidad>;
+
+  referenciaAlaColeccionEspecialidades: AngularFirestoreCollection<Especialidad>;
   referenciaBd: AngularFirestore;
 
-  constructor(private authSvc: AuthService, private context: AngularFireDatabase) {
+  constructor(private authSvc: AuthService, private context: AngularFireDatabase, private db : AngularFirestore) {
 
 
-    this.referenciaAlaColeccionEspecialidades = context.list(this.rutaDeLaColeccionEspecialidades);
+    this.referenciaAlaColeccionEspecialidades = db.collection(this.rutaDeLaColeccionEspecialidades);
   }
 
 
@@ -151,7 +149,7 @@ export class UsuarioService {
 
   AgregarEspecialidad(especialidad: Especialidad) {
 
-    return this.referenciaAlaColeccionEspecialidades.push(especialidad);
+    return this.referenciaAlaColeccionEspecialidades.add({...especialidad});
 
   }
 
@@ -166,25 +164,12 @@ export class UsuarioService {
       esp.nombre = unaEsp;
       esp.estado = true;
 
-/*       let len = listaEsp$.length
-
-
-      for (let i = 0; i < len; i++) {
-        console.log(listaEsp$[0])
-
-        if (esp.nombre != listaEsp$[i].nombre) {
-          this.AgregarEspecialidad(esp);
-
-        }
-
-      } */
-     // this.AgregarEspecialidad(esp);
     });
 
 
   }
 
-  TraerEspecialidades():AngularFireList<Especialidad>
+  TraerEspecialidades()
   { 
     return this.referenciaAlaColeccionEspecialidades;
   }

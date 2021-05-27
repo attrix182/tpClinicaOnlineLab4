@@ -30,7 +30,7 @@
     </div>
 
     <div *ngIf="!cargando">
-      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterPaciente()"
+      <form class="animate__animated animate__backInDown" novalidate 
         [formGroup]="pacienteRegForm" *ngIf="this.tipo == 'paciente'">
         <fieldset>
 
@@ -145,7 +145,28 @@
           </div>
 
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
+          <div>
+            <div class="row">
+
+              <div class="col-12">
+                <input class="form-control" id="display"  value={{capcha}} disabled>
+              </div>
+
+              <div class="col-6">
+                <input class="form-control mt-3" id="entrada"  formControlName="capchaInput" placeholder="Escriba el codigo">
+              </div>
+
+              <div class="col-6">
+                <button class="btn btn-block btn-success mt-3" (click)="validarCapPaciente()">OK</button>
+              </div>
+              <div class="col-12">
+                <input class="form-control mt-3" id="mensaje"  value={{msj}} disabled>
+              </div>
+
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft " (click)="onRegisterPaciente()"
             [disabled]="pacienteRegForm.invalid">
             Registrarse
           </button>
@@ -261,7 +282,7 @@
               </div>
             </div>
 
-            
+
 
 
             <div class="col">
@@ -295,6 +316,27 @@
             </div>
           </div>
 
+          <div>
+            <div class="row">
+
+              <div class="col-12">
+                <input class="form-control" id="display" value={{capcha}} disabled>
+              </div>
+
+              <div class="col-6">
+                <input class="form-control mt-3" id="entrada" formControlName="capchaInput"
+                  placeholder="Escriba el codigo">
+              </div>
+
+              <div class="col-6">
+                <button class="btn btn-block btn-success mt-3" (click)="validar()">OK</button>
+              </div>
+              <div class="col-12">
+                <input class="form-control mt-3" id="mensaje" value={{msj}} disabled>
+              </div>
+
+            </div>
+          </div>
 
           <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
             (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
