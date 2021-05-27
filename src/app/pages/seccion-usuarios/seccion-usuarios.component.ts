@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-seccion-usuarios',
@@ -11,14 +10,16 @@ export class SeccionUsuariosComponent implements OnInit {
 
   listarUsuarios:boolean;
   especialistas:boolean;
-  listarEspecialistas:boolean
-  registro:boolean
+  listarEspecialistas:boolean;
+  registro:boolean;
+  admins:boolean;
 
   constructor() { 
     this.listarUsuarios = false;
     this.especialistas = false;
     this.listarEspecialistas = false;
     this.registro = false;
+    this.admins = false;
   }
 
 
@@ -71,6 +72,26 @@ export class SeccionUsuariosComponent implements OnInit {
       this.listarUsuarios =false
       this.registro = false;
       this.listarEspecialistas = true;
+    }
+
+    console.log(this.listarEspecialistas)
+
+  }
+
+
+  listarAdminsBtn()
+  {
+
+    if(this.admins)
+    {
+      this.admins = false;
+    }
+
+    else{
+      this.listarUsuarios =false
+      this.especialistas =false
+      this.registro = false;
+      this.admins = true;
     }
 
     console.log(this.listarEspecialistas)

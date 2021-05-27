@@ -1,21 +1,20 @@
+import { AgregarAdminsComponent } from './../../components/agregar-admins/agregar-admins.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './../../components/register/register.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
 
-
 @NgModule({
-  declarations: [RegisterComponent],
+  declarations: [AgregarAdminsComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule
   ],
   exports:[
-    RegisterComponent
+    AgregarAdminsComponent
   ]
   
 })
-export class RegistroSharedModule { }
+export class AdminSharedModule { }

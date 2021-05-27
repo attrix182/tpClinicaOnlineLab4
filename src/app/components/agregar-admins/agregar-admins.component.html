@@ -1,1 +1,133 @@
-<p>agregar-admins works!</p>
+<div
+  class="position-relative overflow-hidden  p-md-05 m-md-05 text-center bg-dark stick animate__animated animate__bounceInLeft ">
+
+  <legend class="tituloLogin blanco">Registro de: {{tipo}}</legend>
+
+  <div class="container bg-dark animate__animated animate__backInLeft stick">
+    <br>
+
+    <div class="form-group text-center">
+
+
+
+
+    </div>
+
+
+    <div class="spinner-border text-info" role="status" *ngIf="cargando">
+      <span class="sr-only"></span>
+
+      <br>
+    </div>
+
+    <div *ngIf="!cargando">
+      <form class="animate__animated animate__backInDown" novalidate (ngSubmit)="onRegisterAdmin()"
+        [formGroup]="adminRegForm" >
+        <fieldset>
+
+          <div class="form-row form-group">
+
+            <div class="col">
+              <input type="text" class="form-control" id="nombre" placeholder="Nombre" formControlName="nombre"
+                [class]="isValidAdmin('nombre')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span
+                  *ngIf="adminRegForm.controls.nombre.errors?.required && adminRegForm.controls.nombre.touched">
+                  Por favor ingrese su nombre
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col">
+              <input type="text" class="form-control" id="apellido" placeholder="Apellido" formControlName="apellido"
+                [class]="isValidAdmin('apellido')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span class="invalid"
+                  *ngIf="adminRegForm.controls.apellido.errors?.required && adminRegForm.controls.apellido.touched">El
+                  apellido es requerido
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row form-group">
+            <div class="col">
+              <input type="number" class="form-control" id="edad" placeholder="Edad" formControlName="edad"
+                [class]="isValidAdmin('edad')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span *ngIf="adminRegForm.get('edad').errors?.required">
+                  Por favor ingrese su edad
+                </span>
+              </div>
+            </div>
+
+
+            <div class="col">
+              <input type="number" class="form-control" id="dni" placeholder="DNI" formControlName="dni"
+                [class]="isValidAdmin('dni')" />
+              <div class="invalid-feedback" style="font-family: sans-serif;">
+                <span *ngIf="adminRegForm.get('dni').errors?.required">
+                  Por favor ingrese su documento
+                </span>
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <input type="correo" class="form-control" id="correo" placeholder="Correo" formControlName="correo"
+              [class]="isValidAdmin('correo')" />
+            <div class="invalid-feedback" style="font-family: sans-serif;">
+              <span *ngIf="adminRegForm.get('correo').errors?.required">
+                Por favor ingrese su correo
+              </span>
+              <span *ngIf="adminRegForm.get('correo').errors?.pattern">
+                Debe ser una direccion valida
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control" id="clave" placeholder="Clave" formControlName="clave"
+              [class]="isValidAdmin('clave')" />
+            <div class="invalid-feedback" style="font-family: sans-serif;">
+              <span *ngIf="adminRegForm.get('clave').errors?.required">
+                Por favor ingrese su clave
+              </span>
+            </div>
+          </div>
+
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupFileAddon01">Foto</span>
+            </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" (change)="onUploadAdmin($event, 1)" id="inputGroupFile01"
+                aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Sube foto uno</label>
+            </div>
+          </div>
+
+
+          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
+          >
+            Registrar
+          </button>
+  
+          <br>
+        </fieldset>
+      </form>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

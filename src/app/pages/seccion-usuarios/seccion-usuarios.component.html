@@ -30,7 +30,8 @@
           (click)="registroBtn()">Registar
           usuarios</a>
 
-        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">Agregar
+        <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5"
+        (click)="listarAdminsBtn()">Agregar
           administrador</a>
       </div>
     </div>
@@ -50,6 +51,11 @@
   <div *ngIf="registro" align=center class="registro">
     <br><br><br><br>
     <app-register></app-register>
+  </div>
+
+  <div *ngIf="admins" align=center class="registro" >
+    <br><br><br><br>
+    <app-agregar-admins></app-agregar-admins>
   </div>
 
 </body>

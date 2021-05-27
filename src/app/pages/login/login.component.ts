@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   userForm: FormGroup;
 
-  inicioRapido : boolean
+  inicioRapido: boolean
 
   private isEmail = /\S+@\S+\.\S+/;
 
@@ -52,14 +52,12 @@ export class LoginComponent implements OnInit {
   }
 
 
-  botonesIncio()
-  {
-    if(this.inicioRapido)
-    {
+  botonesIncio() {
+    if (this.inicioRapido) {
       this.inicioRapido = false;
     }
 
-    else{
+    else {
       this.inicioRapido = true;
     }
 
@@ -68,23 +66,20 @@ export class LoginComponent implements OnInit {
   }
 
 
-  admin()
-  {
+  admin() {
     this.userForm.controls['email'].setValue("administrador@yopmail.com");
     this.userForm.controls['clave'].setValue("12345678");
   }
 
-  paciente()
-  {
+  paciente() {
     this.userForm.controls['email'].setValue("paciente@yopmail.com");
     this.userForm.controls['clave'].setValue("12345678");
   }
 
-  especialista()
-  {
+  especialista() {
     this.userForm.controls['email'].setValue("especialista@yopmail.com");
     this.userForm.controls['clave'].setValue("12345678");
-    
+
   }
 
 
@@ -94,12 +89,17 @@ export class LoginComponent implements OnInit {
 
       this.ValidarAdmin(response.user);
 
-      
+      let userAdmin = this.listadoUsuarios.filter(u => u.id == response.user.uid);
+
+
+
       if (response.user.emailVerified) {
         this.ValidarUser(response);
       }
       else {
-        this.alert('warning', 'No ha validado su cuenta, revise su correo')
+        if (userAdmin[0].perfil != 'admin') {
+          this.alert('warning', 'No ha validado su cuenta, revise su correo')
+        }
       }
 
     }).catch(error => { this.alert('error', error) });
@@ -114,9 +114,8 @@ export class LoginComponent implements OnInit {
 
       this.router.navigate(["/seccionUsuarios"]);
 
-
     }
- 
+
 
   }
 
@@ -135,7 +134,7 @@ export class LoginComponent implements OnInit {
         console.log('habilitado')
         this.router.navigate(["/especialista"]);
       }
-    } else if(user[0].perfil == "paciente") {
+    } else if (user[0].perfil == "paciente") {
       this.router.navigate(["/paciente"]);
     }
 

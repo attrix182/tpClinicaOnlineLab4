@@ -1,11 +1,13 @@
+import { Especialidad } from './../../clases/especialidad';
 import { Especialista } from './../../clases/especialista';
 import { AuthService } from './../../servicios/auth.service';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { Paciente } from './../../clases/paciente';
 
-import { Location } from '@angular/common';
+
+
 
 
 
@@ -54,30 +56,40 @@ export class RegisterComponent implements OnInit {
   especialidades = [];
   especialidad: string;
 
+  unaEspecialidad: Especialidad;
+
   estado: boolean;
 
   auxEsp = [];
 
+  keyword = 'nombre';
+  public inputEspecialidades: any = '';
+
   private isEmail = /\S+@\S+\.\S+/;
+
+  public listaEspecialidades: any[] = [];
+  @ViewChild('auto') auto;
 
 
 
   @Output() emitRegister: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private usuarioSrv: UsuarioService,
-    private storage: AngularFireStorage,
-    private authSVC: AuthService
-  ) {
+  constructor(private fb: FormBuilder, private router: Router, private usuarioSrv: UsuarioService, private storage: AngularFireStorage, private authSVC: AuthService) {
 
     this.tipo = ''
     this.estado = false;
     this.cargando = false;
     this.alertar = false;
-  }
 
+    this.unaEspecialidad = new Especialidad('', '');
+}
+
+
+  public onEnter() {
+    let unaEspecialidad: Especialidad = new Especialidad(this.inputEspecialidades, false)
+    console.log(unaEspecialidad);
+
+  }
 
 
 
@@ -117,9 +129,15 @@ export class RegisterComponent implements OnInit {
       this.registrarPaciente();
       this.pacienteRegForm.reset();
 
+
+
+
+
       setTimeout(() => {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
-      }, 800);
+        location.assign('/login')
+      }, 3000);
+
     }
   }
 
@@ -129,6 +147,7 @@ export class RegisterComponent implements OnInit {
     if (this.especialistaRegForm.valid) {
 
 
+
       this.nombre = this.especialistaRegForm.value.nombre;
       this.apellido = this.especialistaRegForm.value.apellido;
       this.correo = this.especialistaRegForm.value.correo;
@@ -136,16 +155,33 @@ export class RegisterComponent implements OnInit {
       this.edad = this.especialistaRegForm.value.edad;
       this.dni = this.especialistaRegForm.value.dni;
       this.especialidades;
-      //  this.foto1 = this.fotoCargada1;
+
+      if (this.especialidades.length > 0) {
+        this.especialidades.forEach(esp => {
+
+
+          this.unaEspecialidad.nombre = esp
+          this.unaEspecialidad.estado = false
+
+
+          this.usuarioSrv.AgregarEspecialidad(this.unaEspecialidad)
+        });
+      }
+      else { this.usuarioSrv.AgregarEspecialidad(this.unaEspecialidad) }
+
 
       this.registrarEspecialista();
       this.especialistaRegForm.reset();
       this.especialidades = []
 
-      if (this.alertar == true) {
-        this.alert('success', 'Registro exitoso, recuerde validar su correo');
-      }
 
+
+
+
+      setTimeout(() => {
+        this.alert('success', 'Registro exitoso, recuerde validar su correo');
+        location.assign('/login')
+      }, 3000);
     }
   }
 
@@ -252,7 +288,7 @@ export class RegisterComponent implements OnInit {
 
   registrarEspecialista() {
 
-
+    this.cargando = true;
     console.log("antes de registrar " + this.auxEsp)
 
     this.authSVC.Register(this.correo, this.clave).then(response => {
@@ -286,6 +322,8 @@ export class RegisterComponent implements OnInit {
             let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.auxEsp, 'especialista', this.estado);
 
             this.usuarioSrv.RegistrarEspecialista(especialista);
+            this.cargando = false;
+            this.alertar = true;
 
           });
 

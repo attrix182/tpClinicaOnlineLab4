@@ -42,8 +42,10 @@ export class AdministrarEspecialistasComponent implements OnInit {
 
   cambiarEstado(esp)
   {
-    console.log(esp)
+
     this.userSrv.activarEspecialista(esp)
+
+    this.userSrv.activarEspecialidades(esp)
   }
 
 

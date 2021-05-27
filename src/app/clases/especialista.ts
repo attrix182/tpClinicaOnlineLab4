@@ -9,7 +9,7 @@ export class Especialista {
     edad:number;
     dni:number;
     foto: any;
-    especialidades: string;
+    especialidades: any;
     perfil:string;
     estado:boolean;
 

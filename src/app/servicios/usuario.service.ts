@@ -1,10 +1,12 @@
+import { Especialidad } from './../clases/especialidad';
+import { Admin } from './../clases/admin';
 import { AuthService } from './auth.service';
 import { Especialista } from './../clases/especialista';
 import { Paciente } from './../clases/paciente';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore, AngularFirestoreCollection, } from '@angular/fire/firestore/';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 
 
 
@@ -14,22 +16,19 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class UsuarioService {
   rutaDeLaColeccionPaciente = '/pacientes';
   rutaDeLaColeccionEspecialista = '/especialistas';
+  rutaDeLaColeccionEspecialidades = '/especialidades';
   referenciaAlaColeccionPaciente: AngularFirestoreCollection<Paciente>;
   referenciaAlaColeccionEspecialista: AngularFirestoreCollection<Especialista>;
+  referenciaAlaColeccionEspecialidades: AngularFireList<Especialidad>;
   referenciaBd: AngularFirestore;
 
-  constructor(private bd: AngularFirestore, private http: HttpClient, private authSvc: AuthService, private context: AngularFireDatabase) {
-    this.referenciaBd = bd;
-    this.referenciaAlaColeccionPaciente = bd.collection(this.rutaDeLaColeccionPaciente);
-    this.referenciaAlaColeccionEspecialista = bd.collection(this.rutaDeLaColeccionEspecialista);
+  constructor(private authSvc: AuthService, private context: AngularFireDatabase) {
+
+
+    this.referenciaAlaColeccionEspecialidades = context.list(this.rutaDeLaColeccionEspecialidades);
   }
 
-  CrearPaciente(paciente: Paciente): any {
 
-    let id = this.bd.createId();
-    paciente.id = id;
-    return this.referenciaAlaColeccionPaciente.add({ ...paciente });
-  }
 
 
 
@@ -53,8 +52,9 @@ export class UsuarioService {
           perfil: "especialista",
           estado: especialista.estado
 
-
         });
+
+      this.AgregarEspecialidad(especialista.Especialidad)
 
 
     });
@@ -101,7 +101,7 @@ export class UsuarioService {
 
       auxEstado = false
     }
-    else{
+    else {
 
       auxEstado = true;
 
@@ -125,23 +125,71 @@ export class UsuarioService {
   }
 
 
+  registrarAdmin(admin: Admin) {
+    this.authSvc.GetCurrentUser().then((response: any) => {
+
+      this.context.list('usuarios').set(response.uid,
+        {
+
+          nombre: admin.nombre,
+          apellido: admin.apellido,
+          correo: admin.correo,
+          edad: admin.edad,
+          dni: admin.dni,
+          id: response.uid,
+          foto1: admin.foto1,
+          perfil: "admin"
+        });
 
 
-  CrearEspecialista(especialista: Especialista): any {
-    let id = this.bd.createId();
-    especialista.id = id;
-    return this.referenciaAlaColeccionEspecialista.add({ ...especialista });
+    });
+
+    this.authSvc.LogOutCurrentUser();
+
   }
 
 
+  AgregarEspecialidad(especialidad: Especialidad) {
 
-  public TraerTodosPacientes() {
-    return this.referenciaAlaColeccionPaciente;
+    return this.referenciaAlaColeccionEspecialidades.push(especialidad);
+
   }
 
-  public TraerTodosEspecialistas() {
-    return this.referenciaAlaColeccionEspecialista;
+
+  activarEspecialidades(especialista: Especialista) {
+
+
+    let esp = new Especialidad('', '');
+    let listaEsp$ = this.TraerEspecialidades().valueChanges
+
+    especialista.especialidades.forEach(unaEsp => {
+      esp.nombre = unaEsp;
+      esp.estado = true;
+
+/*       let len = listaEsp$.length
+
+
+      for (let i = 0; i < len; i++) {
+        console.log(listaEsp$[0])
+
+        if (esp.nombre != listaEsp$[i].nombre) {
+          this.AgregarEspecialidad(esp);
+
+        }
+
+      } */
+     // this.AgregarEspecialidad(esp);
+    });
+
+
   }
+
+  TraerEspecialidades():AngularFireList<Especialidad>
+  { 
+    return this.referenciaAlaColeccionEspecialidades;
+  }
+
+
 
 
   public BuscarUsuarioEsp(user: any) {
@@ -150,11 +198,6 @@ export class UsuarioService {
     );
   }
 
-  public BuscarUsuario(user: any) {
-    return this.referenciaBd.collection(this.rutaDeLaColeccionEspecialista, (ref) =>
-      ref.where('correo', '==', user.correo).where('clave', '==', user.clave)
-    );
-  }
 
   public BuscarUsuarioPac(user: any) {
     return this.referenciaBd.collection(this.rutaDeLaColeccionPaciente, (ref) =>

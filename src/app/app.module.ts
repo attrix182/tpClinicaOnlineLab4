@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    AutocompleteLibModule
   ],
   providers: [],
   bootstrap: [AppComponent]

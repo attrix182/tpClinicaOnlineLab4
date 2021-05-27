@@ -1,6 +1,6 @@
+import { AdminSharedModule } from './../../modules/registro-shared/admin-shared.module';
+
 import { RegistroSharedModule } from './../../modules/registro-shared/registro-shared.module';
-import { RegisterComponent } from './../../components/register/register.component';
-import { AgregarAdminsComponent } from './../../components/agregar-admins/agregar-admins.component';
 import { AdministrarEspecialistasComponent } from './../../components/administrar-especialistas/administrar-especialistas.component';
 import { ListadoUsuariosComponent } from './../../components/listado-usuarios/listado-usuarios.component';
 import { NgModule } from '@angular/core';
@@ -14,14 +14,14 @@ import { SeccionUsuariosComponent } from './seccion-usuarios.component';
   declarations: [
     SeccionUsuariosComponent,
     ListadoUsuariosComponent,
-    AdministrarEspecialistasComponent,
-    AgregarAdminsComponent
+    AdministrarEspecialistasComponent
 
   ],
   imports: [
     CommonModule,
     SeccionUsuariosRoutingModule,
-    RegistroSharedModule
+    RegistroSharedModule,
+    AdminSharedModule
   ]
 })
 export class SeccionUsuariosModule { }
