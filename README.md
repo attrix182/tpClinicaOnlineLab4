@@ -19,7 +19,11 @@ Aqui puedes elegir el registro de especialista o paciente, segun corresponda
 
 ## Paciente (Registro)
 
-Aqui puedes elegir el registro de especialista o paciente, segun corresponda
-![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/registro.png?raw=true "Title")
+Se piden los datos necesarios para integrar un paciente al sistema, este puede agregar 2 fotos, tambien debe transcribir el codigo Capcha para poder habilitar el registro
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/registroPaciente.png?raw=true "Title")
 
 
+## Paciente (Registro)
+
+Se piden los datos necesarios para integrar un especialista al sistema, este puede agregar las especialidades que desee, tambien debe transcribir el codigo Capcha para poder habilitar el registro
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/registroEspecialista.png?raw=true "Title")
