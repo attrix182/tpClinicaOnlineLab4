@@ -27,3 +27,24 @@ Se piden los datos necesarios para integrar un paciente al sistema, este puede a
 
 Se piden los datos necesarios para integrar un especialista al sistema, este puede agregar las especialidades que desee, tambien debe transcribir el codigo Capcha para poder habilitar el registro
 ![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/regPaciente.png?raw=true "Title")
+
+
+## Administracion (Admin)
+
+Aqui solo podra acceder el administrador, puede ejecutar acciones como:
+
+#Listar usuarios 
+Veras todos los usuarios con sus datos
+
+#Administrar Especialistas 
+Aqui se prodra habilitar/deshabilitar especialistas en el sistema
+
+
+#Registro Usuarios
+Aqui se prodra registrar usuarios de tipo paciente y especialista
+
+
+#Agregar administradir
+Aqui se prodra registrar usuarios de tipo administrador
+
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/admin.png?raw=true "Title")
