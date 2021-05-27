@@ -33,18 +33,17 @@ Se piden los datos necesarios para integrar un especialista al sistema, este pue
 
 Aqui solo podra acceder el administrador, puede ejecutar acciones como:
 
-#Listar usuarios 
+### Listar usuarios 
 Veras todos los usuarios con sus datos
 
-#Administrar Especialistas 
+### Administrar Especialistas 
 Aqui se prodra habilitar/deshabilitar especialistas en el sistema
 
 
-#Registro Usuarios
+### Registro Usuarios
 Aqui se prodra registrar usuarios de tipo paciente y especialista
 
-
-#Agregar administradir
+### Agregar administradir
 Aqui se prodra registrar usuarios de tipo administrador
 
 ![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/admin.png?raw=true "Title")
