@@ -1,15 +1,16 @@
 import { Especialidad } from './../../clases/especialidad';
 import { Especialista } from './../../clases/especialista';
 import { AuthService } from './../../servicios/auth.service';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Paciente } from './../../clases/paciente';
-
-
-
-
-
 
 import { UsuarioService } from './../../servicios/usuario.service';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -21,12 +22,9 @@ import * as firebase from 'firebase';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-
-
-
   pacienteRegForm: FormGroup;
 
   especialistaRegForm: FormGroup;
@@ -43,19 +41,14 @@ export class RegisterComponent implements OnInit {
   public cargando: boolean;
   public alertar: boolean;
 
-  public number1;
-  public number2;
-  public number3;
-
-  public capcha;
-
-  public entrada;
-
-  public display;
-
-  public msj;
-
-  public mensaje;
+  public number1: number;
+  public number2: number;
+  public number3: number;
+  public capcha: any;
+  public entrada: any;
+  public display: any;
+  public msj: any;
+  public mensaje: any;
 
   correo: string;
   clave: string;
@@ -76,6 +69,8 @@ export class RegisterComponent implements OnInit {
 
   auxEsp = [];
 
+  cap;
+
   keyword = 'nombre';
   public inputEspecialidades: any = '';
 
@@ -84,103 +79,62 @@ export class RegisterComponent implements OnInit {
   public listaEspecialidades: any[] = [];
   @ViewChild('auto') auto;
 
-
-
   @Output() emitRegister: EventEmitter<any> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private router: Router, private usuarioSrv: UsuarioService, private storage: AngularFireStorage, private authSVC: AuthService) {
-
-    this.tipo = ''
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private usuarioSrv: UsuarioService,
+    private storage: AngularFireStorage,
+    private authSVC: AuthService
+  ) {
+    this.tipo = '';
     this.estado = false;
     this.cargando = false;
     this.alertar = false;
 
     this.unaEspecialidad = new Especialidad('', '');
-    this.number1 = Math.floor((Math.random() * 9) + 1);
-    this.number2 = Math.floor((Math.random() * 9) + 1);
-    this.number3 = Math.floor((Math.random() * 9) + 1);
+    this.number1 = Math.floor(Math.random() * 9 + 1);
+    this.number2 = Math.floor(Math.random() * 9 + 1);
+    this.number3 = Math.floor(Math.random() * 9 + 1);
 
-    this.capcha = this.number1.toString() + this.number2.toString() + this.number3.toString();
+    this.capcha =
+      this.number1.toString() +
+      this.number2.toString() +
+      this.number3.toString();
 
-    this.msj = ""
-
-
-  }
-
-
-  validar() {
-    console.log(this.entrada)
-
-    console.log(this.capcha)
-
-    this.entrada = this.especialistaRegForm.value.capchaInput;
+    this.msj = '';
 
 
 
-    if (this.entrada == this.capcha) {
-
-      this.msj = "Capcha CORRECTO ✔️"
-
-    }
-    else {
-      this.msj = "Capcha INCORRECTO ❌"
-      this.especialistaRegForm.controls['capchaInput'].setErrors({ 'incorrect': true });
-    }
-  }
-
-
-
-  validarCapPaciente() {
-    console.log(this.entrada)
-
-    console.log(this.capcha)
-
-    this.entrada = this.pacienteRegForm.value.capchaInput;
-
-
-
-    if (this.entrada == this.capcha) {
-
-      this.msj = "Capcha CORRECTO ✔️"
-
-    }
-    else {
-      this.msj = "Capcha INCORRECTO ❌"
-      this.especialistaRegForm.controls['capchaInput'].setErrors({ 'incorrect': true });
-    }
   }
 
   public onEnter() {
-    let unaEspecialidad: Especialidad = new Especialidad(this.inputEspecialidades, false)
+    let unaEspecialidad: Especialidad = new Especialidad(
+      this.inputEspecialidades,
+      false
+    );
     console.log(unaEspecialidad);
-
   }
-
-
 
   ngOnInit(): void {
     this.initForm();
   }
 
-
-
   paciente() {
-    this.tipo = 'paciente'
+    this.tipo = 'paciente';
   }
 
-
   especialista() {
-    this.tipo = 'especialista'
+    this.tipo = 'especialista';
   }
 
   ninguno() {
-    this.tipo = ''
+    this.tipo = '';
   }
 
   onRegisterPaciente() {
     if (this.pacienteRegForm.valid) {
-
-
       this.nombre = this.pacienteRegForm.value.nombre;
       this.apellido = this.pacienteRegForm.value.apellido;
       this.correo = this.pacienteRegForm.value.correo;
@@ -193,19 +147,17 @@ export class RegisterComponent implements OnInit {
 
       setTimeout(() => {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
-        location.assign('/login')
-      }, 3000);
+        this.cargando = false;
 
+        setTimeout(() => {
+          location.assign('/login');
+        }, 1500);
+      }, 3000);
     }
   }
 
-
-
   onRegisterEspecialista() {
     if (this.especialistaRegForm.valid) {
-
-
-
       this.nombre = this.especialistaRegForm.value.nombre;
       this.apellido = this.especialistaRegForm.value.apellido;
       this.correo = this.especialistaRegForm.value.correo;
@@ -214,244 +166,225 @@ export class RegisterComponent implements OnInit {
       this.dni = this.especialistaRegForm.value.dni;
       this.especialidades;
 
-      if (this.especialidades.length > 0) {
-        this.especialidades.forEach(esp => {
-
-
-          this.unaEspecialidad.nombre = esp
-          this.unaEspecialidad.estado = false
-
-
-          this.usuarioSrv.AgregarEspecialidad(this.unaEspecialidad)
-        });
-      }
-      else { this.usuarioSrv.AgregarEspecialidad(this.unaEspecialidad) }
-
+     
 
       this.registrarEspecialista();
       this.especialistaRegForm.reset();
-      this.especialidades = []
-
-
-
-
+      this.especialidades = [];
 
       setTimeout(() => {
         this.alert('success', 'Registro exitoso, recuerde validar su correo');
-        location.assign('/login')
+        this.cargando = false;
+
+        setTimeout(() => {
+          location.assign('/login');
+        }, 1500);
       }, 3000);
     }
   }
 
-
-
-
   registrarPaciente() {
-
     this.cargando = true;
 
-    this.authSVC.Register(this.correo, this.clave).then(response => {
+    this.authSVC
+      .Register(this.correo, this.clave)
+      .then((response) => {
+        this.id = response.user.uid;
 
-      this.id = response.user.uid;
+        if (this.foto1 && this.foto2) {
+          const filePath = `/usuarios/${this.id}/1.png`;
+          const ref = this.storage.ref(filePath);
+          const task = this.storage.upload(filePath, this.foto1).then(() => {
+            const filePath2 = `/usuarios/${this.id}/2.png`;
+            const ref2 = this.storage.ref(filePath2);
+            const task2 = this.storage
+              .upload(filePath2, this.foto2)
+              .then(() => {
+                let storages = firebase.default.storage();
+                let storageRef = storages.ref();
+                let spaceRef = storageRef.child(filePath);
 
-      if (this.foto1 && this.foto2) {
+                let storages2 = firebase.default.storage();
+                let storageRef2 = storages2.ref();
+                let spaceRef2 = storageRef2.child(filePath2);
 
-        const filePath = `/usuarios/${this.id}/1.png`;
-        const ref = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.foto1).then(() => {
+                spaceRef.getDownloadURL().then((url) => {
+                  this.fotoCargada1 = url;
+                  this.fotoCargada1 = `${this.fotoCargada1}`;
 
+                  console.log(this.fotoCargada1);
 
-          const filePath2 = `/usuarios/${this.id}/2.png`;
-          const ref2 = this.storage.ref(filePath2);
-          const task2 = this.storage.upload(filePath2, this.foto2).then(() => {
+                  spaceRef2.getDownloadURL().then((url) => {
+                    this.fotoCargada2 = url;
+                    this.fotoCargada2 = `${this.fotoCargada2}`;
 
+                    console.log(this.fotoCargada2);
 
+                    let paciente = new Paciente(
+                      this.nombre,
+                      this.apellido,
+                      this.correo,
+                      this.clave,
+                      this.edad,
+                      this.dni,
+                      this.obraSocial,
+                      this.fotoCargada1,
+                      this.fotoCargada2,
+                      'paciente'
+                    );
+
+                    this.usuarioSrv.RegistrarPaciente(paciente);
+                    this.cargando = false;
+                    this.alertar = true;
+                  });
+                });
+              });
+          });
+        } else {
+          this.fotoCargada1 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
+          this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
+          let paciente = new Paciente(
+            this.nombre,
+            this.apellido,
+            this.correo,
+            this.clave,
+            this.edad,
+            this.dni,
+            this.obraSocial,
+            this.fotoCargada1,
+            this.fotoCargada2,
+            'paciente'
+          );
+
+          this.usuarioSrv.RegistrarPaciente(paciente);
+          this.alert('info', 'Registro exitoso, pero como iamgenes genericas');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  AgregarEspecialidades() {
+    if (this.especialistaRegForm.value.especialidad == '') {
+      this.alert('error', 'No eligio ninguna especialidad');
+    } else {
+      let auxEspecialidad = this.especialidades.filter(
+        (e) => e == this.especialistaRegForm.value.especialidad
+      );
+      auxEspecialidad.length == 0
+        ? this.especialidades.push(this.especialistaRegForm.value.especialidad)
+        : console.log('cargada');
+      //console.log(this.especialidades)
+
+      this.auxEsp = this.especialidades;
+      this.especialistaRegForm.controls['especialidad'].setValue('');
+    }
+  }
+
+  registrarEspecialista() {
+    this.cargando = true;
+    console.log('antes de registrar ' + this.auxEsp);
+
+    this.authSVC
+      .Register(this.correo, this.clave)
+      .then((response) => {
+        this.id = response.user.uid;
+
+        if (this.foto1) {
+          const filePath = `/usuarios/${this.id}/1.png`;
+          const ref = this.storage.ref(filePath);
+          const task = this.storage.upload(filePath, this.foto1);
+
+          setTimeout(() => {
             let storages = firebase.default.storage();
             let storageRef = storages.ref();
             let spaceRef = storageRef.child(filePath);
 
+            spaceRef.getDownloadURL().then((url) => {
+              this.fotoCargada1 = url;
+              this.fotoCargada1 = `${this.fotoCargada1}`;
 
-            let storages2 = firebase.default.storage();
-            let storageRef2 = storages2.ref();
-            let spaceRef2 = storageRef2.child(filePath2);
+              let especialista = new Especialista(
+                this.nombre,
+                this.apellido,
+                this.correo,
+                this.clave,
+                this.edad,
+                this.dni,
+                this.fotoCargada1,
+                this.auxEsp,
+                'especialista',
+                this.estado
+              );
 
-
-            spaceRef.getDownloadURL().then(url => {
-
-              this.fotoCargada1 = url
-              this.fotoCargada1 = `${this.fotoCargada1}`
-
-              console.log(this.fotoCargada1)
-
-
-              spaceRef2.getDownloadURL().then((url) => {
-                this.fotoCargada2 = url;
-                this.fotoCargada2 = `${this.fotoCargada2}`;
-
-                console.log(this.fotoCargada2)
-
-                let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-
-                this.usuarioSrv.RegistrarPaciente(paciente);
-                this.cargando = false;
-                this.alertar = true;
-              });
-
+              this.usuarioSrv.RegistrarEspecialista(especialista);
+              this.cargando = false;
+              this.alertar = true;
             });
+          }, 2000);
+        } else {
+          console.log('no hay foto');
+          console.log(this.especialidades);
+          this.fotoCargada1 =
+            'https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8';
+          let especialista = new Especialista(
+            this.nombre,
+            this.apellido,
+            this.correo,
+            this.clave,
+            this.edad,
+            this.dni,
+            this.fotoCargada1,
+            this.auxEsp,
+            'especialista',
+            this.estado
+          );
 
-          });
-
-        });
-
-
-
-      }
-      else {
-        this.fotoCargada1 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
-        this.fotoCargada2 = `https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8`;
-        let paciente = new Paciente(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.obraSocial, this.fotoCargada1, this.fotoCargada2, 'paciente');
-
-        this.usuarioSrv.RegistrarPaciente(paciente);
-        this.alert('info', 'Registro exitoso, pero como iamgenes genericas')
-      }
-
-
-
-    }).catch(error => { console.log(error); });
-
-
+          this.usuarioSrv.RegistrarEspecialista(especialista);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
-
-
-  AgregarEspecialidades() {
-
-
-    if (this.especialistaRegForm.value.especialidad == "") {
-      this.alert('error', 'No eligio ninguna especialidad')
-    }
-    else {
-
-      let auxEspecialidad = this.especialidades.filter(e => e == this.especialistaRegForm.value.especialidad);
-      auxEspecialidad.length == 0 ? this.especialidades.push(this.especialistaRegForm.value.especialidad) : console.log("cargada");
-      //console.log(this.especialidades)
-
-      this.auxEsp = this.especialidades;
-      this.especialistaRegForm.controls['especialidad'].setValue("");
-    }
-  }
-
-
-
-
-
-  registrarEspecialista() {
-
-    this.cargando = true;
-    console.log("antes de registrar " + this.auxEsp)
-
-    this.authSVC.Register(this.correo, this.clave).then(response => {
-
-
-      //  this.SubirFotoEspecialista(response.user.uid); 
-
-      this.id = response.user.uid;
-
-      if (this.foto1) {
-        const filePath = `/usuarios/${this.id}/1.png`;
-        const ref = this.storage.ref(filePath);
-        const task = this.storage.upload(filePath, this.foto1);
-
-
-        setTimeout(() => {
-
-          let storages = firebase.default.storage();
-          let storageRef = storages.ref();
-          let spaceRef = storageRef.child(filePath);
-
-          spaceRef.getDownloadURL().then(url => {
-
-
-            this.fotoCargada1 = url
-            this.fotoCargada1 = `${this.fotoCargada1}`
-
-            console.log(this.fotoCargada1)
-            console.log(this.especialidades)
-
-            let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.auxEsp, 'especialista', this.estado);
-
-            this.usuarioSrv.RegistrarEspecialista(especialista);
-            this.cargando = false;
-            this.alertar = true;
-
-          });
-
-        }, 2000);
-
-
-      }
-      else {
-        console.log('no hay foto')
-        console.log(this.especialidades)
-        this.fotoCargada1 = "https://firebasestorage.googleapis.com/v0/b/clinicaonlinetp.appspot.com/o/usuarios%2Fdefault.png?alt=media&token=79d91b85-41bf-4dcd-b3ae-0795bf8bfea8";
-        let especialista = new Especialista(this.nombre, this.apellido, this.correo, this.clave, this.edad, this.dni, this.fotoCargada1, this.auxEsp, 'especialista', this.estado);
-
-        this.usuarioSrv.RegistrarEspecialista(especialista);
-      }
-
-
-
-
-
-    }).catch(error => { console.log(error); });
-
-  }
-
-
 
   onUploadEspecialista($event) {
-    console.log($event)
+    console.log($event);
     this.foto1 = $event.target.files[0];
-
-
   }
 
-
   onUploadPaciente($event, num: number) {
-
     if (num == 1) {
-      console.log($event)
+      console.log($event);
       this.foto1 = $event.target.files[0];
-    }
-
-    else if (num == 2) {
-      console.log($event)
+    } else if (num == 2) {
+      console.log($event);
       this.foto2 = $event.target.files[0];
     }
   }
-
 
   isValidPaciente(field: string): string {
     const validateField = this.pacienteRegForm.get(field);
     return !validateField.valid && validateField.touched
       ? 'is-invalid'
       : validateField.touched
-        ? 'is-valid'
-        : '';
+      ? 'is-valid'
+      : '';
   }
-
 
   isValidEspecialista(field: string): string {
     const validateField = this.especialistaRegForm.get(field);
     return !validateField.valid && validateField.touched
       ? 'is-invalid'
       : validateField.touched
-        ? 'is-valid'
-        : '';
+      ? 'is-valid'
+      : '';
   }
 
   BorrarEspecialidades(especialidad: string) {
-    let index = this.especialidades.indexOf(especialidad)
-    this.especialidades.splice(index, 1)
+    let index = this.especialidades.indexOf(especialidad);
+    this.especialidades.splice(index, 1);
   }
 
   private initForm(): void {
@@ -466,7 +399,6 @@ export class RegisterComponent implements OnInit {
       capchaInput: ['', [Validators.required]],
     });
 
-
     this.especialistaRegForm = this.fb.group({
       correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
       clave: ['', [Validators.required, Validators.minLength(8)]],
@@ -480,10 +412,6 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-
-
-
-
   alert(icon: SweetAlertIcon, text: string) {
     const Toast = Swal.mixin({
       toast: true,
@@ -493,16 +421,14 @@ export class RegisterComponent implements OnInit {
       timerProgressBar: true,
 
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
 
     Toast.fire({
       icon: icon,
-      title: text
-    })
+      title: text,
+    });
   }
-
-
 }

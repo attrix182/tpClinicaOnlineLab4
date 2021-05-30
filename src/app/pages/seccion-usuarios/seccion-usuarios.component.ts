@@ -1,3 +1,4 @@
+import { AuthService } from './../../servicios/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -14,7 +15,7 @@ export class SeccionUsuariosComponent implements OnInit {
   registro:boolean;
   admins:boolean;
 
-  constructor() { 
+  constructor(private authS:AuthService) { 
     this.listarUsuarios = false;
     this.especialistas = false;
     this.listarEspecialistas = false;
@@ -33,6 +34,7 @@ export class SeccionUsuariosComponent implements OnInit {
     else{
       this.listarEspecialistas = false;
       this.registro = false;
+      this.admins = false;
       this.listarUsuarios = true;
     }
 
@@ -50,6 +52,7 @@ export class SeccionUsuariosComponent implements OnInit {
     else{
       this.listarEspecialistas = false;
       this.listarUsuarios = false;
+      this.admins = false;
       this.registro = true;
     }
 
@@ -65,18 +68,27 @@ export class SeccionUsuariosComponent implements OnInit {
 
     if(this.listarEspecialistas)
     {
+      
       this.listarEspecialistas = false;
     }
 
     else{
       this.listarUsuarios =false
       this.registro = false;
+      this.admins = false;
       this.listarEspecialistas = true;
     }
 
     console.log(this.listarEspecialistas)
 
   }
+
+
+  salir()
+  {  
+    this.authS.LogOutCurrentUser()
+    location.assign('/landing')
+}
 
 
   listarAdminsBtn()
@@ -89,7 +101,7 @@ export class SeccionUsuariosComponent implements OnInit {
 
     else{
       this.listarUsuarios =false
-      this.especialistas =false
+      this.listarEspecialistas = false;
       this.registro = false;
       this.admins = true;
     }

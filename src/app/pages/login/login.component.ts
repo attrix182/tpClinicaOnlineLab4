@@ -111,6 +111,7 @@ export class LoginComponent implements OnInit {
     console.log(userAdmin[0].perfil)
 
     if (userAdmin[0].perfil == "admin") {
+      
 
       this.router.navigate(["/seccionUsuarios"]);
 

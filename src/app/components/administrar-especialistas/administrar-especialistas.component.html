@@ -19,14 +19,10 @@
       <td>{{unUser.edad}}</td>
       <td>{{unUser.especialidades}}</td>
       <td>{{unUser.perfil}}</td>
-
-      <div *ngIf="unUser.perfil == 'especialista'">
         <td>{{unUser.estado}}
-
           <button class="btn btn-warning" (click)="cambiarEstado(unUser)">A/D</button>
         </td>
 
-      </div>
 
     </tr>
   </tbody>

@@ -4,7 +4,7 @@
   <legend class="tituloLogin blanco">Registro de: {{tipo}}</legend>
 
   <div class="container bg-dark animate__animated animate__backInLeft stick">
-    <br>
+
 
     <div class="form-group text-center" *ngIf="!(this.tipo)">
 
@@ -30,11 +30,17 @@
     </div>
 
     <div *ngIf="!cargando">
-      <form class="animate__animated animate__backInDown" novalidate 
-        [formGroup]="pacienteRegForm" *ngIf="this.tipo == 'paciente'">
+      <form class="animate__animated animate__backInDown" novalidate [formGroup]="pacienteRegForm"
+        *ngIf="this.tipo == 'paciente'">
         <fieldset>
 
+
           <div class="form-row form-group">
+
+            <button type="button" class="btn btn-block btn-info botonesLanding animate__animated animate__backInRight"
+              (click)="ninguno()">
+              Cambiar tipo de registro
+            </button>
 
             <div class="col">
               <input type="text" class="form-control" id="nombre" placeholder="Nombre" formControlName="nombre"
@@ -149,38 +155,45 @@
             <div class="row">
 
               <div class="col-12">
-                <input class="form-control" id="display"  value={{capcha}} disabled>
+                <input class="form-control" id="display" value={{capcha}} disabled>
               </div>
 
-              <div class="col-6">
-                <input class="form-control mt-3" id="entrada"  formControlName="capchaInput" placeholder="Escriba el codigo">
-              </div>
-
-              <div class="col-6">
-                <button class="btn btn-block btn-success mt-3" (click)="validarCapPaciente()">OK</button>
-              </div>
               <div class="col-12">
-                <input class="form-control mt-3" id="mensaje"  value={{msj}} disabled>
+                <input class="form-control mt-3" id="entrada" autocomplete="doNotAutoComplete" formControlName="capchaInput" [(ngModel)]="cap"
+                  placeholder="Escriba el codigo">
               </div>
+
+              <div class="col-12">
+                <input class="form-control mt-3" id="mensaje" value="" *ngIf="!cap" disabled>
+              </div>
+
+              <div class="col-12" *ngIf="cap">
+                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌"
+                  *ngIf="!(cap == capcha) " disabled>
+              </div>
+
+              <div class="col-12" *ngIf="cap == capcha">
+                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️"  disabled>
+
+                <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
+                [disabled]="pacienteRegForm.invalid" (click)="onRegisterPaciente()">
+                Registrarse
+              </button>
+                
+              </div>
+
 
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft " (click)="onRegisterPaciente()"
-            [disabled]="pacienteRegForm.invalid">
-            Registrarse
-          </button>
-          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight"
-            (click)="ninguno()">
-            Cambiar tipo de registro
-          </button>
+
+   
+
+
           <br>
         </fieldset>
       </form>
     </div>
-
-
-
 
 
 
@@ -195,6 +208,12 @@
         <fieldset>
 
           <div class="form-row form-group">
+
+            <button type="button" class="btn btn-block btn-info botonesLanding animate__animated animate__backInRight"
+              (click)="ninguno()">
+              Cambiar tipo de registro
+            </button>
+
             <div class="col">
               <input type="text" class="form-control" id="nombre" placeholder="Nombre" formControlName="nombre"
                 [class]="isValidEspecialista('nombre')" />
@@ -272,7 +291,7 @@
           <div class="form-row form-group">
 
             <div class="col">
-              <input placeholder="Especialidad" formControlName="especialidad" id="esp" type="text" class="form-control"
+              <input autocomplete="off" placeholder="Especialidad" formControlName="especialidad" id="esp" type="text" class="form-control"
                 id="especialidades" placeholder="Especialidad" [class]="isValidEspecialista('especialidades')"
                 (keyup.enter)="AgregarEspecialidades()" />
               <div class="invalid-feedback" style="font-family: sans-serif;">
@@ -323,30 +342,35 @@
                 <input class="form-control" id="display" value={{capcha}} disabled>
               </div>
 
-              <div class="col-6">
-                <input class="form-control mt-3" id="entrada" formControlName="capchaInput"
+              <div class="col-12">
+                <input autocomplete="doNotAutoComplete" class="form-control mt-3" id="entrada"  formControlName="capchaInput" [(ngModel)]="cap"
                   placeholder="Escriba el codigo">
               </div>
 
-              <div class="col-6">
-                <button class="btn btn-block btn-success mt-3" (click)="validar()">OK</button>
-              </div>
               <div class="col-12">
-                <input class="form-control mt-3" id="mensaje" value={{msj}} disabled>
+                <input class="form-control mt-3" id="mensaje" value="" *ngIf="!cap" disabled>
               </div>
+
+              <div class="col-12" *ngIf="cap">
+                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌"
+                  *ngIf="!(cap == capcha) " disabled>
+              </div>
+
+              <div class="col-12" *ngIf="cap == capcha">
+                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️"  disabled>
+                
+                <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
+                (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
+                Registrarse
+              </button>
+                
+              </div>
+
 
             </div>
           </div>
+  
 
-          <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
-            (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
-            Registrarse
-          </button>
-
-          <button type="button" class="btn btn-success botonesLanding animate__animated animate__backInRight "
-            (click)="ninguno()">
-            Cambiar tipo de registro
-          </button>
           <br>
         </fieldset>
       </form>
