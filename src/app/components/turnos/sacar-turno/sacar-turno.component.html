@@ -1,0 +1,56 @@
+<div class="form-group text-center">
+
+  <div class="row" id="filtros" *ngIf="!(filtroEspecialistas && filtroEspecialidades)">
+
+
+    <div class="col">
+
+        <div class="row">
+            <div align=left>
+                <button class="btn btn-danger btn-sm ml-2 mb-2" (click)="atras()" *ngIf="filtroEspecialistas">Atras</button>
+              </div>
+            </div>
+
+      <div *ngIf="filtroEspecialidades">
+        <table class="table table-bordered table-hover table-dark tablaUsers">
+
+          <thead>
+            <th>Especialidad</th>
+            <th>Foto</th>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let esp of listaEspecialidades" (click)="especialidadSeleccionada(esp)">
+              <td>{{esp.nombre}}</td>
+              <td> <img src="{{esp.foto}}" height="70"></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<div *ngIf="filtroEspecialistas">
+  <table class="table table-bordered table-hover table-dark tablaUsers">
+
+    <thead>
+      <th>Doctor</th>
+      <th>Foto</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let esp of listaEspecialistaPorEspecialidad">
+        <td>{{esp.nombre}} {{esp.apellido}}</td>
+        <td> <img src="{{esp.foto}}" height="70"></td>
+
+      </tr>
+    </tbody>
+
+  </table>
+  <br>
+
+</div>

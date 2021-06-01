@@ -159,8 +159,8 @@
               </div>
 
               <div class="col-12">
-                <input class="form-control mt-3" id="entrada" autocomplete="doNotAutoComplete" formControlName="capchaInput" [(ngModel)]="cap"
-                  placeholder="Escriba el codigo">
+                <input class="form-control mt-3" id="entrada" autocomplete="doNotAutoComplete"
+                  formControlName="capchaInput" [(ngModel)]="cap" placeholder="Escriba el codigo">
               </div>
 
               <div class="col-12">
@@ -168,18 +168,18 @@
               </div>
 
               <div class="col-12" *ngIf="cap">
-                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌"
-                  *ngIf="!(cap == capcha) " disabled>
+                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌" *ngIf="!(cap == capcha) "
+                  disabled>
               </div>
 
               <div class="col-12" *ngIf="cap == capcha">
-                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️"  disabled>
+                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️" disabled>
 
                 <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft "
-                [disabled]="pacienteRegForm.invalid" (click)="onRegisterPaciente()">
-                Registrarse
-              </button>
-                
+                  [disabled]="pacienteRegForm.invalid" (click)="onRegisterPaciente()">
+                  Registrarse
+                </button>
+
               </div>
 
 
@@ -187,7 +187,7 @@
           </div>
 
 
-   
+
 
 
           <br>
@@ -290,17 +290,40 @@
 
           <div class="form-row form-group">
 
+
+            <!--             <div class="col">
+              <div class="ng-autocomplete test">
+                <ng-autocomplete #auto (keyup.enter)="AgregarEspecialidades()"  [(ngModel)]='this.especialidades' [ngModelOptions]="{standalone: true}" 
+                [data]="this.listaEspecialidades"
+                [searchKeyword]="keyword"
+                placeholder="Especialidades"
+                (selected)="AgregarEspecialidades()"
+                [itemTemplate]="itemTemplate"
+                [notFoundTemplate]="notFoundTemplate">
+                </ng-autocomplete>
+            
+
+                <ng-template #itemTemplate let-item>
+                  <a>{{item.nombre}}</a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div>{{notFound}}</div>
+                </ng-template>
+              </div>
+            </div>
+ -->
+
             <div class="col">
-              <input autocomplete="off" placeholder="Especialidad" formControlName="especialidad" id="esp" type="text" class="form-control"
-                id="especialidades" placeholder="Especialidad" [class]="isValidEspecialista('especialidades')"
-                (keyup.enter)="AgregarEspecialidades()" />
+              <input autocomplete="off" placeholder="Especialidad" formControlName="especialidad" id="esp" type="text"
+                class="form-control" id="especialidades" placeholder="Especialidad"
+                [class]="isValidEspecialista('especialidades')" (keyup.enter)="AgregarEspecialidades()" />
               <div class="invalid-feedback" style="font-family: sans-serif;">
                 <span *ngIf="especialistaRegForm.get('especialidades').errors?.required">
-                  Por favor ingrese su Obra Social
+                  Por favor ingrese su Especialidad
                 </span>
               </div>
             </div>
-
 
 
 
@@ -343,8 +366,8 @@
               </div>
 
               <div class="col-12">
-                <input autocomplete="doNotAutoComplete" class="form-control mt-3" id="entrada"  formControlName="capchaInput" [(ngModel)]="cap"
-                  placeholder="Escriba el codigo">
+                <input autocomplete="doNotAutoComplete" class="form-control mt-3" id="entrada"
+                  formControlName="capchaInput" [(ngModel)]="cap" placeholder="Escriba el codigo">
               </div>
 
               <div class="col-12">
@@ -352,24 +375,24 @@
               </div>
 
               <div class="col-12" *ngIf="cap">
-                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌"
-                  *ngIf="!(cap == capcha) " disabled>
+                <input class="form-control mt-3" id="mensaje" value="Capcha INCORRECTO ❌" *ngIf="!(cap == capcha) "
+                  disabled>
               </div>
 
               <div class="col-12" *ngIf="cap == capcha">
-                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️"  disabled>
-                
+                <input class="form-control mt-3" id="mensaje" value="Capcha CORRECTO ✔️" disabled>
+
                 <button type="submit" class="btn btn-primary botonesLanding animate__animated animate__backInLeft"
-                (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
-                Registrarse
-              </button>
-                
+                  (click)="onRegisterEspecialista()" [disabled]="especialistaRegForm.invalid">
+                  Registrarse
+                </button>
+
               </div>
 
 
             </div>
           </div>
-  
+
 
           <br>
         </fieldset>

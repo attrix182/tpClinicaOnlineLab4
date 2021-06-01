@@ -6,7 +6,11 @@
 </head>
 
 <body class="cont">
-  
+
+  <div align=left>
+    <button (click)="salir()" class="btn btn-danger ml-3 mt-2">SALIR </button>
+  </div>
+
 
   <div class="position-relative overflow-hidden  p-md-05 m-md-05 text-center bg-dark stick">
 
@@ -32,7 +36,7 @@
           usuarios</a>
 
         <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5"
-        (click)="listarAdminsBtn()">Agregar
+          (click)="listarAdminsBtn()">Agregar
           administrador</a>
       </div>
     </div>
@@ -54,7 +58,7 @@
     <app-register></app-register>
   </div>
 
-  <div *ngIf="admins" align=center class="registro" >
+  <div *ngIf="admins" align=center class="registro">
     <br><br><br><br>
     <app-agregar-admins></app-agregar-admins>
   </div>

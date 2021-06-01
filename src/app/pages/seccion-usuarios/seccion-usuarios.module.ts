@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { AdminSharedModule } from './../../modules/registro-shared/admin-shared.module';
 
 import { RegistroSharedModule } from './../../modules/registro-shared/registro-shared.module';

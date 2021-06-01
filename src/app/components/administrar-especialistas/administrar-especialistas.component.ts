@@ -3,8 +3,9 @@ import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { Observable, VirtualTimeScheduler } from 'rxjs';
 import * as firebase from 'firebase';
+import { Especialista } from 'src/app/clases/especialista';
 
 @Component({
   selector: 'app-administrar-especialistas',
@@ -15,6 +16,9 @@ export class AdministrarEspecialistasComponent implements OnInit {
   usuarios: Observable<any[]>;
   listadoUsuarios = [];
   foto: any;
+  public listaEspecialistas: Especialista[] = [];
+
+  public estado;
 
   constructor(
     private context: AngularFireDatabase,
@@ -27,23 +31,41 @@ export class AdministrarEspecialistasComponent implements OnInit {
     this.usuarios.subscribe(
       (usuarios) => {
         this.listadoUsuarios = usuarios;
+        this.cargarListas();
       },
       (error) => console.log(error)
     );
   }
 
-  mostrarFoto(path: string) {
-    let storages = firebase.default.storage();
-    let storageRef = storages.ref();
-    let spaceRef = storageRef.child(path);
 
-    console.log(path);
+  public cargarListas() {
+    this.listadoUsuarios.forEach((usuario) => {
+      let perfil = usuario.perfil;
 
-    return spaceRef.getDownloadURL();
+      console.log(perfil);
+
+      if ( perfil == 'especialista')
+      {
+          this.listaEspecialistas.push(usuario);
+      }
+    });
   }
 
+  vaciarLista()
+  {
+    this.listaEspecialistas.splice(0);
+  }
+
+
+
   cambiarEstado(esp) {
-    this.userSrv.activarEspecialista(esp);
+    this.vaciarLista();
+
+
+
+    this.estado = this.userSrv.activarEspecialista(esp);
+
+
 
     let nuevaEspecialidad: Especialidad = new Especialidad('', '');
 

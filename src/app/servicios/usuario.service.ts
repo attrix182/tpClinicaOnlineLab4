@@ -55,6 +55,8 @@ export class UsuarioService {
     this.authSvc.LogOutCurrentUser();
   }
 
+
+
   RegistrarPaciente(paciente) {
     this.authSvc.GetCurrentUser().then((response: any) => {
       this.context.list('usuarios').set(response.uid, {
@@ -77,6 +79,7 @@ export class UsuarioService {
   activarEspecialista(especialista: Especialista) {
     var idEsp = especialista.id.toString();
 
+
     var auxEstado = especialista.estado;
 
     if (auxEstado) {
@@ -97,6 +100,8 @@ export class UsuarioService {
       perfil: 'especialista',
       estado: auxEstado,
     });
+
+    return auxEstado;
   }
 
   registrarAdmin(admin: Admin) {
@@ -127,7 +132,8 @@ export class UsuarioService {
     //  return this.referenciaAlaColeccionEspecialidades.add({...especialidad});
   }
 
-  TraerEspecialidades() {
+  TraerEspecialidades():AngularFirestoreCollection<Especialidad> {
+
     return this.referenciaAlaColeccionEspecialidades;
   }
 

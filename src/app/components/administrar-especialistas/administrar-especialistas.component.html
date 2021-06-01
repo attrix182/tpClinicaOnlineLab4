@@ -11,7 +11,7 @@
 
   </thead>
   <tbody>
-    <tr *ngFor="let unUser of usuarios | async ">
+    <tr *ngFor="let unUser of listaEspecialistas">
 
       <td>{{unUser.nombre}}</td>
       <td>{{unUser.apellido}}</td>
@@ -19,8 +19,9 @@
       <td>{{unUser.edad}}</td>
       <td>{{unUser.especialidades}}</td>
       <td>{{unUser.perfil}}</td>
-        <td>{{unUser.estado}}
-          <button class="btn btn-warning" (click)="cambiarEstado(unUser)">A/D</button>
+        <td>
+          <button *ngIf="unUser.estado" class="btn btn-success" (click)="cambiarEstado(unUser)">Habilitado</button>
+          <button  *ngIf="!unUser.estado" class="btn btn-danger" (click)="cambiarEstado(unUser)">Deshabilitado</button>
         </td>
 
 

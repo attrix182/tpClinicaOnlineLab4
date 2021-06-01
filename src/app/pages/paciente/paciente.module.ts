@@ -1,3 +1,4 @@
+import { TurnosSharedModule } from '../../modules/registro-shared/turnos-shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +12,8 @@ import { PacienteComponent } from './paciente.component';
   ],
   imports: [
     CommonModule,
-    PacienteRoutingModule
+    PacienteRoutingModule,
+    TurnosSharedModule
   ]
 })
 export class PacienteModule { }

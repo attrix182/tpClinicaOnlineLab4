@@ -1,48 +1,78 @@
+import { Admin } from './../../clases/admin';
+import { Paciente } from './../../clases/paciente';
+import { Especialista } from './../../clases/especialista';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-listado-usuarios',
   templateUrl: './listado-usuarios.component.html',
-  styleUrls: ['./listado-usuarios.component.scss']
+  styleUrls: ['./listado-usuarios.component.scss'],
 })
 export class ListadoUsuariosComponent implements OnInit {
-
   usuarios: Observable<any[]>;
-  listadoUsuarios = [];
-  foto: any;
 
-  constructor(private context: AngularFireDatabase, private storage: AngularFireStorage) { }
+  public listaUsuarios: any[] = [];
 
+  public listaAdministradores: Admin[] = [];
+  public listaEspecialistas: Especialista[] = [];
+  public listaPacientes: Paciente[] = [];
 
-  ngOnInit(): void {
+  public listarEsp: any;
+  public listarAdm: any;
+  public listarPac: any;
 
-    this.usuarios = this.context.list('usuarios').valueChanges();
-    this.usuarios.subscribe(usuarios => {
-      this.listadoUsuarios = usuarios;
-    }, error => console.log(error));
-  }
+  constructor(private context: AngularFireDatabase) {}
 
-  mostrarFoto(path: string) {
+  public cargarListas() {
+    this.listaUsuarios.forEach((usuario) => {
+      let perfil = usuario.perfil;
 
-    let storages = firebase.default.storage();
-    let storageRef = storages.ref();
-    let spaceRef = storageRef.child(path);
+      console.log(perfil);
 
-
-    spaceRef.getDownloadURL().then(url => {
-      console.log(url)
-      this.foto = url
-      return url;
-
+      switch (perfil) {
+        case 'admin':
+          this.listaAdministradores.push(usuario);
+          break;
+        case 'especialista':
+          this.listaEspecialistas.push(usuario);
+          break;
+        case 'paciente':
+          this.listaPacientes.push(usuario);
+          break;
+      }
     });
   }
 
 
 
+  listarPacientes(){
+    this.listarPac=true
+    this.listarEsp=false
+    this.listarAdm=false
+  }
+  listarEspecialistas(){
+    this.listarPac=false
+    this.listarEsp=true
+    this.listarAdm=false
+  }
+  listarAdministradores(){
+    this.listarPac=false
+    this.listarEsp=false
+    this.listarAdm=true
+  }
 
 
+  ngOnInit(): void {
+    this.usuarios = this.context.list('usuarios').valueChanges();
+
+    this.usuarios.subscribe(
+      (usuarios) => {
+        this.listaUsuarios = usuarios;
+        this.cargarListas();
+      },
+      (error) => console.log(error)
+    );
+  }
 }

@@ -8,8 +8,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Paciente } from './../../clases/paciente';
 
 import { UsuarioService } from './../../servicios/usuario.service';
@@ -18,6 +18,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 import * as firebase from 'firebase';
+
+
 
 @Component({
   selector: 'app-register',
@@ -69,21 +71,24 @@ export class RegisterComponent implements OnInit {
 
   auxEsp = [];
 
-  cap;
+  cap: any;
 
   keyword = 'nombre';
+  
   public inputEspecialidades: any = '';
 
   private isEmail = /\S+@\S+\.\S+/;
 
-  public listaEspecialidades: any[] = [];
+  //  public listaEspecialidades$: Observable<any[]>;
+
+  public listaEspecialidades:any[]=[];
+
   @ViewChild('auto') auto;
 
   @Output() emitRegister: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private usuarioSrv: UsuarioService,
     private storage: AngularFireStorage,
     private authSVC: AuthService
@@ -105,17 +110,26 @@ export class RegisterComponent implements OnInit {
 
     this.msj = '';
 
+    // this.listaEspecialidades$ = usuarioSrv.TraerEspecialidades().valueChanges();
 
-
+    usuarioSrv
+      .TraerEspecialidades()
+      .valueChanges()
+      .subscribe((data) => {
+        this.listaEspecialidades = data;
+      });
   }
 
-  public onEnter() {
-    let unaEspecialidad: Especialidad = new Especialidad(
-      this.inputEspecialidades,
-      false
-    );
+  public onEnter()
+  {
+  let unaEspecialidad:Especialidad=new Especialidad(this.inputEspecialidades,false)
     console.log(unaEspecialidad);
+
   }
+
+  
+
+
 
   ngOnInit(): void {
     this.initForm();
@@ -131,6 +145,23 @@ export class RegisterComponent implements OnInit {
 
   ninguno() {
     this.tipo = '';
+  }
+
+  public AgregarALista(especialidad:Especialidad){  
+    let encontro=false;
+
+    this.unEspecialista.especialidades.forEach(element => {
+      if(element==especialidad.nombre)
+      {
+        encontro=true;
+      }
+    });
+
+    if(!encontro)
+    {
+      this.unEspecialista.especialidades.push(especialidad.nombre);    
+    }
+ 
   }
 
   onRegisterPaciente() {
@@ -165,8 +196,6 @@ export class RegisterComponent implements OnInit {
       this.edad = this.especialistaRegForm.value.edad;
       this.dni = this.especialistaRegForm.value.dni;
       this.especialidades;
-
-     
 
       this.registrarEspecialista();
       this.especialistaRegForm.reset();
