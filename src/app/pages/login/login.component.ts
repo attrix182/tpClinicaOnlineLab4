@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     this.usuarios = this.context.list('usuarios').valueChanges();
     this.usuarios.subscribe(usuarios => {
       this.listadoUsuarios = usuarios;
+  
     }, error => console.log(error));
 
   }
@@ -124,7 +125,10 @@ export class LoginComponent implements OnInit {
   ValidarUser(usuario) {
 
     let user = this.listadoUsuarios.filter(u => u.id == usuario.user.uid);
-    console.log(user)
+
+    
+
+
 
     if (user[0].perfil == "especialista") {
       if (user[0].estado == false) {

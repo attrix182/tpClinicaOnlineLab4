@@ -1,4 +1,3 @@
-import { MiPerfilSharedModule } from './../../modules/turnos/miPerfil-shared.module';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/servicios/auth.service';
 

@@ -132,6 +132,13 @@ export class UsuarioService {
     //  return this.referenciaAlaColeccionEspecialidades.add({...especialidad});
   }
 
+
+  traerUsuarioPorID(id:string)
+  {
+ 
+   
+  }
+
   TraerEspecialidades():AngularFirestoreCollection<Especialidad> {
 
     return this.referenciaAlaColeccionEspecialidades;

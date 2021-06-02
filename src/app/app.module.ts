@@ -20,8 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    HttpClientModule,
-    FormsModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
