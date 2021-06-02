@@ -8,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PacienteComponent implements OnInit {
 
-  constructor(private authS: AuthService) { }
+  public turnos;
+  constructor(private authS: AuthService) {
+    this.turnos = false;
+   }
 
   ngOnInit(): void {
   }

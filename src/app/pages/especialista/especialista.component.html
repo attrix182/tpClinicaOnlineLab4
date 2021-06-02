@@ -15,7 +15,7 @@
 
       <div class=col>
 
-        <a class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5">A</a>
+        <a (click)="mostrarMiPerfil()" class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5">Mi perfil</a>
 
       </div>
 
@@ -23,6 +23,13 @@
         <a class="btn btn-outline-primary botonesLanding  animate__animated animate__backInRight mb-5">B</a>
       </div>
     </div>
+  </div>
+
+
+  <div *ngIf="verPerfil">
+    <h1>Perfil</h1>
+
+    
   </div>
 
 
