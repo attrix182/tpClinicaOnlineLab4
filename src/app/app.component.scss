@@ -20,6 +20,7 @@
   .flex-equal > * {
     -ms-flex: 1;
     flex: 1;
+    
   }
   @media (min-width: 768px) {
     .flex-md-equal > * {

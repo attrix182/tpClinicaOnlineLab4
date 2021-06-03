@@ -1,10 +1,12 @@
+import { MisHorariosService } from './../../servicios/mis-horarios.service';
+import { EspecialidadHorarios } from './../../clases/especialidad-horarios';
 import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Horario } from 'src/app/clases/horario';
-import { disableDebugTools } from '@angular/platform-browser';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -34,16 +36,33 @@ export class MiPerfilComponent implements OnInit {
 
   public rangoHorario;
 
+  toco1: boolean = false;
+  toco2: boolean = false;
+  toco3: boolean = false;
+  toco4: boolean = false;
+  toco5: boolean = false;
+  toco6: boolean = false;
+
+  eligio1: boolean = false;
+  eligio2: boolean = false;
+  eligio3: boolean = false;
+  eligio4: boolean = false;
+
+  public espH: EspecialidadHorarios;
+
   constructor(
     private authSVC: AuthService,
     private userSVC: UsuarioService,
-    private context: AngularFireDatabase
+    private context: AngularFireDatabase,
+    private horariosSvc: MisHorariosService
   ) {
     this.misHorarios = false;
 
     this.especialidadActiva = false;
 
-    this.horario = new Horario('', '', '', '');
+    this.horario = new Horario();
+
+    this.espH = new EspecialidadHorarios();
 
     userSVC
       .TraerEspecialidades()
@@ -87,8 +106,7 @@ export class MiPerfilComponent implements OnInit {
   }
 
   verHorarios() {
-
-    this.horario.especialista = this.usuarioActivo
+    this.horario.especialista = this.usuarioActivo;
 
     if (this.misHorarios) {
       this.misHorarios = false;
@@ -106,13 +124,51 @@ export class MiPerfilComponent implements OnInit {
   }
 
   especialidadSeleccionada(esp) {
-   
     this.especialidadActiva = esp;
 
-    this.horario.especialidad =esp;
+    this.espH = esp;
+
+    this.horario.especialidadHorarios[this.espH.nombre] = this.espH;
+    this.toco1 = false;
+    this.toco2  = false;
+    this.toco3  = false;
+    this.toco4  = false;
+    this.toco5  = false;
+    this.toco6  = false;
+  
+    this.eligio1  = false;
+    this.eligio2  = false;
+    this.eligio3  = false;
+    this.eligio4  = false;
+
+
   }
 
-  agregarQuitarDia(unDia: string) {
+  agregarQuitarDia(unDia: number) {
+    switch (unDia) {
+      case 1:
+        this.toco1 = !this.toco1;
+        break;
+      case 2:
+        this.toco2 = !this.toco2;
+        break;
+      case 3:
+        this.toco3 = !this.toco3;
+        break;
+      case 4:
+        this.toco4 = !this.toco4;
+        break;
+      case 5:
+        this.toco5 = !this.toco5;
+        break;
+      case 6:
+        this.toco6 = !this.toco6;
+        break;
+
+      default:
+        break;
+    }
+
     let encontro = false;
 
     this.dias.forEach((element) => {
@@ -127,34 +183,56 @@ export class MiPerfilComponent implements OnInit {
     if (!encontro) {
       this.dias.push(unDia);
 
-      this.horario.dia = this.dias;
+      this.horario.especialidadHorarios[this.espH.nombre].dias = this.dias;
       console.log(this.horario);
     }
   }
 
   agregarQuitarHorario(horas: string) {
-    this.rangoHorario = '';
+
+
 
     switch (horas) {
       case 'todoElDia':
-        this.rangoHorario = '08:00 19:00';
+        this.eligio1 = true;
+        this.eligio2 = false;
+        this.eligio3 = false;
+        this.eligio4 = false;
 
-        this.horario.rangoHorario = this.rangoHorario;
+        this.rangoHorario = ['08:00', '19:00'];
+        this.horario.especialidadHorarios[this.espH.nombre].rangoHorario =
+          this.rangoHorario;
         console.log(this.horario);
         break;
       case 'soloManana':
-        this.rangoHorario = '08:00 12:00';
-        this.horario.rangoHorario = this.rangoHorario;
+        this.eligio1 = false;
+        this.eligio2 = true;
+        this.eligio3 = false;
+        this.eligio4 = false;
+
+        this.rangoHorario = ['08:00', '12:00'];
+        this.horario.especialidadHorarios[this.espH.nombre].rangoHorario =
+          this.rangoHorario;
         console.log(this.horario);
         break;
       case 'soloTarde':
-        this.rangoHorario = '12:00 16:00';
-        this.horario.rangoHorario = this.rangoHorario;
+        this.eligio1 = false;
+        this.eligio2 = false;
+        this.eligio3 = true;
+        this.eligio4 = false;
+        this.rangoHorario = ['12:00', '16:00'];
+        this.horario.especialidadHorarios[this.espH.nombre].rangoHorario =
+          this.rangoHorario;
         console.log(this.horario);
         break;
       case 'tardeNoche':
-        this.rangoHorario = '16:00 19:00';
-        this.horario.rangoHorario = this.rangoHorario;
+        this.eligio1 = false;
+        this.eligio2 = false;
+        this.eligio3 = false;
+        this.eligio4 = true;
+        this.rangoHorario = ['19:00', '19:00'];
+        this.horario.especialidadHorarios[this.espH.nombre].rangoHorario =
+          this.rangoHorario;
         console.log(this.horario);
         break;
 
@@ -162,4 +240,41 @@ export class MiPerfilComponent implements OnInit {
         break;
     }
   }
+
+  agregar() {
+
+    
+    if(this.dias.length > 0 && this.rangoHorario)
+    {
+      console.log(this.horario)
+      this.horariosSvc.AgregarHorario(this.horario);
+      this.alert('success','Horarios editados correctamente')
+    }
+    else{
+        this.alert('error','No selecciono fechas o dias')
+    }
+
+
+  }
+
+  alert(icon: SweetAlertIcon, text: string) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: icon,
+      title: text
+    })
+  }
+
 }

@@ -20,9 +20,9 @@
           </thead>
 
           <tbody>
-            <tr *ngFor="let esp of listaEspecialidades" (click)="especialidadSeleccionada(esp)">
-              <td>{{esp.nombre}}</td>
-              <td> <img src="{{esp.foto}}" height="70"></td>
+            <tr *ngFor="let especialidad of listaEspecialidades" (click)="selccionarEspecialidad(especialidad)">
+              <td>{{especialidad.nombre}}</td>
+              <td> <img src="{{especialidad.foto}}" height="70"></td>
             </tr>
           </tbody>
         </table>
@@ -34,7 +34,7 @@
 
 </div>
 
-<div *ngIf="filtroEspecialistas">
+<div *ngIf="filtroEspecialistas && !especialistaSeleccionado">
   <table class="table table-bordered table-hover table-dark tablaUsers">
 
     <thead>
@@ -43,9 +43,9 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let esp of listaEspecialistaPorEspecialidad">
-        <td>{{esp.nombre}} {{esp.apellido}}</td>
-        <td> <img src="{{esp.foto}}" height="70"></td>
+      <tr *ngFor="let especialista of listaEspecialistaPorEspecialidad" (click)="selccionarEspecialista(especialista)">
+        <td>{{especialista.nombre}} {{especialista.apellido}}</td>
+        <td> <img src="{{especialista.foto}}" height="70"></td>
 
       </tr>
     </tbody>
@@ -54,3 +54,15 @@
   <br>
 
 </div>
+
+
+<div *ngIf="especialistaSeleccionado" class="listadoTurnos">
+
+
+
+  <button class="btn btn-block btn-warning" *ngFor="let turno of listaTurnos" (click)="seleccionarTurno(turno)">{{turno}} </button>
+
+
+
+</div>
+

@@ -1,5 +1,5 @@
 
-import { FormsModule } from '@angular/forms';
+
 import { environment } from './../environments/environment.prod';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

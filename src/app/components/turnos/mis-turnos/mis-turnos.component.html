@@ -1,0 +1,54 @@
+<div class="container bg-dark text-white turnos">
+  <h4>Mis turnos</h4>
+
+  <div *ngIf="false">
+    <div class="row">
+      <div class="col">
+        <h4>No tienes turnos pendientes</h4>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="true">
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-dark btn-sm mt-3"><img src="../../../assets/especialidades.jpg" alt=""
+            height="100px"></button>
+        <div class="centered">Especialidades</div>
+      </div>
+      <div class="col">
+        <button class="btn btn-dark btn-sm mt-3"><img src="../../../assets/especialistas.jpg" alt=""
+            height="100px"></button>
+        <div class="centered">Especialistas</div>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-dark tablaUsers">
+
+      <thead>
+        <th>Especialdiad</th>
+        <th>Doctor</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let turno of turnos">
+          <td>{{turno.especialidad.nombre}}</td>
+          <td>{{turno.especialista.apellido}}</td>
+          <td>{{turno.fecha}}</td>
+          <td>{{turno.estado}}</td>
+
+        </tr>
+      </tbody>
+
+    </table>
+
+    <br>
+  </div>
+  <br>
+</div>
+<br>
