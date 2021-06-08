@@ -7,14 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
-
+import { KeyValuePipe } from './pipes/key-value.pipe';
 
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KeyValuePipe
   ],
   imports: [
     BrowserModule,

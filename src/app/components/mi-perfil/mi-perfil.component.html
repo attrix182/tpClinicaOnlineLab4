@@ -24,13 +24,15 @@
         <td>{{usuarioActivo.apellido}}</td>
         <td>{{usuarioActivo.dni}}</td>
         <td>{{usuarioActivo.edad}}</td>
-        <td> <img src="{{usuarioActivo.foto}}" alt="Ver foto" width="45"></td>
+        <td> <img src="{{usuarioActivo.foto || usuarioActivo.foto1}}" alt="Ver foto" width="60"></td>
 
       </tr>
     </tbody>
   </table>
 
+<div *ngIf="usuarioActivo.perfil == 'especialista'">
   <button class="btn btn-dark mt-2 mb-1" (click)="verHorarios()">Mis horarios</button>
+</div>
 
   <div *ngIf="misHorarios">
 

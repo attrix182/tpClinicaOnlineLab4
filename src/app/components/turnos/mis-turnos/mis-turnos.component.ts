@@ -10,6 +10,9 @@ import { Admin } from 'src/app/clases/admin';
 import { Especialista } from 'src/app/clases/especialista';
 import { Paciente } from 'src/app/clases/paciente';
 
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // Todavía no lo usamos
+
 @Component({
   selector: 'app-mis-turnos',
   templateUrl: './mis-turnos.component.html',
@@ -29,10 +32,14 @@ export class MisTurnosComponent implements OnInit {
   public pacienteActivo: Paciente;
 
   constructor(
-    private turnosSVC: MisTurnosService,private authSvc: AuthService,private context: AngularFireDatabase
+    private turnosSVC: MisTurnosService,
+    private authSvc: AuthService,
+    private context: AngularFireDatabase
   ) {
-      turnosSVC.TraerTurnos().valueChanges().subscribe((data) => {
-
+    turnosSVC
+      .TraerTurnos()
+      .valueChanges()
+      .subscribe((data) => {
         this.turnos = data;
 
         this.turnosPacienteActivo();
@@ -40,7 +47,6 @@ export class MisTurnosComponent implements OnInit {
         console.log(this.misTurnos);
       });
   }
-
 
   ngOnInit(): void {
     this.usuarios = this.context.list('usuarios').valueChanges();
@@ -58,12 +64,10 @@ export class MisTurnosComponent implements OnInit {
     this.misTurnos.splice(0);
     this.turnos.forEach((unTurno) => {
       if (unTurno.paciente.id == this.pacienteActivo.id) {
-
         this.misTurnos.push(unTurno);
       }
     });
   }
-
 
   traerUsuario() {
     this.authSvc.GetCurrentUser().then((response) => {
@@ -72,8 +76,6 @@ export class MisTurnosComponent implements OnInit {
       this.pacienteActivo = user[0];
     });
   }
-
-
 
   public cargarListas() {
     this.listaUsuarios.forEach((usuario) => {
@@ -92,5 +94,39 @@ export class MisTurnosComponent implements OnInit {
           break;
       }
     });
+  }
+
+  imprimirPdf(): void {
+    const DATA = document.getElementById('tablaTurnos');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 1,
+    };
+    html2canvas(DATA, options)
+      .then((canvas) => {
+        const img = canvas.toDataURL('image/PNG');
+
+        // Add image Canvas to PDF
+        const bufferX = 15;
+        const bufferY = 15;
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
+        return doc;
+      })
+      .then((docResult) => {
+        docResult.save(`${new Date().toISOString()}_turnos.pdf`);
+      });
   }
 }

@@ -55,8 +55,6 @@ export class UsuarioService {
     this.authSvc.LogOutCurrentUser();
   }
 
-
-
   RegistrarPaciente(paciente) {
     this.authSvc.GetCurrentUser().then((response: any) => {
       this.context.list('usuarios').set(response.uid, {
@@ -78,7 +76,6 @@ export class UsuarioService {
 
   activarEspecialista(especialista: Especialista) {
     var idEsp = especialista.id.toString();
-
 
     var auxEstado = especialista.estado;
 
@@ -122,25 +119,15 @@ export class UsuarioService {
   }
 
   AgregarEspecialidad(especialidad: Especialidad) {
-    this.db.collection('especialidades')
-      .doc(especialidad.nombre)
-      .set({
-        nombre: especialidad.nombre,
-        estado: true,
-      });
+    this.db.collection('especialidades').doc(especialidad.nombre).set({
+      nombre: especialidad.nombre,
+      estado: true,
+    });
 
     //  return this.referenciaAlaColeccionEspecialidades.add({...especialidad});
   }
 
-
-  traerUsuarioPorID(id:string)
-  {
- 
-   
-  }
-
-  TraerEspecialidades():AngularFirestoreCollection<Especialidad> {
-
+  TraerEspecialidades(): AngularFirestoreCollection<Especialidad> {
     return this.referenciaAlaColeccionEspecialidades;
   }
 

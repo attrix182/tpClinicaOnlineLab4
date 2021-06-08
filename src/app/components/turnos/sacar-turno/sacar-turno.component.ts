@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Admin } from 'src/app/clases/admin';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-sacar-turno',
@@ -46,6 +47,7 @@ export class SacarTurnoComponent implements OnInit {
 
   public pacienteActivo: Paciente;
 
+  public turnosDados: Turno[] = [];
   constructor(
     private userSvc: UsuarioService,
     private context: AngularFireDatabase,
@@ -67,6 +69,15 @@ export class SacarTurnoComponent implements OnInit {
       .valueChanges()
       .subscribe((data) => {
         this.horariosDeLosEspecialistas = data;
+      });
+
+    turnosSVC
+      .TraerTurnos()
+      .valueChanges()
+      .subscribe((data) => {
+        this.turnosDados = data;
+
+        console.log(this.turnosDados);
       });
   }
 
@@ -168,10 +179,12 @@ export class SacarTurnoComponent implements OnInit {
     let duracionTurno = 30;
 
     console.log(this.horarioDelEspecialista);
+
     diasActivo =
       this.horarioDelEspecialista.especialidadHorarios[
         this.especialidadSeleccionada.nombre
       ].dias;
+
     horaEntrada =
       this.horarioDelEspecialista.especialidadHorarios[
         this.especialidadSeleccionada.nombre
@@ -184,7 +197,6 @@ export class SacarTurnoComponent implements OnInit {
     let ultimoTurno;
 
     for (let contador = 1; contador <= 15; contador++) {
-
       if (diasActivo.indexOf(dia.getDay()) !== -1) {
         ultimoTurno = dia;
 
@@ -199,13 +211,30 @@ export class SacarTurnoComponent implements OnInit {
 
         dia.setHours(horaEntrada[0], horaEntrada[1]);
 
+        console.log(this.turnosDados);
         do {
 
-          this.listaTurnos.push(dia.toLocaleString());
+          if (this.turnosDados.length != 0) {
+
+            this.turnosDados.forEach((tDado) => {
+
+              if (tDado.fecha != dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', })) {
+                this.listaTurnos.push(dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', }));
+              }
+
+            });
+          }
+
+          if (this.turnosDados.length == 0) {
+
+            this.listaTurnos.push(dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', }));
+          }
 
           dia = new Date(dia.getTime() + duracionTurno * 60000);
+          
         } while (dia <= ultimoTurno);
       }
+
       manana.setDate(hoy.getDate() + contador);
       dia = manana;
     }
@@ -220,8 +249,6 @@ export class SacarTurnoComponent implements OnInit {
   }
 
   seleccionarTurno(turno) {
-
-    
     this.turnoSeleccionado.paciente = this.pacienteActivo;
     this.turnoSeleccionado.especialista = this.especialistaSeleccionado;
     this.turnoSeleccionado.fecha = turno;
@@ -230,11 +257,11 @@ export class SacarTurnoComponent implements OnInit {
 
     this.turnosSVC.agregarTurno(this.turnoSeleccionado);
 
-    this.alert('success','Turno reservado')
+    this.alert('success', 'Turno reservado');
 
     console.log(this.turnoSeleccionado);
   }
-
+  
 
   alert(icon: SweetAlertIcon, text: string) {
     const Toast = Swal.mixin({
@@ -245,15 +272,14 @@ export class SacarTurnoComponent implements OnInit {
       timerProgressBar: true,
 
       didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
 
     Toast.fire({
       icon: icon,
-      title: text
-    })
+      title: text,
+    });
   }
-
 }

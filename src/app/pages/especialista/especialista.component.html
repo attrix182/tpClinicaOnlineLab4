@@ -18,6 +18,9 @@
         <a (click)="mostrarMiPerfil()"
           class="btn btn-outline-warning botonesLanding animate__animated animate__backInLeft mb-5">Mi perfil</a>
 
+
+          <a (click)="gestionarTurnos()"
+          class="btn btn-outline-primary botonesLanding animate__animated animate__backInLeft mt-2 mb-5">Gestionar turnos</a>
       </div>
 
 
@@ -28,6 +31,12 @@
   <div *ngIf="verPerfil">
     <app-mi-perfil></app-mi-perfil>
   </div>
+
+  <div *ngIf="compturnos">
+
+    <app-gestionar-turnos></app-gestionar-turnos>
+  </div>
+
 
 
 

@@ -1,0 +1,37 @@
+
+
+inicio rapido
+Botones iguales con foto del usuario 2 c/u
+Botones cuadrados
+boton recibe por input "persona pacient etc". muestra la foto de lo que recibe, y texto tambien
+nombre/perfil/foto
+directivas/pipe
+
+
+Pciente- 
+turno- mostrar listado de botones como los del login, con un especialista y una especialidad
+
+en cada boton Profesional - especialidad- foto
+		por cada especialidad
+
+
+Una vez seleccionado el doctor/especialidad
+
+botones cuadrados, uno al lado del otro.
+
+listado de botones cuadrados con las especialidades, especialidades predefinidas con imagenes, nuevas
+se carga una por defecto
+filtra especilidas por especialdiad
+
+otro componente, seleccino especialdiad y me filtra especilistas, 
+
+Si el paciente saco turno con X medico, le meustro el primer turno del mismo especialista/especialdiad
+(Sugerido)
+
+Especialista - Gestionar turnos - cambiar tabla por card u otra cosa o grid
+
+Filtro turnos - pen.. (todos pendientes) - fav.. (favaloro) - dan "daniel, historai clinica 'dan' tambien, especialdiad 'dan' tambien"
+
+
+
+Clase que viene- Sprint 3 casi terminado - 4 empezando

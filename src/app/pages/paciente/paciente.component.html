@@ -1,7 +1,12 @@
 <body class="cont">
+
   <div align=left>
-    <button (click)="salir()" class="btn btn-danger ml-2 mt-2 mb-2">SALIR </button>
+
+    <button (click)="salir()" class="btn btn-danger ml-3 mt-2 mb-2">SALIR </button>
+    <button (click)="miPerfil()" class="btn btn-info  ml-5 mt-2 mb-2">Mi Perfil </button>
   </div>
+
+
 
   <div class="container">
 
@@ -28,7 +33,16 @@
       </div>
 
 
+     
+
     </div>
+
+    <div *ngIf="verMiPerfil">
+
+      <app-mi-perfil></app-mi-perfil>
+
+    </div>
+
 
   </div>
 

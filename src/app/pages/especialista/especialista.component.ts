@@ -10,10 +10,12 @@ import { AuthService } from 'src/app/servicios/auth.service';
 export class EspecialistaComponent implements OnInit {
 
   public verPerfil:boolean;
+  public compturnos:boolean;
 
   constructor(private authS: AuthService) {    
 
     this.verPerfil = false;
+    this.compturnos = true //false;
   }
 
   mostrarMiPerfil()
@@ -38,6 +40,21 @@ export class EspecialistaComponent implements OnInit {
   {  
     this.authS.LogOutCurrentUser()
     location.assign('/landing')
+  }
+
+  gestionarTurnos()
+  {   
+     if(this.compturnos)
+    {
+
+      this.compturnos = false;
+    }
+
+    else{
+      this.verPerfil = false
+      this.compturnos = true;
+    }
+
   }
 
 }

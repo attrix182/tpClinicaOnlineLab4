@@ -298,6 +298,7 @@ export class RegisterComponent implements OnInit {
     if (this.especialistaRegForm.value.especialidad == '') {
       this.alert('error', 'No eligio ninguna especialidad');
     } else {
+
       let auxEspecialidad = this.especialidades.filter(
         (e) => e == this.especialistaRegForm.value.especialidad
       );
@@ -310,6 +311,9 @@ export class RegisterComponent implements OnInit {
       this.especialistaRegForm.controls['especialidad'].setValue('');
     }
   }
+
+
+
 
   registrarEspecialista() {
     this.cargando = true;

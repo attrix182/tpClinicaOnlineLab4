@@ -124,11 +124,13 @@ export class MiPerfilComponent implements OnInit {
   }
 
   especialidadSeleccionada(esp) {
+
     this.especialidadActiva = esp;
 
     this.espH = esp;
 
     this.horario.especialidadHorarios[this.espH.nombre] = this.espH;
+    
     this.toco1 = false;
     this.toco2  = false;
     this.toco3  = false;
