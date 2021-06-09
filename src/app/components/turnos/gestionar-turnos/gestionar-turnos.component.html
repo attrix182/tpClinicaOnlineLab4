@@ -180,6 +180,12 @@
             <h6>Peso: {{turnoSeleccionado.peso}}</h6>
             <h6>Temperatura: {{turnoSeleccionado.temperatura}}</h6>
             <h6>Presion {{turnoSeleccionado.presion}}</h6>
+
+            <div *ngFor="let dato of turnoSeleccionado.datosExtra | keys">
+
+              <h6>Dato: {{dato.key}}   Valor: {{dato.value}}</h6>
+
+              </div>
           </div>
         </div>
       </div>

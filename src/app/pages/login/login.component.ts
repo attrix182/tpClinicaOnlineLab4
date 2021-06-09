@@ -1,3 +1,6 @@
+import { Especialista } from './../../clases/especialista';
+import { Paciente } from './../../clases/paciente';
+import { Admin } from './../../clases/admin';
 import { AuthService } from './../../servicios/auth.service';
 import { UsuarioService } from './../../servicios/usuario.service';
 import { Component, OnInit } from '@angular/core';
@@ -27,6 +30,13 @@ export class LoginComponent implements OnInit {
   userForm: FormGroup;
 
   inicioRapido: boolean
+
+  admin1:Admin
+  admin2:Admin
+  paciente1:Paciente
+  paciente2:Paciente
+  especialista1:Especialista
+  especialista2:Especialista
 
   private isEmail = /\S+@\S+\.\S+/;
 
@@ -68,6 +78,7 @@ export class LoginComponent implements OnInit {
 
 
   admin() {
+
     this.userForm.controls['email'].setValue("administrador@yopmail.com");
     this.userForm.controls['clave'].setValue("12345678");
   }

@@ -37,7 +37,7 @@ export class MisTurnosService {
         peso: historia.peso,
         presion: historia.presion,
         temperatura: historia.temperatura,
-        datosExtra: Object.assign({}, historia.datosDinamicos),
+        datosExtra: Object.assign({}, historia.datosExtra),
       });
   }
 
@@ -112,7 +112,9 @@ export class MisTurnosService {
 
     turno.estado = 'finalizado';
 
+  
     this.agregarHistoriaClinica(historia);
+
 
 
     this.db.collection('turnos').doc(turno.key).update({
@@ -122,7 +124,7 @@ export class MisTurnosService {
       especialidad: turno.especialidad,
       estado: turno.estado,
       comentario: turno.comentario,
-      historia: Object.assign({}, turno.historia),
+      historia: Object.assign({}, historia),
       key: turno.key,
     });
   }

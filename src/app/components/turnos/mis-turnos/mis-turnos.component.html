@@ -1,7 +1,5 @@
-
-<div class="container bg-dark text-white turnos">
+<div class="container bg-dark text-white ">
   <h4>Mis turnos</h4>
-  <button class="btn btn-info" (click)="imprimirPdf()">Imprimir PDF </button>
   <div *ngIf="false">
     <div class="row">
       <div class="col">
@@ -11,7 +9,7 @@
 
   </div>
 
-  <div *ngIf="true">
+  <div *ngIf="true" align=center>
 
     <div class="row">
       <div class="col">
@@ -24,35 +22,39 @@
             height="100px"></button>
         <div class="centered">Especialistas</div>
       </div>
-      
+
 
     </div>
 
-    <table class="table table-bordered table-hover table-dark tablaUsers" id="tablaTurnos">
+    <div [class]="turno.claseCard" style="width: 18rem;" *ngFor="let turno of turnos">
+      <div class="card-body">
+        <h5 class="card-title">Estado: {{turno.estado}}</h5>
+        <b>Fecha:</b> {{turno.fecha}}
+        <b>Especialista:</b> {{turno.especialidad.nombre}} {{turno.especialista.apellido}}
+        <b>Especialidad:</b> {{turno.especialidad.nombre}}
 
-      <thead>
-        <th>Especialdiad</th>
-        <th>Doctor</th>
-        <th>Fecha</th>
-        <th>Estado</th>
+        <div id="botones" class="row">
+      
+    
+            <div class="col" *ngIf="turno.estado == 'aceptado' || turno.estado ==  'pendiente'">
+              <button class="btn btn-sm btn-danger " >Cancelar</button>
+            </div>
 
-      </thead>
+            <div class="col" *ngIf="turno.estado == 'cancelado' || turno.estado ==  'rechazado'">
+              <button class="btn btn-sm btn-primary ">Ver reseña</button>
+            </div>
 
-      <tbody>
-        <tr *ngFor="let turno of turnos">
-          <td>{{turno.especialidad.nombre}}</td>
-          <td>{{turno.especialista.apellido}}</td>
-          <td>{{turno.fecha}}</td>
-          <td>{{turno.estado}}</td>
+            <div class="col" *ngIf="turno.estado == 'finalizado'">
+              <button class="btn btn-sm btn-primary" >Encuesta</button>
+            </div>
 
-        </tr>
-      </tbody>
+            <div class="col" *ngIf="turno.estado == 'finalizado'">
+              <button class="btn btn-sm btn-primary" >Calificar</button>
+            </div>
 
-    </table>
+          </div>
 
-    <br>
+      </div>
+    </div>
   </div>
-
-  <br>
 </div>
-<br>

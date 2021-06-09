@@ -8,8 +8,7 @@
 
 <body class="cont">
 
-  <div
-    class="position-relative overflow-hidden  p-md-05 m-md-05 text-center bg-dark stick animate__animated animate__bounceInLeft ">
+  <div class="position-relative   p-md-05 m-md-05 text-center bg-dark stick animate__animated animate__bounceInLeft ">
 
     <div class="container bg-dark">
 
@@ -51,13 +50,20 @@
         </button>
 
         <div *ngIf="inicioRapido" class="animate__animated animate__backInLeft">
-          <button type="button" (click)="admin()" class="btn btn-warning botonesLanding">
-            Admin
-          </button>
+          <div class="card-body">
+            <img class="card-img-top" src="{{admin1.foto1}}" width="50px">
+            <h5 class="card-title">{{admin1.nombre}} {{admin1.apellido}}</h5>
+            <p class="card-text">
+              <div class="row">
+                <b>Perfil: </b> {{admin1.perfil}}
+                <button type="button" (click)="admin()" class="btn btn-warning botonesLanding">
+                  Admin
+                </button>
+              </div>
+          </div>
 
-          <button type="button" (click)="paciente()" class="btn btn-info botonesLanding">
-            Paciente
-          </button>
+
+
 
           <button type="button" (click)="especialista()" class="btn btn-secondary botonesLanding">
             Especialista

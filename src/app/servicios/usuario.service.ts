@@ -148,17 +148,11 @@ export class UsuarioService {
 
   }
 
-  public BuscarUsuarioEsp(user: any) {
-    return this.referenciaBd.collection(
-      this.rutaDeLaColeccionEspecialista,
-      (ref) =>
-        ref.where('correo', '==', user.correo).where('clave', '==', user.clave)
-    );
+
+  public traerUsuarioPorID(id)
+  {
+
+
   }
 
-  public BuscarUsuarioPac(user: any) {
-    return this.referenciaBd.collection(this.rutaDeLaColeccionPaciente, (ref) =>
-      ref.where('correo', '==', user.correo).where('clave', '==', user.clave)
-    );
-  }
 }

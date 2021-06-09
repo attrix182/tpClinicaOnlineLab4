@@ -5,7 +5,8 @@ import { UsuarioService } from './../../../servicios/usuario.service';
 import { Turno } from './../../../clases/turno';
 import { MisTurnosService } from './../../../servicios/mis-turnos.service';
 import { MisturnosModule } from './../../../modules/misturnos/misturnos.module';
-import {Component,ElementRef, OnInit,
+import {
+  Component, ElementRef, OnInit,
   Pipe,
   PipeTransform,
   TemplateRef,
@@ -116,7 +117,7 @@ export class GestionarTurnosComponent implements OnInit {
       .valueChanges()
       .subscribe((data) => {
         this.turnos = data;
-
+        console.log(data)//sacar
         this.turnosEspecialistaActivo();
 
       });
@@ -204,17 +205,17 @@ export class GestionarTurnosComponent implements OnInit {
 
   finalizarTurnoModal() {
     this.turnoModificado.comentario =
-    this.formularioHistoriaClinica.value.comentario;
+      this.formularioHistoriaClinica.value.comentario;
     this.historiaClinica.paciente = this.turnoModificado.paciente;
     this.historiaClinica.peso = this.formularioHistoriaClinica.value.peso;
     this.historiaClinica.temperatura =
-    this.formularioHistoriaClinica.value.temperatura;
+      this.formularioHistoriaClinica.value.temperatura;
     this.historiaClinica.presion = this.formularioHistoriaClinica.value.presion;
 
     this.historiaClinica.idTurno = this.turnoModificado.key;
 
-    
-    this.historiaClinica.datosDinamicos = this.datos
+
+    this.historiaClinica.datosExtra = this.datos
 
     this.turnoModificado.historia = this.historiaClinica;
 
@@ -250,11 +251,16 @@ export class GestionarTurnosComponent implements OnInit {
   }
 
   verComentario(turno: Turno) {
+    console.log(turno.historia)
     this.turnoSeleccionado.estado = turno.estado;
     this.turnoSeleccionado.comentario = turno.comentario;
     this.turnoSeleccionado.peso = turno.historia.peso;
     this.turnoSeleccionado.temperatura = turno.historia.temperatura;
     this.turnoSeleccionado.presion = turno.historia.presion;
+    this.turnoSeleccionado.datosExtra = turno.historia.datosExtra;
+
+
+    
     this.modalService.open(this.modalVerComentario);
 
   }
@@ -263,19 +269,14 @@ export class GestionarTurnosComponent implements OnInit {
 
 
     let datoAux = this.formularioHistoriaClinicaDatos.value.dato;
-
     let valorAux = this.formularioHistoriaClinicaDatos.value.valor;
 
-
-
     if (this.datosExtra.length < 3) {
+      
       this.datosExtra[datoAux] = valorAux
     }
 
-
     this.datos = this.datosExtra;
-
-    console.log(this.datosExtra)
 
   }
 

@@ -281,9 +281,7 @@ export class SacarTurnoComponent implements OnInit {
     diasActivo = this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre].dias;
 
     horaEntrada =
-      this.horarioDelEspecialista.especialidadHorarios[
-        this.especialidadSeleccionada.nombre
-      ].rangoHorario[0].split(':');
+      this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre].rangoHorario[0].split(':');
     horaSalida =
       this.horarioDelEspecialista.especialidadHorarios[
         this.especialidadSeleccionada.nombre
@@ -311,13 +309,11 @@ export class SacarTurnoComponent implements OnInit {
 
           if (this.turnosDados.length != 0) {
 
-            this.turnosDados.forEach((tDado) => {
-
-              if (tDado.fecha != dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', })) {
+    
                 this.listaTurnos.push(dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', }));
-              }
+              
 
-            });
+          
           }
 
           if (this.turnosDados.length == 0) {

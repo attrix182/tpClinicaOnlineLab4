@@ -5,6 +5,6 @@ export class HistoriaClinica {
     peso:number;
     temperatura:number;
     presion:number;
-    datosDinamicos:any;
+    datosExtra:any;
     idTurno:string;
 }

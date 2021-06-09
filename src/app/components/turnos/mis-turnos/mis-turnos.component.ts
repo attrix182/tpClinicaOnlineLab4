@@ -19,7 +19,8 @@ import html2canvas from 'html2canvas'; // Todavía no lo usamos
   styleUrls: ['./mis-turnos.component.scss'],
 })
 export class MisTurnosComponent implements OnInit {
-  public turnos: Turno[] = [];
+
+  public turnos: any[] = [];
 
   public misTurnos: Turno[] = [];
 
@@ -62,11 +63,35 @@ export class MisTurnosComponent implements OnInit {
 
   turnosPacienteActivo() {
     this.misTurnos.splice(0);
+
     this.turnos.forEach((unTurno) => {
       if (unTurno.paciente.id == this.pacienteActivo.id) {
-        this.misTurnos.push(unTurno);
-      }
-    });
+ 
+          if (unTurno.estado == 'rechazado') {
+            unTurno.claseCard = 'card text-dark bg-danger';
+          }
+  
+          if (unTurno.estado == 'cancelado') {
+            unTurno.claseCard = 'card text-dark bg-danger';
+          }
+  
+          if (unTurno.estado == 'pendiente') {
+            unTurno.claseCard = 'card text-dark bg-warning';
+          }
+  
+          if (unTurno.estado == 'aceptado') {
+            unTurno.claseCard = 'card text-dark bg-info';
+          }
+  
+          if (unTurno.estado == 'finalizado') {
+            unTurno.claseCard = 'card text-dark bg-success';
+          }
+  
+          this.misTurnos.push(unTurno);
+  
+        }
+      });
+
   }
 
   traerUsuario() {
