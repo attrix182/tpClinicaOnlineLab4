@@ -53,6 +53,9 @@ export class SacarTurnoComponent implements OnInit {
   public especialistasConEspecialidades: boolean;
 
   public misTurnos: boolean;
+
+  public verTurnos: boolean;
+
   constructor(private userSvc: UsuarioService, private context: AngularFireDatabase, private horariosSVC: MisHorariosService, private authSvc: AuthService, private turnosSVC: MisTurnosService) {
 
     this.filtroEspecialidades = false;
@@ -103,6 +106,7 @@ export class SacarTurnoComponent implements OnInit {
     this.filtroEspecialistas = false;
     this.especialistaSeleccionado = false;
     this.listaTurnos = []
+
   }
 
   public cargarListas() {
@@ -129,9 +133,14 @@ export class SacarTurnoComponent implements OnInit {
       this.filtroEspecialidades = false;
     }
     else {
+      this.especialistasConEspecialidades = false;
+      this.verTurnos = false;
+      this.filtroEspecialistas = false;
       this.filtroEspecialidades = true;
     }
   }
+
+
 
   especilistasListar() {
     if (this.especialistasConEspecialidades) {
@@ -140,6 +149,8 @@ export class SacarTurnoComponent implements OnInit {
     else {
       this.especialistasConEspecialidad();
       this.filtroEspecialidades = false;
+      this.listaTurnos = [];
+      this.filtroEspecialistas = false;
       this.especialistasConEspecialidades = true;
     }
   }
@@ -160,6 +171,7 @@ export class SacarTurnoComponent implements OnInit {
   mostrarEspecialidades() {
     this.filtroEspecialidades = false;
     this.filtroEspecialistas = false;
+
   }
 
   mostrarEspecialistas() {
@@ -183,6 +195,7 @@ export class SacarTurnoComponent implements OnInit {
     });
     this.especialidadSeleccionada = esp;
     this.filtroEspecialistas = true;
+    console.log(this.filtroEspecialistas)
   }
 
 
@@ -219,6 +232,8 @@ export class SacarTurnoComponent implements OnInit {
     console.log('Especialista elegido: ' + esp.nombre);
     this.filtrarHorarios();
     this.listarTurnos();
+    this.filtroEspecialistas = false;
+    this.verTurnos = true;
   }
 
   async traerEspecialidad(especialdiad) {
@@ -235,8 +250,9 @@ export class SacarTurnoComponent implements OnInit {
       this.especialidadSeleccionada = data;
       this.filtrarHorarios();
       this.listarTurnos();
+      this.especialistasConEspecialidades = false;
     })
-
+    this.verTurnos = true;
   }
 
 

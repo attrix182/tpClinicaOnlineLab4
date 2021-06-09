@@ -9,13 +9,11 @@ import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { KeyValuePipe } from './pipes/key-value.pipe';
 
-
-
+ 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    KeyValuePipe
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -146,12 +146,12 @@
 
               <button class="btn btn-primary btn-sm mt-1" (click)="agregarDato()" [disabled]="formularioHistoriaClinicaDatos.invalid">➕</button>
 
-              <div *ngFor="let dato of datos">
+    
+              <div *ngFor="let dato of datos | keys">
 
-              <h6>{{dato}}</h6>
+              <h6>Dato: {{dato.key}}   Valor: {{dato.value}}</h6>
 
               </div>
-
             </form>
             </div>
           </div>

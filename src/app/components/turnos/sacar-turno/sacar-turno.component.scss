@@ -7,8 +7,16 @@
   color: white;
   background-color: black;
   padding: 1px;
+  
 }
 
+.imgBtn
+{
+  width: 100%;
+  height: 100%;
+  max-width: 220px;
+  margin: inherit;
+}
 
 .grid {
   display: grid;
@@ -18,14 +26,8 @@
 }
 
 .gridTurnos {
-
   overflow-y:scroll;
   max-height: 350px;
-  font-size: 2vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr [col-start]);
-  margin:auto;
-
 }
 
 

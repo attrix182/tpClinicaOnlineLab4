@@ -1,19 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'keys'
-})
+@Pipe({ name: 'keys', pure: false  })
 
 export class KeyValuePipe implements PipeTransform {
-
-  transform(value, args:string[]) : any {
+  transform(input: any): any {
     let keys = [];
-    for (let key in value) {
-      keys.push({key: key, value: value[key]});
+    for (let key in input) {
+      if (input.hasOwnProperty(key)) {
+        keys.push({ key: key, value: input[key]});
+      }
     }
     return keys;
   }
-
 }
-
 
