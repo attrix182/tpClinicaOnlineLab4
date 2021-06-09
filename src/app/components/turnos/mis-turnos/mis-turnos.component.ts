@@ -1,17 +1,34 @@
-import { UsuarioService } from './../../../servicios/usuario.service';
+import { Paciente } from './../../../clases/paciente';
+import { Calificacion } from './../../../clases/calificacion';
 import { Turno } from './../../../clases/turno';
 import { MisTurnosService } from './../../../servicios/mis-turnos.service';
-import { MisturnosModule } from './../../../modules/misturnos/misturnos.module';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { Observable } from 'rxjs';
 import { Admin } from 'src/app/clases/admin';
 import { Especialista } from 'src/app/clases/especialista';
-import { Paciente } from 'src/app/clases/paciente';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+
+
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas'; // Todavía no lo usamos
+import {
+  ElementRef,
+  Pipe,
+  PipeTransform,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { Encuesta } from 'src/app/clases/encuesta';
 
 @Component({
   selector: 'app-mis-turnos',
@@ -31,12 +48,56 @@ export class MisTurnosComponent implements OnInit {
   public listaEspecialistas: Especialista[] = [];
   public listaPacientes: Paciente[] = [];
   public pacienteActivo: Paciente;
+  turnoModificado:any;
+ public comentario: string;
+  public formularioComentario: FormGroup;
+  
+  public turnoSeleccionado: any = [];
+  calificacion:Calificacion = new Calificacion();
+
+  encuesta:Encuesta = new Encuesta()
+
+  
+  estrellas = 0; 
+
+
+  @ViewChild('modalCancelar', { read: TemplateRef })
+  modalCancelar: TemplateRef<any>;
+
+  
+  @ViewChild('modalVerComentario', { read: TemplateRef })
+  modalVerComentario: TemplateRef<any>;
+
+  
+  @ViewChild('modalCalificar', { read: TemplateRef })
+  modalCalificar: TemplateRef<any>;
+
+  @ViewChild('modalEncuesta', { read: TemplateRef })
+  modalEncuesta: TemplateRef<any>;
+
+  formularioEncuesta: FormGroup;
+  
 
   constructor(
     private turnosSVC: MisTurnosService,
     private authSvc: AuthService,
-    private context: AngularFireDatabase
+    private context: AngularFireDatabase,
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private vref: ViewContainerRef
   ) {
+
+    this.formularioComentario = formBuilder.group({
+      comentario: new FormControl(''),
+    });
+
+    this.formularioEncuesta = formBuilder.group({
+      peso: new FormControl(''),
+      temperatura: new FormControl(''),
+      presion: new FormControl(''),
+      comentario: new FormControl(''),
+    });
+
     turnosSVC
       .TraerTurnos()
       .valueChanges()
@@ -94,6 +155,40 @@ export class MisTurnosComponent implements OnInit {
 
   }
 
+
+  abrirModalCalificar(turno)
+  {
+    this.turnoSeleccionado = turno
+    this.modalService.open(this.modalCalificar)
+  }
+
+  enviarCalificaion()
+  {
+    this.calificacion.estrellas = this.estrellas;
+    this.calificacion.paciente = this.turnoSeleccionado.paciente;
+    this.calificacion.especialista = this.turnoSeleccionado.especialista;
+    this.turnosSVC.agregarCalificacion(this.calificacion)
+    this.modalService.dismissAll()
+  }
+
+
+  
+  abrirModalEncuesta(turno)
+  {
+    this.turnoSeleccionado = turno
+    this.modalService.open(this.modalEncuesta)
+  }
+
+  enviarEncuesta()
+  {
+
+    this.encuesta.paciente = this.turnoSeleccionado.paciente;
+    this.encuesta.especialista = this.turnoSeleccionado.especialista;
+    this.turnosSVC.agregarEncuesta(this.encuesta)
+    this.modalService.dismissAll()
+  }
+
+
   traerUsuario() {
     this.authSvc.GetCurrentUser().then((response) => {
       let user = this.listaPacientes.filter((u) => u.id == response.uid);
@@ -101,6 +196,24 @@ export class MisTurnosComponent implements OnInit {
       this.pacienteActivo = user[0];
     });
   }
+
+  verComentario(turno) {
+    console.log(turno)
+    this.turnoSeleccionado.estado = turno.estado;
+    this.turnoSeleccionado.comentario = turno.comentario;
+    this.turnoSeleccionado.peso = turno.historia.peso;
+    this.turnoSeleccionado.temperatura = turno.historia.temperatura;
+    this.turnoSeleccionado.presion = turno.historia.presion;
+    this.turnoSeleccionado.datosExtra = turno.historia.datosExtra;
+
+
+    
+    this.modalService.open(this.modalVerComentario);
+
+  }
+
+  
+
 
   public cargarListas() {
     this.listaUsuarios.forEach((usuario) => {
@@ -119,6 +232,18 @@ export class MisTurnosComponent implements OnInit {
           break;
       }
     });
+  }
+
+  cancelarTurno(turno: Turno) {
+    this.turnoModificado = turno;
+    this.modalService.open(this.modalCancelar);
+  }
+
+  cancelarTurnoModal() {
+    this.turnoModificado.comentario =this.formularioComentario.value.comentario;
+    this.turnosSVC.cancelar(this.turnoModificado);
+    this.modalService.dismissAll()
+
   }
 
   imprimirPdf(): void {

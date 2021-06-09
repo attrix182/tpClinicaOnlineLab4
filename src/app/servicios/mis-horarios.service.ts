@@ -28,11 +28,11 @@ export class MisHorariosService {
     this.db.collection('horarios').doc(horario.especialista.id).set({
       id: horario.especialista.id,
       especialista: horario.especialista,
-      especialidadHorarios:{...horario.especialidadHorarios}
+      especialidadHorarios: { ...horario.especialidadHorarios }
     });
   }
 
-  TraerHorarios():AngularFirestoreCollection<Horario> {
+  TraerHorarios(): AngularFirestoreCollection<Horario> {
 
     return this.referenciaAlaColeccionHorarios;
   }

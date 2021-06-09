@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { KeyValuePipe } from './pipes/key-value.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
  
 
@@ -19,7 +20,8 @@ import { KeyValuePipe } from './pipes/key-value.pipe';
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

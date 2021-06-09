@@ -11,7 +11,7 @@
 
   <div *ngIf="true" align=center>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col">
         <button class="btn btn-dark btn-sm mt-3"><img src="../../../assets/especialidades.jpg" alt=""
             height="100px"></button>
@@ -22,39 +22,142 @@
             height="100px"></button>
         <div class="centered">Especialistas</div>
       </div>
+      </div>
+ -->
 
 
-    </div>
 
-    <div [class]="turno.claseCard" style="width: 18rem;" *ngFor="let turno of turnos">
+    <div [class]="turno.claseCard" style="width: 20rem; margin-bottom: 5px;" *ngFor="let turno of turnos">
       <div class="card-body">
         <h5 class="card-title">Estado: {{turno.estado}}</h5>
         <b>Fecha:</b> {{turno.fecha}}
+        <br>
         <b>Especialista:</b> {{turno.especialidad.nombre}} {{turno.especialista.apellido}}
+        <br>
         <b>Especialidad:</b> {{turno.especialidad.nombre}}
 
         <div id="botones" class="row">
-      
-    
-            <div class="col" *ngIf="turno.estado == 'aceptado' || turno.estado ==  'pendiente'">
-              <button class="btn btn-sm btn-danger " >Cancelar</button>
-            </div>
 
-            <div class="col" *ngIf="turno.estado == 'cancelado' || turno.estado ==  'rechazado'">
-              <button class="btn btn-sm btn-primary ">Ver reseña</button>
-            </div>
 
-            <div class="col" *ngIf="turno.estado == 'finalizado'">
-              <button class="btn btn-sm btn-primary" >Encuesta</button>
-            </div>
-
-            <div class="col" *ngIf="turno.estado == 'finalizado'">
-              <button class="btn btn-sm btn-primary" >Calificar</button>
-            </div>
-
+          <div class="col" *ngIf="turno.estado == 'aceptado' || turno.estado ==  'pendiente'">
+            <button class="btn btn-sm btn-danger " (click)="cancelarTurno(turno)">Cancelar</button>
           </div>
+
+          <div class="col" *ngIf="turno.estado == 'finalizado'">
+            <button class="btn btn-sm btn-primary" (click)="abrirModalEncuesta(turno)">Encuesta</button>
+          </div>
+
+          <div class="col"
+            *ngIf="turno.estado == 'cancelado' || turno.estado ==  'rechazado' || turno.estado ==  'finalizado'">
+            <button class="btn btn-sm btn-primary " (click)="verComentario(turno)">Ver reseña</button>
+          </div>
+
+          <div class="col" *ngIf="turno.estado == 'finalizado'">
+            <button class="btn btn-sm btn-primary" (click)="abrirModalCalificar(turno)">Calificar</button>
+          </div>
+
+        </div>
 
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #modalCancelar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Cancelar turno</h4>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="formularioComentario">
+
+      <input type="text" class="form-control" placeholder="Escriba un comentario" formControlName="comentario" required>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success btn-block" [disabled]="formularioComentario.invalid"
+      (click)="cancelarTurnoModal()">Enviar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #modalVerComentario let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Comentarios</h4>
+  </div>
+  <div class="modal-body">
+    <div>
+      <h6>Comentario: {{turnoSeleccionado.comentario}}</h6>
+      <div *ngIf="turnoSeleccionado.estado == 'finalizado'">
+        <hr>
+        <h5>Historia clinica</h5>
+        <h6>Peso: {{turnoSeleccionado.peso}}</h6>
+        <h6>Temperatura: {{turnoSeleccionado.temperatura}}</h6>
+        <h6>Presion {{turnoSeleccionado.presion}}</h6>
+
+        <div *ngFor="let dato of turnoSeleccionado.datosExtra ">
+
+          <h6>Dato: {{dato.key}} Valor: {{dato.value}}</h6>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
+
+
+<ng-template #modalCalificar let-modal>
+  <div class="modal-body" align=center>
+    <form [formGroup]="formularioComentario">
+      <ngb-rating [max]="5" [(rate)]="estrellas" [readonly]="false"></ngb-rating>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success btn-block" (click)="enviarCalificaion()">Enviar</button>
+  </div>
+</ng-template>
+
+
+
+<ng-template #modalEncuesta let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Finalizar turno</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioEncuesta">
+
+      <div class="row-flex">
+        <div>
+          <label for="">Peso</label>
+          <input type="number" class="form-control" placeholder="Ingrese el Peso" formControlName="peso" required>
+          <label for="">Temepratura</label>
+          <input type="number" class="form-control" placeholder="Ingrese la Temepratura" formControlName="temperatura"
+            required>
+          <label for="">Presion</label>
+          <input type="number" class="form-control" placeholder="Ingrese la presion" formControlName="presion" required>
+          <label for="">Comentario</label>
+          <input type="text" class="form-control" placeholder="Dato" formControlName="comentario" required>
+
+          <hr>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
+      (click)="enviarEncuesta()">Enviar</button>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />

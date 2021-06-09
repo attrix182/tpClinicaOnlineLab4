@@ -137,7 +137,6 @@ export class UsuarioService {
 
       this.referenciaAlaColeccionEspecialidades.doc(espId).snapshotChanges().subscribe((data) => {
 
-        //     console.log( data.payload.data())
         resolve(data.payload.data())
 
 

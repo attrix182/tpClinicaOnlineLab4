@@ -1,3 +1,4 @@
+import { Calificacion } from './../clases/calificacion';
 import { HistoriaClinica } from './../clases/historia-clinica';
 import { Turno } from './../clases/turno';
 import { Injectable } from '@angular/core';
@@ -5,6 +6,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
+import { Encuesta } from '../clases/encuesta';
 
 @Injectable({
   providedIn: 'root',
@@ -112,7 +114,7 @@ export class MisTurnosService {
 
     turno.estado = 'finalizado';
 
-  
+
     this.agregarHistoriaClinica(historia);
 
 
@@ -134,4 +136,54 @@ export class MisTurnosService {
   TraerTurnos(): AngularFirestoreCollection<Turno> {
     return this.referenciaAlaColeccionTurnos;
   }
+
+  
+  TraerHistoriaPorId(id) {
+
+    return new Promise(resolve => {
+
+      this.referenciaHistoriasClinicas.doc(id).snapshotChanges().subscribe((data) => {
+
+        resolve(data.payload.data())
+
+      });
+
+    })
+
+  }
+
+  agregarCalificacion(cali: Calificacion) {
+    console.log('en el svc');
+
+    let hoy = new Date();
+
+    this.db
+      .collection('calificaciones')
+      .doc(cali.paciente.nombre + hoy.getTime().toString())
+      .set({
+        paciente: cali.paciente,
+        especialista: cali.especialista,
+        estrellas: cali.estrellas,
+        key: cali.paciente.nombre + hoy.getTime().toString(),
+      });
+  }
+
+  agregarEncuesta(encu: Encuesta) {
+    console.log('en el svc');
+
+    let hoy = new Date();
+
+    this.db
+      .collection('encuestas')
+      .doc(encu.paciente.nombre + hoy.getTime().toString())
+      .set({
+        paciente: encu.paciente,
+        especialista: encu.especialista,
+        key: encu.paciente.nombre + hoy.getTime().toString(),
+      });
+  }
+
+
+
+
 }

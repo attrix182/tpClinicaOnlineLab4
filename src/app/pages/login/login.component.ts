@@ -63,6 +63,14 @@ export class LoginComponent implements OnInit {
   }
 
 
+
+  traerAdmin1()
+  {
+    this.listadoUsuarios.forEach(element => {
+      
+    });
+  }
+
   botonesIncio() {
     if (this.inicioRapido) {
       this.inicioRapido = false;
