@@ -29,7 +29,6 @@ export class MisTurnosService {
   }
 
   agregarHistoriaClinica(historia: HistoriaClinica) {
-   // console.log(historia.datosDinamicos)
     this.db
       .collection('historiasClinicas')
       .doc(historia.paciente.nombre + historia.idTurno)
@@ -67,7 +66,7 @@ export class MisTurnosService {
 
     turno.estado = 'aceptado';
 
-    
+
     this.db.collection('turnos').doc(turno.key).update({
       paciente: turno.paciente,
       especialista: turno.especialista,

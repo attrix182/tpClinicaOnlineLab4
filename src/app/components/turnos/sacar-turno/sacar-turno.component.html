@@ -1,68 +1,83 @@
 <div class="form-group text-center">
+  <div class="row text-center">
+    <div class="col-6">
+      <button class="btn btn-dark mt-2" (click)="especilistasListar()"> <img src="../../../assets/especialistas.jpg"
+          height="100" width="130"><span class="centered">Especialistas</span></button>
+    </div>
 
-  <div class="row" id="filtros" *ngIf="!(filtroEspecialistas && filtroEspecialidades)">
-
-
-    <div class="col">
-
-        <div class="row">
-            <div align=left>
-                <button class="btn btn-danger btn-sm ml-2 mb-2" (click)="atras()" *ngIf="filtroEspecialistas">Atras</button>
-              </div>
-            </div>
-
-      <div *ngIf="filtroEspecialidades">
-        <table class="table table-bordered table-hover table-dark tablaUsers">
-
-          <thead>
-            <th>Especialidad</th>
-            <th>Foto</th>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let especialidad of listaEspecialidades" (click)="selccionarEspecialidad(especialidad)">
-              <td>{{especialidad.nombre}}</td>
-              <td> <img src="{{especialidad.foto}}" height="70"></td>
-            </tr>
-          </tbody>
-        </table>
-        <br>
-      </div>
+    <div class="col-6 mt-2">
+      <button class="btn btn-dark" (click)="especilidadesListar()"> <img src="../../../assets/especialidades.jpg"
+          height="100" width="130"><span class="centered">Especialidades</span> </button>
     </div>
   </div>
 
+  <div align=left>
+    <button class="btn btn-danger btn-sm ml-2 mb-2" (click)="atras()"
+      *ngIf="especialidadSeleccionada && !filtroEspecialidades">Atras</button>
+  </div>
 
+
+  <div class="row" id="filtros" *ngIf="filtroEspecialidades">
+
+    <div class="grid">
+      <div *ngFor="let especialidad of listaEspecialidades">
+        <div class="card bg-dark border-white mt-1 ml-1" style="width: 8em; height: 9em;"
+          (click)="selccionarEspecialidad(especialidad)" appMouseHover>
+          <img class="card-img-top imgCard" src="{{especialidad.foto}}" width="10px" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title">{{especialidad.nombre}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
 </div>
 
 <div *ngIf="filtroEspecialistas && !especialistaSeleccionado">
-  <table class="table table-bordered table-hover table-dark tablaUsers">
-
-    <thead>
-      <th>Doctor</th>
-      <th>Foto</th>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let especialista of listaEspecialistaPorEspecialidad" (click)="selccionarEspecialista(especialista)">
-        <td>{{especialista.nombre}} {{especialista.apellido}}</td>
-        <td> <img src="{{especialista.foto}}" height="70"></td>
-
-      </tr>
-    </tbody>
-
-  </table>
+  <div class="row" id="filtros" *ngIf="filtroEspecialistas">
+    <div class="grid">
+      <div *ngFor="let especialista of listaEspecialistaPorEspecialidad">
+        <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 9em;"
+          (click)="selccionarEspecialista(especialista)" appMouseHover>
+          <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title">{{especialista.nombre}} {{especialista.apellido}} </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <br>
-
 </div>
 
 
-<div *ngIf="especialistaSeleccionado" class="listadoTurnos">
 
+<div *ngIf="especialistasConEspecialidades">
 
-
-  <button class="btn btn-block btn-warning" *ngFor="let turno of listaTurnos" (click)="seleccionarTurno(turno)">{{turno}} </button>
-
-
-
+  <div class="row" id="filtros">
+    <div class="grid">
+      <div *ngFor="let especialista of listaEspecialistasConEspecialidad">
+        <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 11em;"
+          (click)="selccionarEspecialistaConEspecialidad(especialista)" appMouseHover>
+          <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title">{{especialista.nombre}} {{especialista.apellido}} </h6>
+            <h6>{{especialista.especialidades}} </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
 </div>
 
+
+<div *ngIf="listaTurnos">
+  <div class="row" id="filtros">
+    <div class="gridTurnos">
+      <button class="btn btn-warning ml-1 mb-1" *ngFor="let turno of listaTurnos" (click)="seleccionarTurno(turno)"><b>
+          {{turno}}</b> </button>
+    </div>
+  </div>
+</div>

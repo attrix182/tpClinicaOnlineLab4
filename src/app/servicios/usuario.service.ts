@@ -119,7 +119,7 @@ export class UsuarioService {
   }
 
   AgregarEspecialidad(especialidad: Especialidad) {
-    this.db.collection('especialidades').doc(especialidad.nombre).set({
+    this.db.collection('especialidades').doc(especialidad.nombre).update({
       nombre: especialidad.nombre,
       estado: true,
     });
@@ -129,6 +129,23 @@ export class UsuarioService {
 
   TraerEspecialidades(): AngularFirestoreCollection<Especialidad> {
     return this.referenciaAlaColeccionEspecialidades;
+  }
+
+  TraerEspecialidPorId(espId) {
+
+    return new Promise(resolve => {
+
+      this.referenciaAlaColeccionEspecialidades.doc(espId).snapshotChanges().subscribe((data) => {
+
+        //     console.log( data.payload.data())
+        resolve(data.payload.data())
+
+
+      });
+
+
+    })
+
   }
 
   public BuscarUsuarioEsp(user: any) {

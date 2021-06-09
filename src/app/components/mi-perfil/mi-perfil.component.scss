@@ -1,14 +1,19 @@
-.tabla
-{
-    max-width: 340px;
-    margin: auto;
+.tabla {
+  max-width: 340px;
+  margin: auto;
 }
 
-.success{
-background-color: #5cb85c ;
+.success {
+  background-color: #5cb85c;
 }
 
 
-.danger{
-    background-color: 	#df4759;
-    }
+.danger {
+  background-color: #df4759;
+}
+
+.imgCard {
+  width: 8em;
+  height: 6em;
+  object-fit: cover
+}

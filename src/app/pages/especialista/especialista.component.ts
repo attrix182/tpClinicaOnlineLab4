@@ -15,7 +15,7 @@ export class EspecialistaComponent implements OnInit {
   constructor(private authS: AuthService) {    
 
     this.verPerfil = false;
-    this.compturnos = true //false;
+    this.compturnos = false;
   }
 
   mostrarMiPerfil()

@@ -31,7 +31,8 @@ export class SacarTurnoComponent implements OnInit {
   public listaEspecialistas: Especialista[] = [];
   public listaPacientes: Paciente[] = [];
 
-  public listaEspecialistaPorEspecialidad: Especialista[] = [];
+  listaEspecialistaPorEspecialidad: Especialista[] = [];
+  public listaEspecialistasConEspecialidad: any[] = [];
 
   public especialistaSeleccionado;
 
@@ -48,14 +49,17 @@ export class SacarTurnoComponent implements OnInit {
   public pacienteActivo: Paciente;
 
   public turnosDados: Turno[] = [];
-  constructor(
-    private userSvc: UsuarioService,
-    private context: AngularFireDatabase,
-    private horariosSVC: MisHorariosService,
-    private authSvc: AuthService,
-    private turnosSVC: MisTurnosService
-  ) {
+
+  public especialistasConEspecialidades: boolean;
+
+  public misTurnos: boolean;
+  constructor(private userSvc: UsuarioService, private context: AngularFireDatabase, private horariosSVC: MisHorariosService, private authSvc: AuthService, private turnosSVC: MisTurnosService) {
+
+    this.filtroEspecialidades = false;
+
     this.turnoSeleccionado = new Turno();
+
+    this.especialistasConEspecialidades = false;
 
     userSvc
       .TraerEspecialidades()
@@ -98,6 +102,7 @@ export class SacarTurnoComponent implements OnInit {
     this.filtroEspecialidades = true;
     this.filtroEspecialistas = false;
     this.especialistaSeleccionado = false;
+    this.listaTurnos = []
   }
 
   public cargarListas() {
@@ -119,8 +124,41 @@ export class SacarTurnoComponent implements OnInit {
     });
   }
 
+  especilidadesListar() {
+    if (this.filtroEspecialidades) {
+      this.filtroEspecialidades = false;
+    }
+    else {
+      this.filtroEspecialidades = true;
+    }
+  }
+
+  especilistasListar() {
+    if (this.especialistasConEspecialidades) {
+      this.especialistasConEspecialidades = false;
+    }
+    else {
+      this.especialistasConEspecialidad();
+      this.filtroEspecialidades = false;
+      this.especialistasConEspecialidades = true;
+    }
+  }
+
+  misTurnosListar() {
+    if (this.misTurnos) {
+      this.misTurnos = false;
+      this.filtroEspecialidades = false;
+    }
+    else {
+      this.misTurnos = true;
+    }
+
+  }
+
+
+
   mostrarEspecialidades() {
-    this.filtroEspecialidades = true;
+    this.filtroEspecialidades = false;
     this.filtroEspecialistas = false;
   }
 
@@ -130,10 +168,7 @@ export class SacarTurnoComponent implements OnInit {
   }
 
   selccionarEspecialidad(esp: Especialidad) {
-    this.listaEspecialistaPorEspecialidad.splice(
-      0,
-      this.listaEspecialistaPorEspecialidad.length
-    );
+    this.listaEspecialistaPorEspecialidad.splice(0, this.listaEspecialistaPorEspecialidad.length);
 
     this.filtroEspecialidades = false;
 
@@ -150,6 +185,34 @@ export class SacarTurnoComponent implements OnInit {
     this.filtroEspecialistas = true;
   }
 
+
+  especialistasConEspecialidad() {
+
+    // this.listaEspecialistasConEspecialidad.splice(0, this.listaEspecialistasConEspecialidad.length);
+    this.listaEspecialistasConEspecialidad = []
+    console.log(this.listaEspecialistas)
+    let auxDoctor;
+    this.listaEspecialistas.forEach((doctor) => {
+
+
+      doctor.especialidades.forEach((espDelDoc) => {
+        {
+
+          auxDoctor = JSON.parse(JSON.stringify(doctor));
+
+          console.log(espDelDoc)
+          auxDoctor.especialidades = espDelDoc;
+          console.log(auxDoctor);
+          this.listaEspecialistasConEspecialidad.push(auxDoctor);
+
+        }
+      });
+    });
+    console.log(this.listaEspecialistasConEspecialidad)
+
+  }
+
+
   selccionarEspecialista(esp: Especialista) {
     this.especialistaSeleccionado = esp;
 
@@ -157,6 +220,25 @@ export class SacarTurnoComponent implements OnInit {
     this.filtrarHorarios();
     this.listarTurnos();
   }
+
+  async traerEspecialidad(especialdiad) {
+
+    return await this.userSvc.TraerEspecialidPorId(especialdiad)
+  }
+
+
+  selccionarEspecialistaConEspecialidad(esp: Especialista) {
+    this.especialistaSeleccionado = esp;
+
+
+    this.traerEspecialidad(esp.especialidades).then(data => {
+      this.especialidadSeleccionada = data;
+      this.filtrarHorarios();
+      this.listarTurnos();
+    })
+
+  }
+
 
   filtrarHorarios() {
     this.horariosDeLosEspecialistas.forEach((unHorario) => {
@@ -180,10 +262,7 @@ export class SacarTurnoComponent implements OnInit {
 
     console.log(this.horarioDelEspecialista);
 
-    diasActivo =
-      this.horarioDelEspecialista.especialidadHorarios[
-        this.especialidadSeleccionada.nombre
-      ].dias;
+    diasActivo = this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre].dias;
 
     horaEntrada =
       this.horarioDelEspecialista.especialidadHorarios[
@@ -231,7 +310,7 @@ export class SacarTurnoComponent implements OnInit {
           }
 
           dia = new Date(dia.getTime() + duracionTurno * 60000);
-          
+
         } while (dia <= ultimoTurno);
       }
 
@@ -259,9 +338,13 @@ export class SacarTurnoComponent implements OnInit {
 
     this.alert('success', 'Turno reservado');
 
-    console.log(this.turnoSeleccionado);
+
+    this.filtroEspecialistas = false;
+    this.filtroEspecialidades = false;
+    this.listaTurnos = [];
+
   }
-  
+
 
   alert(icon: SweetAlertIcon, text: string) {
     const Toast = Swal.mixin({

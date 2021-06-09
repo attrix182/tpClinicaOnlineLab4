@@ -8,31 +8,49 @@
 
 
 <div *ngIf="timer">
-  <table class="table table-bordered table-dark tablaUsers mt-3 tabla">
-    <thead>
-      <th>Nombre</th>
-      <th>Apellido</th>
-      <th>Dni</th>
-      <th>Edad</th>
-      <th>Foto</th>
+
+  <div class="card text-white bg-dark" style="width: 21rem;">
+    <div *ngIf="usuarioActivo.foto2">
+    <div class="row">
+      <div class="col">
+        <img class="card-img-top" src="{{usuarioActivo.foto2}}" class="imgCard">
+      </div>
+
+      <div class="col">
+        <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}" class="imgCard">
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!usuarioActivo.foto2">
+
+        <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}"  width="50px">
+
+  </div>
 
 
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{usuarioActivo.nombre}}</td>
-        <td>{{usuarioActivo.apellido}}</td>
-        <td>{{usuarioActivo.dni}}</td>
-        <td>{{usuarioActivo.edad}}</td>
-        <td> <img src="{{usuarioActivo.foto || usuarioActivo.foto1}}" alt="Ver foto" width="60"></td>
 
-      </tr>
-    </tbody>
-  </table>
 
-<div *ngIf="usuarioActivo.perfil == 'especialista'">
-  <button class="btn btn-dark mt-2 mb-1" (click)="verHorarios()">Mis horarios</button>
-</div>
+    <div class="card-body">
+      <h5 class="card-title">{{usuarioActivo.nombre}} {{usuarioActivo.apellido}}</h5>
+      <p class="card-text">
+        <div class="row">
+          <b>Dni: </b> {{usuarioActivo.dni}}
+        </div>
+        <div class="row">
+          <b>Edad: </b> {{usuarioActivo.edad}}
+        </div>
+        <div class="row">
+          <b>Correo: </b> {{usuarioActivo.correo}}
+        </div>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="usuarioActivo.perfil == 'especialista'">
+    <button class="btn btn-dark mt-2 mb-1" (click)="verHorarios()">Mis horarios</button>
+  </div>
 
   <div *ngIf="misHorarios">
 
@@ -68,9 +86,9 @@
             <button class="btn btn-success mr-5 mt-2" (click)="agregar()">Guardar</button>
           </div>
         </div>
-      
 
-    
+
+
 
         <table class="table table-dark tablaUsers mt-3">
 
@@ -85,31 +103,41 @@
           <tbody>
 
             <tr>
-              <td> <button class="btn btn-sm" type="button" id="1" (click)="agregarQuitarDia(1)"  [ngClass]="toco1 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="2" (click)="agregarQuitarDia(2)" [ngClass]="toco2 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="3" (click)="agregarQuitarDia(3)" [ngClass]="toco3 ? 'success' : 'danger'">❌</button>
+              <td> <button class="btn btn-sm" type="button" id="1" (click)="agregarQuitarDia(1)"
+                  [ngClass]="toco1 ? 'success' : 'danger'">❌</button></td>
+              <td> <button class="btn btn-sm" type="button" id="2" (click)="agregarQuitarDia(2)"
+                  [ngClass]="toco2 ? 'success' : 'danger'">❌</button></td>
+              <td> <button class="btn btn-sm" type="button" id="3" (click)="agregarQuitarDia(3)"
+                  [ngClass]="toco3 ? 'success' : 'danger'">❌</button>
               </td>
-              <td> <button class="btn btn-sm" type="button" id="4" (click)="agregarQuitarDia(4)" [ngClass]="toco4 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="5" (click)="agregarQuitarDia(5)" [ngClass]="toco5 ? 'success' : 'danger'">❌</button>
+              <td> <button class="btn btn-sm" type="button" id="4" (click)="agregarQuitarDia(4)"
+                  [ngClass]="toco4 ? 'success' : 'danger'">❌</button></td>
+              <td> <button class="btn btn-sm" type="button" id="5" (click)="agregarQuitarDia(5)"
+                  [ngClass]="toco5 ? 'success' : 'danger'">❌</button>
               </td>
-              <td> <button class="btn btn-sm" type="button"id="6" (click)="agregarQuitarDia(6)" [ngClass]="toco6 ? 'success' : 'danger'">❌</button></td>
+              <td> <button class="btn btn-sm" type="button" id="6" (click)="agregarQuitarDia(6)"
+                  [ngClass]="toco6 ? 'success' : 'danger'">❌</button></td>
             </tr>
             <tr>
               <td> </td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio1 ? 'success' : 'danger'" (click)="agregarQuitarHorario('todoElDia')">08 a
+              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio1 ? 'success' : 'danger'"
+                  (click)="agregarQuitarHorario('todoElDia')">08 a
                   19</button></td>
-              <td> <button class="btn btn-sm" type="button"  [ngClass]="eligio2 ? 'success' : 'danger'" (click)="agregarQuitarHorario('soloManana')">08 a
+              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio2 ? 'success' : 'danger'"
+                  (click)="agregarQuitarHorario('soloManana')">08 a
                   12</button></td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio3 ? 'success' : 'danger'" (click)="agregarQuitarHorario('soloTarde')">12 a
+              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio3 ? 'success' : 'danger'"
+                  (click)="agregarQuitarHorario('soloTarde')">12 a
                   16</button></td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio4 ? 'success' : 'danger'" (click)="agregarQuitarHorario('tardeNoche')">16 a
+              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio4 ? 'success' : 'danger'"
+                  (click)="agregarQuitarHorario('tardeNoche')">16 a
                   19</button></td>
             </tr>
 
           </tbody>
         </table>
 
-    </div>
+      </div>
 
-    <br>
-  </div>
+      <br>
+    </div>
