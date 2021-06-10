@@ -28,7 +28,7 @@
  -->
 <div class="container">
  <div class="row">
-   <input class="form-control" type="text" placeholder="Busqueda inteligente">
+   <input class="form-control" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam" (ngModelChange)="hacerBusqueda()">
  </div>
 </div>
 

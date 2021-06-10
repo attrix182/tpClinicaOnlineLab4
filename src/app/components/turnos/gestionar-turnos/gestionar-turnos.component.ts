@@ -45,10 +45,12 @@ export class GestionarTurnosComponent implements OnInit {
   public listaAdministradores: Admin[] = [];
   public listaEspecialistas: Especialista[] = [];
   public listaPacientes: Paciente[] = [];
+  public listaTurnosEspecialista: Turno[] = [];
   public especialistaActivo: Especialista;
   public comentario: string;
   public turnoModificado: Turno;
   public historiaClinica: HistoriaClinica;
+  public searchParam: string = "";
 
   public turnoSeleccionado: any;
 
@@ -184,6 +186,42 @@ export class GestionarTurnosComponent implements OnInit {
 
       }
     });
+
+    this.listaTurnosEspecialista = this.misTurnos;
+  }
+
+  hacerBusqueda(){
+
+    if(this.searchParam === ""){
+      this.misTurnos = this.listaTurnosEspecialista;
+      return;
+    }
+
+    const serachParamLower = this.searchParam.toLowerCase();
+    this.misTurnos = this.listaTurnosEspecialista.filter(turno => this.doSearch(turno,serachParamLower));
+  }
+
+  doSearch(value,searcher){    
+    if(typeof value === 'boolean'){
+      return false;
+    }
+
+    if(typeof value === 'object'){
+      for(let fieldKey in value){        
+        if(!this.estaEnLaListaNegraDeKeys(fieldKey) && this.doSearch(value[fieldKey],searcher)){
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+
+    return (typeof value == "string" ? value.toLocaleLowerCase() : value.toString()).includes(searcher)
+  }
+
+  estaEnLaListaNegraDeKeys(key){
+    return ["especialidades","foto","foto1","foto2"].indexOf(key) != -1
   }
 
   traerUsuario() {
