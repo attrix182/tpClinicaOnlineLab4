@@ -59,10 +59,26 @@ export class MisTurnosService {
         especialidad: turno.especialidad,
         estado: turno.estado,
         historia: "",
+        encuestaCompletada: false,
         key: turno.paciente.nombre + hoy.getTime().toString(),
       });
   }
 
+  marcarEncuestaCompletada(turno: Turno) {
+
+    turno.encuestaCompletada = true;
+
+    this.db.collection('turnos').doc(turno.key).update({
+      paciente: turno.paciente,
+      especialista: turno.especialista,
+      fecha: turno.fecha,
+      especialidad: turno.especialidad,
+      estado: turno.estado,
+      comentario: turno.comentario || "",
+      key: turno.key,
+      encuestaCompletada: turno.encuestaCompletada
+    });
+  }
 
   aceptar(turno: Turno) {
 
@@ -76,6 +92,7 @@ export class MisTurnosService {
       especialidad: turno.especialidad,
       estado: turno.estado,
       historia: turno.historia,
+      encuestaCompletada: turno.encuestaCompletada,
       key: turno.key,
     });
   }
@@ -91,6 +108,7 @@ export class MisTurnosService {
       especialidad: turno.especialidad,
       estado: turno.estado,
       comentario: turno.comentario,
+      encuestaCompletada: turno.encuestaCompletada,
       key: turno.key,
     });
   }
@@ -106,6 +124,7 @@ export class MisTurnosService {
       especialidad: turno.especialidad,
       estado: turno.estado,
       comentario: turno.comentario,
+      encuestaCompletada: turno.encuestaCompletada,
       key: turno.key,
     });
   }
@@ -127,6 +146,7 @@ export class MisTurnosService {
       estado: turno.estado,
       comentario: turno.comentario,
       historia: Object.assign({}, historia),
+      encuestaCompletada: turno.encuestaCompletada,
       key: turno.key,
     });
   }
@@ -152,9 +172,7 @@ export class MisTurnosService {
 
   }
 
-  agregarCalificacion(cali: Calificacion) {
-    console.log('en el svc');
-
+  agregarCalificacion(cali: Calificacion) {    
     let hoy = new Date();
 
     this.db

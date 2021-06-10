@@ -12,6 +12,7 @@ export class Turno {
     estado:string;
     comentario:string; //paciente
     historia:any; 
+    encuestaCompletada:boolean;
 
 
 }

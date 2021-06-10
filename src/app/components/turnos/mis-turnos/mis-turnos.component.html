@@ -43,7 +43,7 @@
             <button class="btn btn-sm btn-danger " (click)="cancelarTurno(turno)">Cancelar</button>
           </div>
 
-          <div class="col" *ngIf="turno.estado == 'finalizado'">
+          <div class="col" *ngIf="turno.estado == 'finalizado' && !turno.encuestaCompletada">
             <button class="btn btn-sm btn-primary" (click)="abrirModalEncuesta(turno)">Encuesta</button>
           </div>
 
@@ -131,8 +131,8 @@
 
       <div class="row-flex">
         <div>
-          <label for="">Como describiria la atencion de <b>{{turnoSeleccionado.especialista.nombre}}
-              {{turnoSeleccionado.especialista.apellido}}:</b></label>
+          <label for="">Como describiria la atencion de <b>{{turnoAuxEncuesta.especialista.nombre}}
+              {{turnoAuxEncuesta.especialista.apellido}}:</b></label>
           <div class="row">
             <div class="col">
               <button class="btn btn-dark" (click)="calificarAtencionBtn('mala')" appClickEmoji>😔</button>

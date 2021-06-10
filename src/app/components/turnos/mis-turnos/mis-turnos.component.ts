@@ -195,6 +195,7 @@ export class MisTurnosComponent implements OnInit {
     this.encuesta.sugerencias = this.formularioEncuesta.value.sugerencias;
 
     this.turnosSVC.agregarEncuesta(this.encuesta)
+    this.turnosSVC.marcarEncuestaCompletada(this.turnoAuxEncuesta)
     this.modalService.dismissAll()
     this.alert('success', 'Gracias por responder!')
   }
