@@ -51,7 +51,7 @@
 
         <div *ngIf="inicioRapido" class="animate__animated animate__backInLeft">
           <div class="row">
-            <app-boton-inicio-rapido *ngFor="let usuarioRapido of listaUsuariosLoginRapiddo" class="col" [user]="usuarioRapido" (click)="seleccionarUsuarioRapido(usuarioRapido)"></app-boton-inicio-rapido>
+            <app-boton-inicio-rapido *ngFor="let usuarioRapido of listaUsuariosLoginRapiddo" class="col" [user]="usuarioRapido" (click)="seleccionarUsuarioRapido(usuarioRapido)" appBotonesLogin></app-boton-inicio-rapido>
           </div>
         </div>
 

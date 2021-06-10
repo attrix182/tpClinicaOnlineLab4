@@ -39,7 +39,7 @@ export class MisTurnosComponent implements OnInit {
 
   public turnos: any[] = [];
 
-  public misTurnos: Turno[] = [];
+  public misTurnos: any[] = [];
 
   usuarios: Observable<any[]>;
   public listaEspecialidades: any[] = [];

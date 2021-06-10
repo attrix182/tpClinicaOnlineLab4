@@ -1,3 +1,4 @@
+import { BotonesLoginDirective } from './../../directivas/botones-login.directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +11,8 @@ import { BotonInicioRapidoComponent } from '../../components/boton-inicio-rapido
 @NgModule({
   declarations: [
     LoginComponent,
-    BotonInicioRapidoComponent
+    BotonInicioRapidoComponent,
+    BotonesLoginDirective
   ],
   imports: [
     CommonModule,
