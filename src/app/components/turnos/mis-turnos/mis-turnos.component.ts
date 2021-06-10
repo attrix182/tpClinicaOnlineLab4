@@ -48,9 +48,11 @@ export class MisTurnosComponent implements OnInit {
   public listaEspecialistas: Especialista[] = [];
   public listaPacientes: Paciente[] = [];
   public pacienteActivo: Paciente;
+  public listaTurnosPaciente: Turno[] = [];
   turnoModificado: any;
   public comentario: string;
   public formularioComentario: FormGroup;
+  public searchParam: string = "";
 
   public turnoSeleccionado: any = [];
 
@@ -158,6 +160,42 @@ export class MisTurnosComponent implements OnInit {
       }
     });
 
+    this.listaTurnosPaciente = this.misTurnos;
+  }
+
+
+  hacerBusqueda(){
+
+    if(this.searchParam === ""){
+      this.misTurnos = this.listaTurnosPaciente;
+      return;
+    }
+
+    const serachParamLower = this.searchParam.toLowerCase();
+    this.misTurnos = this.listaTurnosPaciente.filter(turno => this.doSearch(turno,serachParamLower));
+  }
+
+  doSearch(value,searcher){    
+    if(typeof value === 'boolean'){
+      return false;
+    }
+
+    if(typeof value === 'object'){
+      for(let fieldKey in value){        
+        if(!this.estaEnLaListaNegraDeKeys(fieldKey) && this.doSearch(value[fieldKey],searcher)){
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+
+    return (typeof value == "string" ? value.toLocaleLowerCase() : value.toString()).includes(searcher)
+  }
+
+  estaEnLaListaNegraDeKeys(key){
+    return ["especialidades","foto","foto1","foto2"].indexOf(key) != -1
   }
 
 

@@ -27,7 +27,7 @@
 
  <div class="container">
   <div class="row">
-    <input class="form-control mb-2" type="text" placeholder="Busqueda inteligente">
+    <input class="form-control" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam" (ngModelChange)="hacerBusqueda()">
   </div>
  </div>
 
@@ -36,7 +36,7 @@
         <h5 class="card-title">Estado: {{turno.estado}}</h5>
         <b>Fecha:</b> {{turno.fecha}}
         <br>
-        <b>Especialista:</b> {{turno.especialidad.nombre}} {{turno.especialista.apellido}}
+        <b>Especialista:</b> {{turno.especialista.nombre}} {{turno.especialista.apellido}}
         <br>
         <b>Especialidad:</b> {{turno.especialidad.nombre}}
 
