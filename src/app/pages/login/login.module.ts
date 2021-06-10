@@ -1,3 +1,5 @@
+import { PrimerLetraMayusPipe } from './../../pipes/primer-letra-mayus.pipe';
+
 import { BotonesLoginDirective } from './../../directivas/botones-login.directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +14,8 @@ import { BotonInicioRapidoComponent } from '../../components/boton-inicio-rapido
   declarations: [
     LoginComponent,
     BotonInicioRapidoComponent,
-    BotonesLoginDirective
+    BotonesLoginDirective,
+    PrimerLetraMayusPipe
   ],
   imports: [
     CommonModule,
