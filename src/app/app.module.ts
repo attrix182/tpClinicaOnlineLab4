@@ -1,5 +1,3 @@
-
-
 import { environment } from './../environments/environment.prod';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,9 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
-import { KeyValuePipe } from './pipes/key-value.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ClickEmojiDirective } from './directivas/click-emoji.directive';
 
  
 
