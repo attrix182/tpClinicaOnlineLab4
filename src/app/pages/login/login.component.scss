@@ -42,7 +42,10 @@
   }
   
   
-  
+  .noMouse
+  {
+    user-select: none;
+  }
   
   
   .flex-equal > * {

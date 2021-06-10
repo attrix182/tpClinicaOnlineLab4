@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
     this.usuarios = this.context.list('usuarios').valueChanges();
     this.usuarios.subscribe(usuarios => {
       this.listadoUsuarios = usuarios;
-  
+      this.traerAdmin1()
     }, error => console.log(error));
 
   }
@@ -66,8 +66,9 @@ export class LoginComponent implements OnInit {
 
   traerAdmin1()
   {
-    this.listadoUsuarios.forEach(element => {
-      
+    this.listadoUsuarios.forEach(unUser => {
+      if(unUser.correo == 'administrador@yopmail.com')
+      this.admin1 = unUser
     });
   }
 

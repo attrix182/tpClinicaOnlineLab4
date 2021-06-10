@@ -9,6 +9,7 @@ import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { KeyValuePipe } from './pipes/key-value.pipe';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClickEmojiDirective } from './directivas/click-emoji.directive';
 
  
 

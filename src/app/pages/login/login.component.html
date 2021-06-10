@@ -50,17 +50,17 @@
         </button>
 
         <div *ngIf="inicioRapido" class="animate__animated animate__backInLeft">
+          <div class="card bg-dark text-white border-white mt-1 ml-2 noMouse" style="width: 8em; height: 11em;">
           <div class="card-body">
             <img class="card-img-top" src="{{admin1.foto1}}" width="50px">
             <h5 class="card-title">{{admin1.nombre}} {{admin1.apellido}}</h5>
             <p class="card-text">
               <div class="row">
                 <b>Perfil: </b> {{admin1.perfil}}
-                <button type="button" (click)="admin()" class="btn btn-warning botonesLanding">
-                  Admin
-                </button>
               </div>
           </div>
+        </div>
+         
 
 
 

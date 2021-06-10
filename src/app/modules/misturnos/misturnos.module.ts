@@ -1,3 +1,4 @@
+import { ClickEmojiDirective } from './../../directivas/click-emoji.directive';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MisTurnosComponent } from './../../components/turnos/mis-turnos/mis-turnos.component';
@@ -7,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [MisTurnosComponent],
+  declarations: [MisTurnosComponent, ClickEmojiDirective],
   imports: [
     CommonModule,
     FormsModule,

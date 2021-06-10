@@ -48,27 +48,32 @@ export class MisTurnosComponent implements OnInit {
   public listaEspecialistas: Especialista[] = [];
   public listaPacientes: Paciente[] = [];
   public pacienteActivo: Paciente;
-  turnoModificado:any;
- public comentario: string;
+  turnoModificado: any;
+  public comentario: string;
   public formularioComentario: FormGroup;
-  
+
   public turnoSeleccionado: any = [];
-  calificacion:Calificacion = new Calificacion();
 
-  encuesta:Encuesta = new Encuesta()
+  public turnoAmodificar: any = [];
 
-  
-  estrellas = 0; 
+  public turnoAuxEncuesta: any = [];
+
+  calificacion: Calificacion = new Calificacion();
+
+  encuesta: Encuesta = new Encuesta()
+
+
+  estrellas = 0;
 
 
   @ViewChild('modalCancelar', { read: TemplateRef })
   modalCancelar: TemplateRef<any>;
 
-  
+
   @ViewChild('modalVerComentario', { read: TemplateRef })
   modalVerComentario: TemplateRef<any>;
 
-  
+
   @ViewChild('modalCalificar', { read: TemplateRef })
   modalCalificar: TemplateRef<any>;
 
@@ -76,7 +81,7 @@ export class MisTurnosComponent implements OnInit {
   modalEncuesta: TemplateRef<any>;
 
   formularioEncuesta: FormGroup;
-  
+
 
   constructor(
     private turnosSVC: MisTurnosService,
@@ -95,7 +100,7 @@ export class MisTurnosComponent implements OnInit {
       peso: new FormControl(''),
       temperatura: new FormControl(''),
       presion: new FormControl(''),
-      comentario: new FormControl(''),
+      sugerencias: new FormControl(''),
     });
 
     turnosSVC
@@ -127,65 +132,71 @@ export class MisTurnosComponent implements OnInit {
 
     this.turnos.forEach((unTurno) => {
       if (unTurno.paciente.id == this.pacienteActivo.id) {
- 
-          if (unTurno.estado == 'rechazado') {
-            unTurno.claseCard = 'card text-dark bg-danger';
-          }
-  
-          if (unTurno.estado == 'cancelado') {
-            unTurno.claseCard = 'card text-dark bg-danger';
-          }
-  
-          if (unTurno.estado == 'pendiente') {
-            unTurno.claseCard = 'card text-dark bg-warning';
-          }
-  
-          if (unTurno.estado == 'aceptado') {
-            unTurno.claseCard = 'card text-dark bg-info';
-          }
-  
-          if (unTurno.estado == 'finalizado') {
-            unTurno.claseCard = 'card text-dark bg-success';
-          }
-  
-          this.misTurnos.push(unTurno);
-  
+
+        if (unTurno.estado == 'rechazado') {
+          unTurno.claseCard = 'card text-dark bg-danger';
         }
-      });
+
+        if (unTurno.estado == 'cancelado') {
+          unTurno.claseCard = 'card text-dark bg-danger';
+        }
+
+        if (unTurno.estado == 'pendiente') {
+          unTurno.claseCard = 'card text-dark bg-warning';
+        }
+
+        if (unTurno.estado == 'aceptado') {
+          unTurno.claseCard = 'card text-dark bg-info';
+        }
+
+        if (unTurno.estado == 'finalizado') {
+          unTurno.claseCard = 'card text-dark bg-success';
+        }
+
+        this.misTurnos.push(unTurno);
+
+      }
+    });
 
   }
 
 
-  abrirModalCalificar(turno)
-  {
-    this.turnoSeleccionado = turno
+  abrirModalCalificar(turno) {
+    this.turnoAmodificar = turno
     this.modalService.open(this.modalCalificar)
   }
 
-  enviarCalificaion()
-  {
+  enviarCalificaion() {
     this.calificacion.estrellas = this.estrellas;
-    this.calificacion.paciente = this.turnoSeleccionado.paciente;
-    this.calificacion.especialista = this.turnoSeleccionado.especialista;
+    this.calificacion.paciente = this.turnoAmodificar.paciente;
+    this.calificacion.especialista = this.turnoAmodificar.especialista;
     this.turnosSVC.agregarCalificacion(this.calificacion)
     this.modalService.dismissAll()
+    this.alert('success', 'Gracias por responder!')
   }
 
+  calificarAtencionBtn(calificacion: any) {
+    this.encuesta.atencionDelEspecialista = calificacion;
+  }
 
-  
-  abrirModalEncuesta(turno)
-  {
-    this.turnoSeleccionado = turno
+  recomendariaBtn(recomienda: any) {
+    this.encuesta.recomienda = recomienda;
+  }
+
+  abrirModalEncuesta(turno) {
+    this.turnoAuxEncuesta = turno
     this.modalService.open(this.modalEncuesta)
   }
 
-  enviarEncuesta()
-  {
+  enviarEncuesta() {
 
-    this.encuesta.paciente = this.turnoSeleccionado.paciente;
-    this.encuesta.especialista = this.turnoSeleccionado.especialista;
+    this.encuesta.paciente = this.turnoAuxEncuesta.paciente;
+    this.encuesta.especialista = this.turnoAuxEncuesta.especialista;
+    this.encuesta.sugerencias = this.formularioEncuesta.value.sugerencias;
+
     this.turnosSVC.agregarEncuesta(this.encuesta)
     this.modalService.dismissAll()
+    this.alert('success', 'Gracias por responder!')
   }
 
 
@@ -197,6 +208,8 @@ export class MisTurnosComponent implements OnInit {
     });
   }
 
+
+
   verComentario(turno) {
     console.log(turno)
     this.turnoSeleccionado.estado = turno.estado;
@@ -207,12 +220,12 @@ export class MisTurnosComponent implements OnInit {
     this.turnoSeleccionado.datosExtra = turno.historia.datosExtra;
 
 
-    
+
     this.modalService.open(this.modalVerComentario);
 
   }
 
-  
+
 
 
   public cargarListas() {
@@ -240,7 +253,7 @@ export class MisTurnosComponent implements OnInit {
   }
 
   cancelarTurnoModal() {
-    this.turnoModificado.comentario =this.formularioComentario.value.comentario;
+    this.turnoModificado.comentario = this.formularioComentario.value.comentario;
     this.turnosSVC.cancelar(this.turnoModificado);
     this.modalService.dismissAll()
 

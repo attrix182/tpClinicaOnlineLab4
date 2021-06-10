@@ -179,6 +179,9 @@ export class MisTurnosService {
       .set({
         paciente: encu.paciente,
         especialista: encu.especialista,
+        atencionDelEspecialista: encu.atencionDelEspecialista,
+        recomendaria: encu.recomienda,
+        sugerencias: encu.sugerencias,
         key: encu.paciente.nombre + hoy.getTime().toString(),
       });
   }

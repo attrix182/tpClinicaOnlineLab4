@@ -135,13 +135,13 @@
               {{turnoSeleccionado.especialista.apellido}}:</b></label>
           <div class="row">
             <div class="col">
-              <button class="btn btn-dark">😔</button>
+              <button class="btn btn-dark" (click)="calificarAtencionBtn('mala')" appClickEmoji>😔</button>
             </div>
             <div class="col">
-              <button class="btn btn-dark">😐</button>
+              <button class="btn btn-dark" (click)="calificarAtencionBtn('regular')" appClickEmoji>😐</button>
             </div>
             <div class="col">
-              <button class="btn btn-dark">😀</button>
+              <button class="btn btn-dark" (click)="calificarAtencionBtn('buena')" appClickEmoji>😀</button>
             </div>
           </div>
           <hr>
@@ -150,32 +150,32 @@
               <label for="">Recomendarias la clinica?</label>
               <div class="row">
                 <div class="col-4">
-                  <button class="btn btn-dark">👍</button>
+                  <button class="btn btn-dark" (click)="recomendariaBtn('si')" appClickEmoji>👍</button>
                 </div>
-            
-                <div class="col-8">
-                  <button class="btn btn-dark">👎 </button>
-                </div>
-              </div>
-                <br>
-                <hr>
-                <div class="row">
-                  <label for="">Sugerencias</label>
-                  <input type="text" class="form-control" placeholder="Dato" formControlName="comentario" required>
-                  <hr>
-                </div>
-              </div>
 
-                <div class="modal-footer">
-                  <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
-                    (click)="enviarEncuesta()">Enviar</button>
+                <div class="col-8">
+                  <button class="btn btn-dark" (click)="recomendariaBtn('no')" appClickEmoji>👎 </button>
                 </div>
               </div>
-              </div>
+              <br>
+              <hr>
+              <div class="row">
+                <label>Sugerencias</label>
+                <input type="text" class="form-control" placeholder="Sugerencias" formControlName="sugerencias" required>
+              
+            
+            </div>  
+          </div>
+            <div class="modal-footer">
+              <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
+                (click)="enviarEncuesta()">Enviar</button>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   </div>
-        
+
 </ng-template>
 
 
