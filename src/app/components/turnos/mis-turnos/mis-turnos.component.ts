@@ -164,25 +164,25 @@ export class MisTurnosComponent implements OnInit {
   }
 
 
-  hacerBusqueda(){
+  hacerBusqueda() {
 
-    if(this.searchParam === ""){
+    if (this.searchParam === "") {
       this.misTurnos = this.listaTurnosPaciente;
       return;
     }
 
     const serachParamLower = this.searchParam.toLowerCase();
-    this.misTurnos = this.listaTurnosPaciente.filter(turno => this.doSearch(turno,serachParamLower));
+    this.misTurnos = this.listaTurnosPaciente.filter(turno => this.doSearch(turno, serachParamLower));
   }
 
-  doSearch(value,searcher){    
-    if(typeof value === 'boolean'){
+  doSearch(value, searcher) {
+    if (typeof value === 'boolean') {
       return false;
     }
 
-    if(typeof value === 'object'){
-      for(let fieldKey in value){        
-        if(!this.estaEnLaListaNegraDeKeys(fieldKey) && this.doSearch(value[fieldKey],searcher)){
+    if (typeof value === 'object') {
+      for (let fieldKey in value) {
+        if (!this.estaEnLaListaNegraDeKeys(fieldKey) && this.doSearch(value[fieldKey], searcher)) {
           return true;
         }
       }
@@ -194,8 +194,8 @@ export class MisTurnosComponent implements OnInit {
     return (typeof value == "string" ? value.toLocaleLowerCase() : value.toString()).includes(searcher)
   }
 
-  estaEnLaListaNegraDeKeys(key){
-    return ["especialidades","foto","foto1","foto2"].indexOf(key) != -1
+  estaEnLaListaNegraDeKeys(key) {
+    return ["especialidades", "foto", "foto1", "foto2"].indexOf(key) != -1
   }
 
 

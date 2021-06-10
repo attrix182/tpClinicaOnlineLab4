@@ -174,6 +174,11 @@ export class MisTurnosService {
     return this.referenciaAlaColeccionTurnos;
   }
 
+  TraerHistorias(): AngularFirestoreCollection<HistoriaClinica> {
+    return this.referenciaHistoriasClinicas;
+  }
+
+
 
   TraerHistoriaPorId(id) {
 

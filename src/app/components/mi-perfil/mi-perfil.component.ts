@@ -1,3 +1,5 @@
+import { MisTurnosService } from './../../servicios/mis-turnos.service';
+import { HistoriaClinica } from './../../clases/historia-clinica';
 import { MisHorariosService } from './../../servicios/mis-horarios.service';
 import { EspecialidadHorarios } from './../../clases/especialidad-horarios';
 import { UsuarioService } from './../../servicios/usuario.service';
@@ -7,6 +9,8 @@ import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Horario } from 'src/app/clases/horario';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // Todavía no lo usamos
 
 @Component({
   selector: 'app-mi-perfil',
@@ -48,13 +52,18 @@ export class MiPerfilComponent implements OnInit {
   eligio3: boolean = false;
   eligio4: boolean = false;
 
+  public historias: HistoriaClinica[] = [];
+
+  public historiasDelPaciente: HistoriaClinica[] = [];
+
   public espH: EspecialidadHorarios;
 
   constructor(
     private authSVC: AuthService,
     private userSVC: UsuarioService,
     private context: AngularFireDatabase,
-    private horariosSvc: MisHorariosService
+    private horariosSvc: MisHorariosService,
+    private turnosSvc: MisTurnosService
   ) {
     this.misHorarios = false;
 
@@ -63,6 +72,18 @@ export class MiPerfilComponent implements OnInit {
     this.horario = new Horario();
 
     this.espH = new EspecialidadHorarios();
+
+  
+/*       turnosSvc.TraerHistorias()
+      .valueChanges()
+      .subscribe((data) => {
+        this.historias = data;
+        console.log(data)
+        this.verHistorias();
+      });
+ */
+
+
 
     userSVC
       .TraerEspecialidades()
@@ -115,6 +136,18 @@ export class MiPerfilComponent implements OnInit {
     }
   }
 
+
+
+  verHistorias() {
+    this.historias.forEach(unaHistoria => {
+      if (unaHistoria.paciente == this.usuarioActivo) {
+        this.historiasDelPaciente.push(unaHistoria)
+      }
+    });
+  }
+
+
+
   traerUsuario() {
     this.authSVC.GetCurrentUser().then((response) => {
       let user = this.listadoUsuarios.filter((u) => u.id == response.uid);
@@ -130,18 +163,18 @@ export class MiPerfilComponent implements OnInit {
     this.espH = esp;
 
     this.horario.especialidadHorarios[this.espH.nombre] = this.espH;
-    
+
     this.toco1 = false;
-    this.toco2  = false;
-    this.toco3  = false;
-    this.toco4  = false;
-    this.toco5  = false;
-    this.toco6  = false;
-  
-    this.eligio1  = false;
-    this.eligio2  = false;
-    this.eligio3  = false;
-    this.eligio4  = false;
+    this.toco2 = false;
+    this.toco3 = false;
+    this.toco4 = false;
+    this.toco5 = false;
+    this.toco6 = false;
+
+    this.eligio1 = false;
+    this.eligio2 = false;
+    this.eligio3 = false;
+    this.eligio4 = false;
 
 
   }
@@ -245,15 +278,14 @@ export class MiPerfilComponent implements OnInit {
 
   agregar() {
 
-    
-    if(this.dias.length > 0 && this.rangoHorario)
-    {
+
+    if (this.dias.length > 0 && this.rangoHorario) {
       console.log(this.horario)
       this.horariosSvc.AgregarHorario(this.horario);
-      this.alert('success','Horarios editados correctamente')
+      this.alert('success', 'Horarios editados correctamente')
     }
-    else{
-        this.alert('error','No selecciono fechas o dias')
+    else {
+      this.alert('error', 'No selecciono fechas o dias')
     }
 
 
@@ -277,6 +309,40 @@ export class MiPerfilComponent implements OnInit {
       icon: icon,
       title: text
     })
+  }
+
+  imprimirPdf(): void {
+    const DATA = document.getElementById('perfil');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 1,
+    };
+    html2canvas(DATA, options)
+      .then((canvas) => {
+        const img = canvas.toDataURL('image/PNG');
+
+        // Add image Canvas to PDF
+        const bufferX = 15;
+        const bufferY = 15;
+        const imgProps = (doc as any).getImageProperties(img);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(
+          img,
+          'PNG',
+          bufferX,
+          bufferY,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
+        return doc;
+      })
+      .then((docResult) => {
+        docResult.save(`${new Date().toISOString()}_perfil.pdf`);
+      });
   }
 
 }
