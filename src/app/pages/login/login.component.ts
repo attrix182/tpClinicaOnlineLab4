@@ -72,6 +72,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  
+
   botonesIncio() {
     if (this.inicioRapido) {
       this.inicioRapido = false;
