@@ -71,6 +71,8 @@ export class GestionarTurnosComponent implements OnInit {
 
   public datos: any;
 
+  hayTurnos:boolean
+
   @ViewChild('modalRechazar', { read: TemplateRef }) modalRechazar: TemplateRef<any>;
 
   @ViewChild('modalCancelar', { read: TemplateRef })
@@ -113,6 +115,8 @@ export class GestionarTurnosComponent implements OnInit {
     this.historiaClinica = new HistoriaClinica();
 
     this.turnoSeleccionado = new Turno();
+
+    this.hayTurnos = false
 
     turnosSVC
       .TraerTurnos()
@@ -188,6 +192,15 @@ export class GestionarTurnosComponent implements OnInit {
     });
 
     this.listaTurnosEspecialista = this.misTurnos;
+
+    if(this.misTurnos.length > 0)
+    {
+      this.hayTurnos = false
+     
+    }
+    else{ this.hayTurnos = true }
+    console.log(this.hayTurnos)
+    
   }
 
   hacerBusqueda(){

@@ -14,7 +14,7 @@ import { Encuesta } from '../clases/encuesta';
 export class MisTurnosService {
   rutaDeLaColeccionTurnos = '/turnos';
 
-  rutaDeLaHistoriasClinicas = '/historiasClinica';
+  rutaDeLaHistoriasClinicas = '/historiasClinicas';
 
   referenciaAlaColeccionTurnos: AngularFirestoreCollection<Turno>;
 

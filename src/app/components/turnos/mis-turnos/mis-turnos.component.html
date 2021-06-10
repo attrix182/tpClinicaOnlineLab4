@@ -11,29 +11,17 @@
 
   <div *ngIf="true" align=center>
 
-    <!-- <div class="row">
-      <div class="col">
-        <button class="btn btn-dark btn-sm mt-3"><img src="../../../assets/especialidades.jpg" alt=""
-            height="100px"></button>
-        <div class="centered">Especialidades</div>
-      </div>
-      <div class="col">
-        <button class="btn btn-dark btn-sm mt-3"><img src="../../../assets/especialistas.jpg" alt=""
-            height="100px"></button>
-        <div class="centered">Especialistas</div>
-      </div>
-      </div>
- -->
 
- <div class="container">
-  <div class="row">
-    <input class="form-control mb-1" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam" (ngModelChange)="hacerBusqueda()">
-  </div>
- </div>
+    <div class="container">
+      <div class="row">
+        <input class="form-control mb-1" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam"
+          (ngModelChange)="hacerBusqueda()">
+      </div>
+    </div>
 
     <div [class]="turno.claseCard" style="width: 20rem; margin-bottom: 5px;" *ngFor="let turno of misTurnos">
       <div class="card-body">
-        <h5 class="card-title">Estado: {{turno.estado}}</h5>
+        <h5 class="card-title">Estado: {{turno.estado | mayusculas}}</h5>
         <b>Fecha:</b> {{turno.fecha}}
         <br>
         <b>Especialista:</b> {{turno.especialista.nombre}} {{turno.especialista.apellido}}
@@ -100,7 +88,7 @@
         <h6>Temperatura: {{turnoSeleccionado.temperatura}}</h6>
         <h6>Presion {{turnoSeleccionado.presion}}</h6>
 
-        <div *ngFor="let dato of turnoSeleccionado.datosExtra ">
+        <div *ngFor="let dato of turnoSeleccionado.datosExtra | keysDatos">
 
           <h6>Dato: {{dato.key}} Valor: {{dato.value}}</h6>
 
@@ -166,11 +154,12 @@
               <hr>
               <div class="row">
                 <label>Sugerencias</label>
-                <input type="text" class="form-control" placeholder="Sugerencias" formControlName="sugerencias" required>
-              
-            
-            </div>  
-          </div>
+                <input type="text" class="form-control" placeholder="Sugerencias" formControlName="sugerencias"
+                  required>
+
+
+              </div>
+            </div>
             <div class="modal-footer">
               <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
                 (click)="enviarEncuesta()">Enviar</button>

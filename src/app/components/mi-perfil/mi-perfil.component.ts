@@ -52,7 +52,9 @@ export class MiPerfilComponent implements OnInit {
   eligio3: boolean = false;
   eligio4: boolean = false;
 
-  public historias: HistoriaClinica[] = [];
+  mostarH: boolean = false;
+
+  public historias: any[] = [];
 
   public historiasDelPaciente: HistoriaClinica[] = [];
 
@@ -73,16 +75,15 @@ export class MiPerfilComponent implements OnInit {
 
     this.espH = new EspecialidadHorarios();
 
-  
-/*       turnosSvc.TraerHistorias()
+
+    turnosSvc.TraerHistorias()
       .valueChanges()
       .subscribe((data) => {
         this.historias = data;
         console.log(data)
         this.verHistorias();
-      });
- */
 
+      });
 
 
     userSVC
@@ -105,6 +106,19 @@ export class MiPerfilComponent implements OnInit {
     );
     this.tempo();
   }
+
+
+  verHistorias() {
+
+
+    this.historias.forEach(unaHistoria => {
+      if (unaHistoria.paciente.id == this.usuarioActivo.id) {
+        this.historiasDelPaciente.push(unaHistoria)
+      }
+    });
+
+  }
+
 
   tempo() {
     setTimeout(() => {
@@ -136,15 +150,17 @@ export class MiPerfilComponent implements OnInit {
     }
   }
 
+  mostarHistorias() {
 
-
-  verHistorias() {
-    this.historias.forEach(unaHistoria => {
-      if (unaHistoria.paciente == this.usuarioActivo) {
-        this.historiasDelPaciente.push(unaHistoria)
-      }
-    });
+    if (this.mostarH) {
+      this.mostarH = false;
+    } else {
+      this.mostarH = true;
+    }
   }
+
+
+
 
 
 
@@ -312,7 +328,7 @@ export class MiPerfilComponent implements OnInit {
   }
 
   imprimirPdf(): void {
-    const DATA = document.getElementById('perfil');
+    const DATA = document.getElementById('historia');
     const doc = new jsPDF('p', 'pt', 'a4');
     const options = {
       background: 'white',
@@ -323,8 +339,8 @@ export class MiPerfilComponent implements OnInit {
         const img = canvas.toDataURL('image/PNG');
 
         // Add image Canvas to PDF
-        const bufferX = 15;
-        const bufferY = 15;
+        const bufferX = 30;
+        const bufferY = 30;
         const imgProps = (doc as any).getImageProperties(img);
         const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;

@@ -1,14 +1,18 @@
 <div class="form-group text-center">
+
   <div class="row text-center">
     <div class="col-6">
-      <img src="../../../assets/especialistas.jpg" height="100" width="130" class="imgBtn" (click)="especilistasListar()" appMouseHoverImagen><span class="centered">Especialistas</span>
+      <img src="../../../assets/especialistas.jpg" height="100" width="130" class="imgBtn"
+        (click)="especilistasListar()" appMouseHoverImagen><span class="centered">Especialistas</span>
     </div>
 
     <div class="col-6">
-      <img src="../../../assets/especialidades.jpg" height="100" width="130" class="imgBtn" (click)="especilidadesListar()" appMouseHoverImagen><span class="centered">Especialidades</span>
+      <img src="../../../assets/especialidades.jpg" height="100" width="130" class="imgBtn"
+        (click)="especilidadesListar()" appMouseHoverImagen><span class="centered">Especialidades</span>
     </div>
-  </div>
 
+
+  </div>
 
 
   <div class="row" id="filtros" *ngIf="filtroEspecialidades">
@@ -18,10 +22,13 @@
         <div class="card bg-dark border-white mt-1 ml-1" style="width: 8em; height: 9em;"
           (click)="selccionarEspecialidad(especialidad)" appMouseHover>
 
-          
-          <img *ngIf="especialidad.foto" class="card-img-top imgCard" src="{{especialidad.foto}}" width="10px" alt="Card image cap" >
-          
-          <img *ngIf="!especialidad.foto" class="card-img-top imgCard" src="https://image.freepik.com/vector-gratis/patron-elementos-medicos-salud_1085-294.jpg" width="10px" alt="Card image cap" >
+
+          <img *ngIf="especialidad.foto" class="card-img-top imgCard" src="{{especialidad.foto}}" width="10px"
+            alt="Card image cap">
+
+          <img *ngIf="!especialidad.foto" class="card-img-top imgCard"
+            src="https://image.freepik.com/vector-gratis/patron-elementos-medicos-salud_1085-294.jpg" width="10px"
+            alt="Card image cap">
 
           <div class="card-body">
             <h6 style="font-size:smaller">{{especialidad.nombre}}</h6>
@@ -37,11 +44,13 @@
   <div class="row" id="filtros">
     <div class="grid">
       <div *ngFor="let especialista of listaEspecialistaPorEspecialidad">
-        <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 9em;"
-          (click)="selccionarEspecialista(especialista)" appMouseHover>
-          <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
-          <div class="card-body">
-            <h6 style="font-size:medium">{{especialista.nombre}} {{especialista.apellido}} </h6>
+        <div *ngIf="especialista.estado == true">
+          <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 9em;"
+            (click)="selccionarEspecialista(especialista)" appMouseHover>
+            <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
+            <div class="card-body">
+              <h6 style="font-size:medium">{{especialista.nombre}} {{especialista.apellido}} </h6>
+            </div>
           </div>
         </div>
       </div>
@@ -57,12 +66,14 @@
   <div class="row" id="filtros">
     <div class="grid">
       <div *ngFor="let especialista of listaEspecialistasConEspecialidad">
-        <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 11em;"
-          (click)="selccionarEspecialistaConEspecialidad(especialista)" appMouseHover>
-          <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
-          <div class="card-body">
-            <h6 class="card-title">{{especialista.nombre}} {{especialista.apellido}} </h6>
-            <h6 style="font-size:smaller">{{especialista.especialidades}} </h6>
+        <div *ngIf="especialista.estado == true">
+          <div class="card bg-dark border-white mt-1 ml-2" style="width: 8em; height: 11em;"
+            (click)="selccionarEspecialistaConEspecialidad(especialista)" appMouseHover>
+            <img class="card-img-top imgCard" src="{{especialista.foto}}" alt="Card image cap">
+            <div class="card-body">
+              <h6 class="card-title">{{especialista.nombre}} {{especialista.apellido}} </h6>
+              <h6 style="font-size:smaller">{{especialista.especialidades}} </h6>
+            </div>
           </div>
         </div>
       </div>

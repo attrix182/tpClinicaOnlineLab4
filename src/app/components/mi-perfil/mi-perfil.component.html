@@ -9,24 +9,24 @@
 
 <div *ngIf="timer">
 
-  <div class="card text-white bg-dark" style="width: 21rem;"  id="perfil">
+  <div class="card text-white bg-dark" style="width: 21rem;" id="perfil">
     <div *ngIf="usuarioActivo.foto2">
-    <div class="row">
-      <div class="col">
-        <img class="card-img-top" src="{{usuarioActivo.foto2}}" class="imgCard">
-      </div>
+      <div class="row">
+        <div class="col">
+          <img class="card-img-top" src="{{usuarioActivo.foto2}}" class="imgCard">
+        </div>
 
-      <div class="col">
-        <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}" class="imgCard">
+        <div class="col">
+          <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}" class="imgCard">
+        </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="!usuarioActivo.foto2">
+    <div *ngIf="!usuarioActivo.foto2">
 
-        <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}"  width="50px">
+      <img class="card-img-top" src="{{usuarioActivo.foto1 || usuarioActivo.foto}}" width="50px">
 
-  </div>
+    </div>
 
 
 
@@ -46,100 +46,127 @@
     </div>
   </div>
 
+
+
   <div *ngIf="usuarioActivo.perfil == 'paciente'">
-    <button class="btn btn-dark mt-2 mb-1" (click)="imprimirPdf()">Imprimir PDF</button>
+    <button class="btn btn-dark mt-1 mb-1" (click)="mostarHistorias()">Historias clinicas</button>
   </div>
 
   <div *ngIf="usuarioActivo.perfil == 'especialista'">
     <button class="btn btn-dark mt-2 mb-1" (click)="verHorarios()">Mis horarios</button>
   </div>
 
-  <div *ngIf="misHorarios">
+  <div *ngIf="usuarioActivo.perfil == 'paciente' && mostarH == true">
+  <div *ngFor="let unaHistoria of historiasDelPaciente">
+    <div class="card text-white bg-dark mb-3" style="max-width: 18rem;" id="historia">
+      <div class="card-header">{{unaHistoria.paciente.nombre}} {{unaHistoria.paciente.apellido}}</div>
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+
+        Peso: {{unaHistoria.peso}}
+        <br>
+        Presion: {{unaHistoria.presion}}
+        <br>
+        Temperatura: {{unaHistoria.temperatura}}
+        <br>
+        <div *ngFor="let dato of unaHistoria.datosExtra | keysFormat">
+          Dato: {{dato.key}} Valor: {{dato.value}}
+        </div>
+        <button class="btn btn-light mt-2 mb-1" (click)="imprimirPdf()">Imprimir PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-    <div *ngIf="true">
-      <table class="table table-bordered  table-hover table-dark tablaUsers mt-1 tabla">
-        <thead>
-          <th>Seleccione una de sus especialidaes:</th>
 
 
-        </thead>
-        <tbody>
-          <tr *ngFor="let unaEsp of listaEspecialidadesDelEspecialista" (click)="especialidadSeleccionada(unaEsp)">
-            <td>{{unaEsp.nombre}}</td>
-            <td> <img src="{{unaEsp.foto}}" alt="Ver foto" width="45"></td>
-          </tr>
-        </tbody>
-      </table>
+<div *ngIf="misHorarios">
+
+
+  <div *ngIf="true">
+    <table class="table table-bordered  table-hover table-dark tablaUsers mt-1 tabla">
+      <thead>
+        <th>Seleccione una de sus especialidaes:</th>
+
+
+      </thead>
+      <tbody>
+        <tr *ngFor="let unaEsp of listaEspecialidadesDelEspecialista" (click)="especialidadSeleccionada(unaEsp)">
+          <td>{{unaEsp.nombre}}</td>
+          <td> <img src="{{unaEsp.foto}}" alt="Ver foto" width="45"></td>
+        </tr>
+      </tbody>
+    </table>
 
 
 
 
 
-      <div class="container bg-dark text-white mt-2 " style="max-width: 390px;" *ngIf="especialidadActiva">
+    <div class="container bg-dark text-white mt-2 " style="max-width: 390px;" *ngIf="especialidadActiva">
 
-        <div class="row">
-          <div class="col">
-            <h4>Horarios para <b>{{especialidadActiva.nombre}}</b></h4>
-          </div>
-
-
-          <div class="col">
-            <button class="btn btn-success mr-5 mt-2" (click)="agregar()">Guardar</button>
-          </div>
+      <div class="row">
+        <div class="col">
+          <h4>Horarios para <b>{{especialidadActiva.nombre}}</b></h4>
         </div>
 
 
-
-
-        <table class="table table-dark tablaUsers mt-3">
-
-          <thead>
-            <th>L</th>
-            <th>M</th>
-            <th>M</th>
-            <th>J</th>
-            <th>V</th>
-            <th>S</th>
-          </thead>
-          <tbody>
-
-            <tr>
-              <td> <button class="btn btn-sm" type="button" id="1" (click)="agregarQuitarDia(1)"
-                  [ngClass]="toco1 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="2" (click)="agregarQuitarDia(2)"
-                  [ngClass]="toco2 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="3" (click)="agregarQuitarDia(3)"
-                  [ngClass]="toco3 ? 'success' : 'danger'">❌</button>
-              </td>
-              <td> <button class="btn btn-sm" type="button" id="4" (click)="agregarQuitarDia(4)"
-                  [ngClass]="toco4 ? 'success' : 'danger'">❌</button></td>
-              <td> <button class="btn btn-sm" type="button" id="5" (click)="agregarQuitarDia(5)"
-                  [ngClass]="toco5 ? 'success' : 'danger'">❌</button>
-              </td>
-              <td> <button class="btn btn-sm" type="button" id="6" (click)="agregarQuitarDia(6)"
-                  [ngClass]="toco6 ? 'success' : 'danger'">❌</button></td>
-            </tr>
-            <tr>
-              <td> </td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio1 ? 'success' : 'danger'"
-                  (click)="agregarQuitarHorario('todoElDia')">08 a
-                  19</button></td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio2 ? 'success' : 'danger'"
-                  (click)="agregarQuitarHorario('soloManana')">08 a
-                  12</button></td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio3 ? 'success' : 'danger'"
-                  (click)="agregarQuitarHorario('soloTarde')">12 a
-                  16</button></td>
-              <td> <button class="btn btn-sm" type="button" [ngClass]="eligio4 ? 'success' : 'danger'"
-                  (click)="agregarQuitarHorario('tardeNoche')">16 a
-                  19</button></td>
-            </tr>
-
-          </tbody>
-        </table>
-
+        <div class="col">
+          <button class="btn btn-success mr-5 mt-2" (click)="agregar()">Guardar</button>
+        </div>
       </div>
 
-      <br>
+
+
+
+      <table class="table table-dark tablaUsers mt-3">
+
+        <thead>
+          <th>L</th>
+          <th>M</th>
+          <th>M</th>
+          <th>J</th>
+          <th>V</th>
+          <th>S</th>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td> <button class="btn btn-sm" type="button" id="1" (click)="agregarQuitarDia(1)"
+                [ngClass]="toco1 ? 'success' : 'danger'">❌</button></td>
+            <td> <button class="btn btn-sm" type="button" id="2" (click)="agregarQuitarDia(2)"
+                [ngClass]="toco2 ? 'success' : 'danger'">❌</button></td>
+            <td> <button class="btn btn-sm" type="button" id="3" (click)="agregarQuitarDia(3)"
+                [ngClass]="toco3 ? 'success' : 'danger'">❌</button>
+            </td>
+            <td> <button class="btn btn-sm" type="button" id="4" (click)="agregarQuitarDia(4)"
+                [ngClass]="toco4 ? 'success' : 'danger'">❌</button></td>
+            <td> <button class="btn btn-sm" type="button" id="5" (click)="agregarQuitarDia(5)"
+                [ngClass]="toco5 ? 'success' : 'danger'">❌</button>
+            </td>
+            <td> <button class="btn btn-sm" type="button" id="6" (click)="agregarQuitarDia(6)"
+                [ngClass]="toco6 ? 'success' : 'danger'">❌</button></td>
+          </tr>
+          <tr>
+            <td> </td>
+            <td> <button class="btn btn-sm" type="button" [ngClass]="eligio1 ? 'success' : 'danger'"
+                (click)="agregarQuitarHorario('todoElDia')">08 a
+                19</button></td>
+            <td> <button class="btn btn-sm" type="button" [ngClass]="eligio2 ? 'success' : 'danger'"
+                (click)="agregarQuitarHorario('soloManana')">08 a
+                12</button></td>
+            <td> <button class="btn btn-sm" type="button" [ngClass]="eligio3 ? 'success' : 'danger'"
+                (click)="agregarQuitarHorario('soloTarde')">12 a
+                16</button></td>
+            <td> <button class="btn btn-sm" type="button" [ngClass]="eligio4 ? 'success' : 'danger'"
+                (click)="agregarQuitarHorario('tardeNoche')">16 a
+                19</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+
     </div>
+
+    <br>
+  </div>

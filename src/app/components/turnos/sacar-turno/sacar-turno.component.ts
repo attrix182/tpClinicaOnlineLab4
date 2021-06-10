@@ -56,6 +56,8 @@ export class SacarTurnoComponent implements OnInit {
 
   public verTurnos: boolean;
 
+  public turnoSugerido: Turno = new Turno();
+
   constructor(private userSvc: UsuarioService, private context: AngularFireDatabase, private horariosSVC: MisHorariosService, private authSvc: AuthService, private turnosSVC: MisTurnosService) {
 
     this.filtroEspecialidades = false;
@@ -63,6 +65,7 @@ export class SacarTurnoComponent implements OnInit {
     this.turnoSeleccionado = new Turno();
 
     this.especialistasConEspecialidades = false;
+
 
     userSvc
       .TraerEspecialidades()
@@ -82,7 +85,7 @@ export class SacarTurnoComponent implements OnInit {
       .TraerTurnos()
       .valueChanges()
       .subscribe((data) => {
-        this.turnosDados = data;        
+        this.turnosDados = data;
       });
   }
 
@@ -108,6 +111,8 @@ export class SacarTurnoComponent implements OnInit {
   }
 
   public cargarListas() {
+
+    this.listaEspecialistas = []
     this.listaUsuarios.forEach((usuario) => {
       this.traerUsuario();
       let perfil = usuario.perfil;
@@ -165,7 +170,6 @@ export class SacarTurnoComponent implements OnInit {
   }
 
 
-
   mostrarEspecialidades() {
     this.filtroEspecialidades = false;
     this.filtroEspecialistas = false;
@@ -180,7 +184,7 @@ export class SacarTurnoComponent implements OnInit {
   selccionarEspecialidad(esp: Especialidad) {
     this.listaEspecialistaPorEspecialidad.splice(0, this.listaEspecialistaPorEspecialidad.length);
 
-    this.filtroEspecialidades = false;    
+    this.filtroEspecialidades = false;
 
     this.listaEspecialistas.forEach((doctor) => {
       doctor.especialidades.forEach((espDelDoc) => {
@@ -190,28 +194,29 @@ export class SacarTurnoComponent implements OnInit {
       });
     });
     this.especialidadSeleccionada = esp;
-    this.filtroEspecialistas = true;    
+    this.filtroEspecialistas = true;
   }
 
 
-  especialistasConEspecialidad() {    
-    this.listaEspecialistasConEspecialidad = []    
+  especialistasConEspecialidad() {
+    this.listaEspecialistasConEspecialidad = []
+    //this.listaEspecialistasConEspecialidad.splice(0, this.listaEspecialistasConEspecialidad.length)
     let auxDoctor;
     this.listaEspecialistas.forEach((doctor) => {
 
       doctor.especialidades.forEach((espDelDoc) => {
-        {          
-          auxDoctor = JSON.parse(JSON.stringify(doctor));          
-          auxDoctor.especialidades = espDelDoc;      
+        {
+          auxDoctor = JSON.parse(JSON.stringify(doctor));
+          auxDoctor.especialidades = espDelDoc;
           this.listaEspecialistasConEspecialidad.push(auxDoctor);
         }
       });
-    });    
+    });
   }
 
   selccionarEspecialista(esp: Especialista) {
     this.especialistaSeleccionado = esp;
-    
+
     this.filtrarHorarios();
     this.listarTurnos();
     this.filtroEspecialistas = false;
@@ -228,7 +233,7 @@ export class SacarTurnoComponent implements OnInit {
     this.especialistaSeleccionado = esp;
 
 
-    this.traerEspecialidad(esp.especialidades).then(data => {      
+    this.traerEspecialidad(esp.especialidades).then(data => {
       this.especialidadSeleccionada = data;
       this.filtrarHorarios();
       this.listarTurnos();
@@ -249,8 +254,8 @@ export class SacarTurnoComponent implements OnInit {
   listarTurnos() {
     const horarios = this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre];
 
-    if(!horarios.rangoHorario || horarios.rangoHorario.length < 1 || !horarios.dias || horarios.dias.length < 1){      
-      this.alert('error', 'El especialista no tiene horarios disponibles');      
+    if (!horarios.rangoHorario || horarios.rangoHorario.length < 1 || !horarios.dias || horarios.dias.length < 1) {
+      this.alert('error', 'El especialista no tiene horarios disponibles');
       return;
     }
 
@@ -260,11 +265,13 @@ export class SacarTurnoComponent implements OnInit {
 
     this.listaTurnos = [];
 
+
+
     let diasActivo;
     let horaEntrada;
     let horaSalida;
-    let duracionTurno = 30;   
-    let turnoConFormato; 
+    let duracionTurno = 30;
+    let turnoConFormato;
 
     diasActivo = horarios.dias;
 
@@ -290,7 +297,7 @@ export class SacarTurnoComponent implements OnInit {
 
         do {
           turnoConFormato = dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', });
-          
+
           if (this.estaElTurnoDisponible(turnoConFormato)) {
             this.listaTurnos.push(turnoConFormato);
           }
@@ -303,10 +310,11 @@ export class SacarTurnoComponent implements OnInit {
       manana.setDate(hoy.getDate() + contador);
       dia = manana;
     }
+
   }
 
   estaElTurnoDisponible(fecha) {
-    return !Boolean(this.turnosDados.filter(turno => turno.especialidad.nombre == this.especialidadSeleccionada.nombre && turno.especialista.id == this.especialistaSeleccionado.id && turno.fecha == fecha && ["aceptado","pendiente"].indexOf(turno.estado) != -1).length);    
+    return !Boolean(this.turnosDados.filter(turno => turno.especialidad.nombre == this.especialidadSeleccionada.nombre && turno.especialista.id == this.especialistaSeleccionado.id && turno.fecha == fecha && ["aceptado", "pendiente"].indexOf(turno.estado) != -1).length);
   }
 
   traerUsuario() {

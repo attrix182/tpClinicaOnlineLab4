@@ -259,6 +259,7 @@ export class MisTurnosComponent implements OnInit {
     this.turnoSeleccionado.presion = turno.historia.presion;
     this.turnoSeleccionado.datosExtra = turno.historia.datosExtra;
 
+    console.log(this.turnoSeleccionado)
 
 
     this.modalService.open(this.modalVerComentario);

@@ -1,3 +1,6 @@
+import { KeysDatosPipe } from './../../pipes/keys-datos.pipe';
+
+import { MayusculasPipe } from './../../pipes/mayusculas.pipe';
 import { ClickEmojiDirective } from './../../directivas/click-emoji.directive';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,7 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [MisTurnosComponent, ClickEmojiDirective],
+  declarations: [MisTurnosComponent, ClickEmojiDirective, MayusculasPipe, KeysDatosPipe],
   imports: [
     CommonModule,
     FormsModule,
