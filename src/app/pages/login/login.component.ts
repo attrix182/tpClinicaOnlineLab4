@@ -11,8 +11,6 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,23 +18,26 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class LoginComponent implements OnInit {
 
+  private listaDeEmails: string[] = [
+    "administrador@yopmail.com",
+    "administrador2@yopmail.com",
+    "paciente@yopmail.com",
+    "paciente2@yopmail.com",
+    "especialista@yopmail.com",
+    "especialista2@yopmail.com",
+  ];
+
   public unUsuario: Usuario;
   flag: boolean = true;
 
 
   usuarios: Observable<any[]>;
   listadoUsuarios = [];
+  listaUsuariosLoginRapiddo = [];
 
   userForm: FormGroup;
 
   inicioRapido: boolean
-
-  admin1:Admin
-  admin2:Admin
-  paciente1:Paciente
-  paciente2:Paciente
-  especialista1:Especialista
-  especialista2:Especialista
 
   private isEmail = /\S+@\S+\.\S+/;
 
@@ -57,22 +58,15 @@ export class LoginComponent implements OnInit {
     this.usuarios = this.context.list('usuarios').valueChanges();
     this.usuarios.subscribe(usuarios => {
       this.listadoUsuarios = usuarios;
-      this.traerAdmin1()
+      this.traerUsuariosLoginRapido()
     }, error => console.log(error));
 
   }
 
-
-
-  traerAdmin1()
+  traerUsuariosLoginRapido()
   {
-    this.listadoUsuarios.forEach(unUser => {
-      if(unUser.correo == 'administrador@yopmail.com')
-      this.admin1 = unUser
-    });
+    this.listaUsuariosLoginRapiddo = this.listadoUsuarios.filter(unUser => this.listaDeEmails.indexOf(unUser.correo) != -1);
   }
-
-  
 
   botonesIncio() {
     if (this.inicioRapido) {
@@ -82,29 +76,14 @@ export class LoginComponent implements OnInit {
     else {
       this.inicioRapido = true;
     }
-
-    console.log(this.inicioRapido)
-
   }
 
 
-  admin() {
+  seleccionarUsuarioRapido(unUser) {
 
-    this.userForm.controls['email'].setValue("administrador@yopmail.com");
+    this.userForm.controls['email'].setValue(unUser.correo);
     this.userForm.controls['clave'].setValue("12345678");
   }
-
-  paciente() {
-    this.userForm.controls['email'].setValue("paciente@yopmail.com");
-    this.userForm.controls['clave'].setValue("12345678");
-  }
-
-  especialista() {
-    this.userForm.controls['email'].setValue("especialista@yopmail.com");
-    this.userForm.controls['clave'].setValue("12345678");
-
-  }
-
 
   onLogin() {
 

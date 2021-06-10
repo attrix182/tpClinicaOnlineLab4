@@ -6,14 +6,12 @@ import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BotonInicioRapidoComponent } from './components/boton-inicio-rapido/boton-inicio-rapido.component';
 
  
 
 @NgModule({
   declarations: [
-    AppComponent,
-    BotonInicioRapidoComponent
+    AppComponent    
   ],
   imports: [
     BrowserModule,

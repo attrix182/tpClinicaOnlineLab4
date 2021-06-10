@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BotonInicioRapidoComponent } from '../../components/boton-inicio-rapido/boton-inicio-rapido.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    BotonInicioRapidoComponent
   ],
   imports: [
     CommonModule,
