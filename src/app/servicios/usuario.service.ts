@@ -119,7 +119,7 @@ export class UsuarioService {
   }
 
   AgregarEspecialidad(especialidad: Especialidad) {
-    this.db.collection('especialidades').doc(especialidad.nombre).update({
+    this.db.collection('especialidades').doc(especialidad.nombre).set({
       nombre: especialidad.nombre,
       estado: true,
     });

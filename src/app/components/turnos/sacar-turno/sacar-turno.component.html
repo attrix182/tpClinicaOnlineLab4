@@ -17,9 +17,14 @@
       <div *ngFor="let especialidad of listaEspecialidades">
         <div class="card bg-dark border-white mt-1 ml-1" style="width: 8em; height: 9em;"
           (click)="selccionarEspecialidad(especialidad)" appMouseHover>
-          <img class="card-img-top imgCard" src="{{especialidad.foto}}" width="10px" alt="Card image cap" >
+
+          
+          <img *ngIf="especialidad.foto" class="card-img-top imgCard" src="{{especialidad.foto}}" width="10px" alt="Card image cap" >
+          
+          <img *ngIf="!especialidad.foto" class="card-img-top imgCard" src="https://image.freepik.com/vector-gratis/patron-elementos-medicos-salud_1085-294.jpg" width="10px" alt="Card image cap" >
+
           <div class="card-body">
-            <h6 class="card-title">{{especialidad.nombre}}</h6>
+            <h6 style="font-size:smaller">{{especialidad.nombre}}</h6>
           </div>
         </div>
       </div>

@@ -24,7 +24,7 @@ export class AdministrarEspecialistasComponent implements OnInit {
     private context: AngularFireDatabase,
     private storage: AngularFireStorage,
     private userSrv: UsuarioService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.usuarios = this.context.list('usuarios').valueChanges();
@@ -44,15 +44,13 @@ export class AdministrarEspecialistasComponent implements OnInit {
 
       console.log(perfil);
 
-      if ( perfil == 'especialista')
-      {
-          this.listaEspecialistas.push(usuario);
+      if (perfil == 'especialista') {
+        this.listaEspecialistas.push(usuario);
       }
     });
   }
 
-  vaciarLista()
-  {
+  vaciarLista() {
     this.listaEspecialistas.splice(0);
   }
 
