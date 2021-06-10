@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BotonInicioRapidoComponent implements OnInit {
 
-  @Input() user:any;
+  @Input() user: any;
 
   constructor() { }
 

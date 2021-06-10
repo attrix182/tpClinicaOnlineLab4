@@ -157,7 +157,7 @@ export class MisTurnosService {
     return this.referenciaAlaColeccionTurnos;
   }
 
-  
+
   TraerHistoriaPorId(id) {
 
     return new Promise(resolve => {
@@ -172,7 +172,7 @@ export class MisTurnosService {
 
   }
 
-  agregarCalificacion(cali: Calificacion) {    
+  agregarCalificacion(cali: Calificacion) {
     let hoy = new Date();
 
     this.db
