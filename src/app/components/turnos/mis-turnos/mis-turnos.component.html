@@ -122,36 +122,62 @@
 </ng-template>
 
 
-
 <ng-template #modalEncuesta let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Finalizar turno</h4>
+    <h4 class="modal-title" id="modal-basic-title">Encuesta</h4>
   </div>
   <div class="modal-body">
     <form [formGroup]="formularioEncuesta">
 
       <div class="row-flex">
         <div>
-          <label for="">Peso</label>
-          <input type="number" class="form-control" placeholder="Ingrese el Peso" formControlName="peso" required>
-          <label for="">Temepratura</label>
-          <input type="number" class="form-control" placeholder="Ingrese la Temepratura" formControlName="temperatura"
-            required>
-          <label for="">Presion</label>
-          <input type="number" class="form-control" placeholder="Ingrese la presion" formControlName="presion" required>
-          <label for="">Comentario</label>
-          <input type="text" class="form-control" placeholder="Dato" formControlName="comentario" required>
-
+          <label for="">Como describiria la atencion de <b>{{turnoSeleccionado.especialista.nombre}}
+              {{turnoSeleccionado.especialista.apellido}}:</b></label>
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-dark">😔</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-dark">😐</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-dark">😀</button>
+            </div>
+          </div>
           <hr>
-        </div>
+          <div class="row-flex">
+            <div>
+              <label for="">Recomendarias la clinica?</label>
+              <div class="row">
+                <div class="col-4">
+                  <button class="btn btn-dark">👍</button>
+                </div>
+            
+                <div class="col-8">
+                  <button class="btn btn-dark">👎 </button>
+                </div>
+              </div>
+                <br>
+                <hr>
+                <div class="row">
+                  <label for="">Sugerencias</label>
+                  <input type="text" class="form-control" placeholder="Dato" formControlName="comentario" required>
+                  <hr>
+                </div>
+              </div>
+
+                <div class="modal-footer">
+                  <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
+                    (click)="enviarEncuesta()">Enviar</button>
+                </div>
+              </div>
+              </div>
       </div>
     </form>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-success btn-block" [disabled]="formularioEncuesta.invalid"
-      (click)="enviarEncuesta()">Enviar</button>
-  </div>
+        
 </ng-template>
+
 
 
 

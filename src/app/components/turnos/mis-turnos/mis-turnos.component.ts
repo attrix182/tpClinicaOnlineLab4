@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { Admin } from 'src/app/clases/admin';
 import { Especialista } from 'src/app/clases/especialista';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 
 import {
@@ -279,4 +279,25 @@ export class MisTurnosComponent implements OnInit {
         docResult.save(`${new Date().toISOString()}_turnos.pdf`);
       });
   }
+
+  alert(icon: SweetAlertIcon, text: string) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: icon,
+      title: text
+    })
+  }
+
 }
