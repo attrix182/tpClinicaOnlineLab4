@@ -82,9 +82,7 @@ export class SacarTurnoComponent implements OnInit {
       .TraerTurnos()
       .valueChanges()
       .subscribe((data) => {
-        this.turnosDados = data;
-
-        console.log(this.turnosDados);
+        this.turnosDados = data;        
       });
   }
 
@@ -182,9 +180,7 @@ export class SacarTurnoComponent implements OnInit {
   selccionarEspecialidad(esp: Especialidad) {
     this.listaEspecialistaPorEspecialidad.splice(0, this.listaEspecialistaPorEspecialidad.length);
 
-    this.filtroEspecialidades = false;
-
-    console.log('Especialidad elegida: ' + esp.nombre);
+    this.filtroEspecialidades = false;    
 
     this.listaEspecialistas.forEach((doctor) => {
       doctor.especialidades.forEach((espDelDoc) => {
@@ -194,42 +190,28 @@ export class SacarTurnoComponent implements OnInit {
       });
     });
     this.especialidadSeleccionada = esp;
-    this.filtroEspecialistas = true;
-    console.log(this.filtroEspecialistas)
+    this.filtroEspecialistas = true;    
   }
 
 
-  especialistasConEspecialidad() {
-
-    // this.listaEspecialistasConEspecialidad.splice(0, this.listaEspecialistasConEspecialidad.length);
-    this.listaEspecialistasConEspecialidad = []
-    console.log(this.listaEspecialistas)
+  especialistasConEspecialidad() {    
+    this.listaEspecialistasConEspecialidad = []    
     let auxDoctor;
     this.listaEspecialistas.forEach((doctor) => {
 
-
       doctor.especialidades.forEach((espDelDoc) => {
-        {
-
-          auxDoctor = JSON.parse(JSON.stringify(doctor));
-
-          console.log(espDelDoc)
-          auxDoctor.especialidades = espDelDoc;
-          console.log(auxDoctor);
+        {          
+          auxDoctor = JSON.parse(JSON.stringify(doctor));          
+          auxDoctor.especialidades = espDelDoc;      
           this.listaEspecialistasConEspecialidad.push(auxDoctor);
-
         }
       });
-    });
-    console.log(this.listaEspecialistasConEspecialidad)
-
+    });    
   }
-
 
   selccionarEspecialista(esp: Especialista) {
     this.especialistaSeleccionado = esp;
-
-    console.log('Especialista elegido: ' + esp.nombre);
+    
     this.filtrarHorarios();
     this.listarTurnos();
     this.filtroEspecialistas = false;
@@ -246,7 +228,7 @@ export class SacarTurnoComponent implements OnInit {
     this.especialistaSeleccionado = esp;
 
 
-    this.traerEspecialidad(esp.especialidades).then(data => {
+    this.traerEspecialidad(esp.especialidades).then(data => {      
       this.especialidadSeleccionada = data;
       this.filtrarHorarios();
       this.listarTurnos();
@@ -265,6 +247,13 @@ export class SacarTurnoComponent implements OnInit {
   }
 
   listarTurnos() {
+    const horarios = this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre];
+
+    if(!horarios.rangoHorario || horarios.rangoHorario.length < 1 || !horarios.dias || horarios.dias.length < 1){      
+      this.alert('error', 'El especialista no tiene horarios disponibles');      
+      return;
+    }
+
     let hoy = new Date();
     let dia = new Date();
     let manana = new Date();
@@ -274,18 +263,13 @@ export class SacarTurnoComponent implements OnInit {
     let diasActivo;
     let horaEntrada;
     let horaSalida;
-    let duracionTurno = 30;
+    let duracionTurno = 30;   
+    let turnoConFormato; 
 
-    console.log(this.horarioDelEspecialista);
+    diasActivo = horarios.dias;
 
-    diasActivo = this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre].dias;
-
-    horaEntrada =
-      this.horarioDelEspecialista.especialidadHorarios[this.especialidadSeleccionada.nombre].rangoHorario[0].split(':');
-    horaSalida =
-      this.horarioDelEspecialista.especialidadHorarios[
-        this.especialidadSeleccionada.nombre
-      ].rangoHorario[1].split(':');
+    horaEntrada = horarios.rangoHorario[0].split(':');
+    horaSalida = horarios.rangoHorario[1].split(':');
 
     let ultimoTurno;
 
@@ -304,21 +288,11 @@ export class SacarTurnoComponent implements OnInit {
 
         dia.setHours(horaEntrada[0], horaEntrada[1]);
 
-        console.log(this.turnosDados);
         do {
-
-          if (this.turnosDados.length != 0) {
-
-    
-                this.listaTurnos.push(dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', }));
-              
-
+          turnoConFormato = dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', });
           
-          }
-
-          if (this.turnosDados.length == 0) {
-
-            this.listaTurnos.push(dia.toLocaleString([], { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', }));
+          if (this.estaElTurnoDisponible(turnoConFormato)) {
+            this.listaTurnos.push(turnoConFormato);
           }
 
           dia = new Date(dia.getTime() + duracionTurno * 60000);
@@ -329,6 +303,10 @@ export class SacarTurnoComponent implements OnInit {
       manana.setDate(hoy.getDate() + contador);
       dia = manana;
     }
+  }
+
+  estaElTurnoDisponible(fecha) {
+    return !Boolean(this.turnosDados.filter(turno => turno.especialidad.nombre == this.especialidadSeleccionada.nombre && turno.especialista.id == this.especialistaSeleccionado.id && turno.fecha == fecha && ["aceptado","pendiente"].indexOf(turno.estado) != -1).length);    
   }
 
   traerUsuario() {
