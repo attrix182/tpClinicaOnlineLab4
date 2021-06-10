@@ -1,74 +1,72 @@
 .container {
-    max-width: 100%;
-  
-  }
-  
-  .cont{
-    
-    background-image: url("../../../assets/admi.jpg");
-    background-size: 1300px;
-    height: 90.7vh;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-    text-align: center;
-    position: relative;
-  
-  }
-  
-.submenu
-{
+  max-width: 100%;
+
+}
+
+.cont {
+
+  background-image: url("../../../assets/admi.jpg");
+  background-size: 1300px;
+  height: 90.7vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+
+}
+
+.submenu {
   max-width: 800px;
 }
 
-  .stick{
-    position: sticky;
-    top:80px;
-  
-    display:inline-block;
-  }
-  
-  .blanco{
-  
-    color: white;
-  }
-  
-  
-  .botonesLanding{
-  
-    margin: 10px;
-  }
-  
-  
+.stick {
+  position: sticky;
+  top: 80px;
 
-  
-  .flex-equal > * {
+  display: inline-block;
+}
+
+.blanco {
+
+  color: white;
+}
+
+
+.botonesLanding {
+
+  margin: 10px;
+}
+
+
+
+
+.flex-equal>* {
+  -ms-flex: 1;
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .flex-md-equal>* {
     -ms-flex: 1;
     flex: 1;
   }
-  @media (min-width: 768px) {
-    .flex-md-equal > * {
-      -ms-flex: 1;
-      flex: 1;
-    }
-  }
-  
-  .overflow-hidden { overflow: hidden; }
-  
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
 
 
-  .registro
-  {
-    width: 800px;
-    margin: auto;
 
-  }
+.registro {
+  width: 800px;
+  margin: auto;
 
-  
-  .registroAdm
-  {
-    width: 800px;
-    margin: auto;
+}
 
-  }
-  
-  
+
+.registroAdm {
+  width: 800px;
+  margin: auto;
+
+}

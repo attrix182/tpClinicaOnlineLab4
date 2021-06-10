@@ -27,7 +27,7 @@
 
  <div class="container">
   <div class="row">
-    <input class="form-control" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam" (ngModelChange)="hacerBusqueda()">
+    <input class="form-control mb-1" type="text" placeholder="Busqueda inteligente" [(ngModel)]="searchParam" (ngModelChange)="hacerBusqueda()">
   </div>
  </div>
 
@@ -56,7 +56,7 @@
             <button class="btn btn-sm btn-primary " (click)="verComentario(turno)">Ver reseña</button>
           </div>
 
-          <div class="col" *ngIf="turno.estado == 'finalizado'">
+          <div class="col" *ngIf="turno.estado == 'finalizado' && !turno.calificacionCompletada">
             <button class="btn btn-sm btn-primary" (click)="abrirModalCalificar(turno)">Calificar</button>
           </div>
 

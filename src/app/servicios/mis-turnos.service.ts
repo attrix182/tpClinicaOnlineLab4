@@ -80,6 +80,23 @@ export class MisTurnosService {
     });
   }
 
+
+  marcarCalificaciomCompletada(turno: Turno) {
+
+    turno.calificacionCompletada = true;
+
+    this.db.collection('turnos').doc(turno.key).update({
+      paciente: turno.paciente,
+      especialista: turno.especialista,
+      fecha: turno.fecha,
+      especialidad: turno.especialidad,
+      estado: turno.estado,
+      comentario: turno.comentario || "",
+      key: turno.key,
+      encuestaCompletada: turno.encuestaCompletada,
+      calificacionCompletada: turno.calificacionCompletada
+    });
+  }
   aceptar(turno: Turno) {
 
     turno.estado = 'aceptado';

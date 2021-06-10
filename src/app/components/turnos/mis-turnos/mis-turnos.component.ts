@@ -209,6 +209,7 @@ export class MisTurnosComponent implements OnInit {
     this.calificacion.paciente = this.turnoAmodificar.paciente;
     this.calificacion.especialista = this.turnoAmodificar.especialista;
     this.turnosSVC.agregarCalificacion(this.calificacion)
+    this.turnosSVC.marcarCalificaciomCompletada(this.turnoAmodificar)
     this.modalService.dismissAll()
     this.alert('success', 'Gracias por responder!')
   }

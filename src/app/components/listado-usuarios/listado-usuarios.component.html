@@ -1,4 +1,4 @@
-<div class="container bg-dark animate__animated animate__bounceInLeft submenu">
+<div class="container bg-dark animate__animated animate__bounceInLeft submenu" style="width: 800px;">
   <div class="row">
 
     <div class="col">
@@ -14,10 +14,23 @@
       <button class="btn btn-primary mt-2 mb-2" (click)="listarAdministradores()">Administradores</button>
     </div>
 
+
+    <div class="col">
+      <button class="btn btn-primary mt-2 mb-2" (click)="listarTodos()">Todos</button>
+    </div>
+
   </div>
 
 </div>
 <br>
+
+<div *ngIf="listarUsrs">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-info mb-1 animate__animated animate__bounceInLeft" (click)="generarExcel()">Exportar planilla</button>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="listarAdm">
   <table class="table table-bordered table-hover table-dark tablaUsers">
@@ -91,6 +104,37 @@
         <td>{{unUser.obraSocial}}</td>
         <td> <img src="{{unUser.foto1}}" alt="Ver foto" height="65"></td>
         <td> <img src="{{unUser.foto2}}" alt="Ver foto" height="65"></td>
+
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="listarUsrs">
+  <table class="table table-bordered table-hover table-dark tablaUsers">
+    <thead>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Edad</th>
+      <th>Dni</th>
+      <th>Correo</th>
+      <th>Pefil</th>
+      <th>Foto</th>
+      <th>Foto</th>
+
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let unUser of listaUsuarios">
+        <td>{{unUser.nombre}}</td>
+        <td>{{unUser.apellido}}</td>
+        <td>{{unUser.edad}}</td>
+        <td>{{unUser.dni}}</td>
+        <td>{{unUser.correo}}</td>
+        <td>{{unUser.perfil}}</td>
+        <td> <img src="{{unUser.foto1 || unUser.foto}}" height="65"></td>
+        <td> <img src="{{unUser.foto2}}" height="65"></td>
 
 
       </tr>
