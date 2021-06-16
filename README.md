@@ -2,6 +2,7 @@
 
 Segundo parcial Laboratorio 4 UTN FRA
 
+Puedes probar el funcionamiento del sistema en: https://clinicaonlinetp.web.app/
 
 ## Primeros pasos en la clinica
 
