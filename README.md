@@ -47,11 +47,11 @@ Aqui se prodra registrar usuarios de tipo paciente y especialista
 Aqui se prodra registrar usuarios de tipo administrador
 
 ![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/admin.png?raw=true "Title")
-
+Aqui se prodra registrar usuarios de tipo administrador
 
 ### Como sacar turno
 
-![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/sacaturno.png?raw=true "Title")
+![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/sacaturno.gif?raw=true "Title")
 
 
-Aqui se prodra registrar usuarios de tipo administrador
+
