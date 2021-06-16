@@ -51,6 +51,7 @@ Aqui se prodra registrar usuarios de tipo administrador
 
 ### Como sacar turno
 
+Puedes elegir, por especialista, o especialidad, en maximo 3 clicks obtienes un turno
 ![Alt text](https://github.com/attrix182/tpClinicaOnlineLab4/blob/main/src/fotosReadme/sacaturno.gif?raw=true "Title")
 
 
